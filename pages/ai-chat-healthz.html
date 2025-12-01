@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>فحص صحة واجهة الذكاء</title>
+  <style>
+    body{font-family:system-ui,sans-serif;background:#0b1220;color:#e8edf7;margin:0;padding:16px}
+    h1{font-size:18px;margin:0 0 12px 0}
+    .card{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;margin-bottom:12px;background:#0f172a}
+    button{padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.22);background:#17203a;color:#fff;cursor:pointer}
+    code{background:#0b1220;padding:2px 6px;border-radius:6px}
+    .ok{color:#6ee7a8}
+    .err{color:#fca5a5}
+    .muted{opacity:.8}
+    .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, monospace}
+  </style>
+  <script>
+    (function(){
+      async function getBase(){
+        try{ const manual=String(localStorage.getItem('ai_api_base')||'').trim(); if(manual) return manual.replace(/\/?$/,''); }catch(_){ }
+        try{ const same=(location&&location.origin)||''; if(same) return same.replace(/\/?$/,''); }catch(_){ }
+        return 'http://localhost:3002';
+      }
+      async function ping(){
+        const out=document.getElementById('out'); out.textContent='';
+        const base=await getBase();
+        document.getElementById('base').textContent=base;
+        const t0=performance.now();
+        try{
+          const ctrl=new AbortController(); const tid=setTimeout(()=>ctrl.abort(), 5000);
+          const r=await fetch(base+'/api/market/ping',{signal:ctrl.signal}); clearTimeout(tid);
+          const ms=Math.round(performance.now()-t0);
+          if(!r.ok){ out.innerHTML='<span class="err">PING فشل</span> ('+ms+'ms)'; return; }
+          const j=await r.json();
+          out.innerHTML='<span class="ok">PING ناجح</span> ('+ms+'ms) — <span class="muted">'+(j.mode||'')+'</span>';
+        }catch(e){ out.innerHTML='<span class="err">PING خطأ:</span> '+(e&&e.message||e); }
+      }
+      async function testSSE(){
+        const sse=document.getElementById('sse'); sse.textContent='';
+        const base=await getBase();
+        const body={ prompt:'اختبار الصحة: جملة قصيرة.', history:[], sessionId:'healthz', maxTokens:32 };
+        try{
+          const r=await fetch(base+'/api/ai/chat/stream',{ method:'POST', headers:{'Content-Type':'application/json','Accept':'text/event-stream'}, body: JSON.stringify(body) });
+          if(!r.ok){ sse.innerHTML='<span class="err">SSE فشل: '+r.status+'</span>'; return; }
+          const reader=r.body.getReader(); const decoder=new TextDecoder('utf-8');
+          let buf=''; let sawMeta=false; let sawData=false; let elapsed=0; const t0=performance.now();
+          const timer=setInterval(()=>{ elapsed=Math.round(performance.now()-t0); },50);
+          for(;;){
+            const {value,done}=await reader.read(); if(done) break;
+            buf+=decoder.decode(value,{stream:true});
+            let idx; while((idx=buf.indexOf('\n\n'))!==-1){
+              const chunk=buf.slice(0,idx).trim(); buf=buf.slice(idx+2);
+              if(!chunk) continue;
+              if(chunk.startsWith('event: meta')) sawMeta=true;
+              if(chunk.split('\n').some(l=>l.startsWith('data: '))) sawData=true;
+            }
+            if(sawMeta && sawData) break;
+          }
+          clearInterval(timer);
+          if(sawMeta && sawData){ sse.innerHTML='<span class="ok">SSE ناجح</span>'; }
+          else { sse.innerHTML='<span class="err">SSE غير مكتمل (meta:'+sawMeta+', data:'+sawData+')</span>'; }
+        }catch(e){ sse.innerHTML='<span class="err">SSE خطأ:</span> '+(e&&e.message||e); }
+      }
+      window.addEventListener('DOMContentLoaded',()=>{
+        document.getElementById('pingBtn').addEventListener('click', ping);
+        document.getElementById('sseBtn').addEventListener('click', testSSE);
+        ping();
+      });
+    })();
+  </script>
+  </head>
+<body>
+  <h1>فحص صحة واجهة الذكاء</h1>
+  <div class="card">
+    <div class="row">
+      <div>API Base:</div>
+      <div id="base" class="mono"></div>
+      <button id="pingBtn">فحص الآن</button>
+    </div>
+    <div id="out" style="margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <div class="row">
+      <div>اختبار بث SSE</div>
+      <button id="sseBtn">تشغيل الاختبار</button>
+    </div>
+    <div id="sse" style="margin-top:8px"></div>
+  </div>
+  <div class="muted">تلميح: يمكنك ضبط الـ API من صفحة الدردشة عبر الحقل اليدوي.</div>
+</body>
+</html>

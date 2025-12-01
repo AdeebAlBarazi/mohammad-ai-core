@@ -42,6 +42,7 @@
       </label>
       <button id="stopStream" style="display:none; font-size:12px; padding:6px 10px;">إيقاف البث</button>
       <button id="sessionsBtn" style="font-size:12px; padding:6px 10px;">جلساتي</button>
+      <a href="/pages/ai-chat-healthz.html" target="_blank" style="font-size:12px; padding:6px 10px; text-decoration:none; border:1px solid rgba(255,255,255,.22); border-radius:8px; background:#17203a; color:#fff;">الصحة</a>
       <label title="قاعدة واجهة البرمجة (API Base)" style="display:flex; align-items:center; gap:6px;">
         <span>API:</span>
         <input id="apiBaseInput" placeholder="مثال: http://localhost:3002" style="width:220px; padding:6px 8px; border-radius:8px; border:1px solid rgba(255,255,255,.15); background:#0f172a; color:#e8edf7;" />
@@ -319,6 +320,19 @@
           } catch(_){ statusEl.textContent = 'تعذر الحفظ'; }
         });
       })();
+
+      // Periodic health polling (keeps status accurate when idle)
+      async function checkHealth(){
+        try {
+          const base = await getBase();
+          const ctrl = new AbortController(); const to = setTimeout(()=>ctrl.abort(), 4000);
+          const r = await fetch((base||'') + '/api/market/ping', { signal: ctrl.signal });
+          clearTimeout(to);
+          if(r.ok){ statusEl.textContent = 'متصل'; }
+          else { statusEl.textContent = 'غير متصل'; }
+        } catch(_) { statusEl.textContent = 'غير متصل'; }
+      }
+      setInterval(checkHealth, 20000);
     })();
   </script>
 </body>
