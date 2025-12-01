@@ -26,6 +26,7 @@
   <textarea id="prompt" placeholder="اكتب رسالتك هنا..."></textarea>
   <div class="row">
     <button id="send">أرسل</button>
+    <label><input type="checkbox" id="streamToggle" /> بث SSE</label>
   </div>
   <div id="out"></div>
 
@@ -54,10 +55,38 @@ async function send() {
   const body = { prompt: promptEl.value, sessionId: sessionEl.value };
   const headers = { 'Content-Type': 'application/json' };
   if (apiKeyEl.value) headers['X-API-KEY'] = apiKeyEl.value;
-  const res = await fetch(`${apiBase}/api/personal/chat`, { method:'POST', headers, body: JSON.stringify(body) });
-  const data = await res.json();
-  if (!data.ok) { add('error', data.error || 'failed'); return; }
-  add('assistant', data.reply);
+  const stream = document.getElementById('streamToggle').checked;
+  if (!stream) {
+    const res = await fetch(`${apiBase}/api/personal/chat`, { method:'POST', headers, body: JSON.stringify(body) });
+    const data = await res.json();
+    if (!data.ok) { add('error', data.error || 'failed'); return; }
+    add('assistant', data.reply);
+    return;
+  }
+  const ctrl = new AbortController();
+  const res = await fetch(`${apiBase}/api/personal/chat/stream`, { method:'POST', headers, body: JSON.stringify(body), signal: ctrl.signal });
+  const reader = res.body.getReader();
+  const dec = new TextDecoder();
+  let buffer = '';
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buffer += dec.decode(value, { stream: true });
+    const parts = buffer.split('\n\n');
+    buffer = parts.pop();
+    for (const part of parts) {
+      const lines = part.split('\n');
+      const eventLine = lines.find(l => l.startsWith('event:')) || '';
+      const dataLine = lines.find(l => l.startsWith('data:')) || '';
+      const ev = eventLine.replace('event:','').trim();
+      const payload = dataLine.replace('data:','').trim();
+      if (!payload) continue;
+      try {
+        const json = JSON.parse(payload);
+        if (ev === 'data' && json.delta) add('assistant', json.delta);
+      } catch {}
+    }
+  }
 }
 
 document.getElementById('send').onclick = send;

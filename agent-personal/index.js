@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 function readProfile() {
   const p = path.join(process.cwd(), 'agent-personal', 'profile.json');
@@ -12,10 +13,41 @@ function ensureSessionDir() {
   return dir;
 }
 
+function getMemKey() {
+  const key = process.env.PERSONAL_MEM_KEY;
+  return key && crypto.createHash('sha256').update(key).digest();
+}
+
+function encryptLine(obj) {
+  const key = getMemKey();
+  const json = JSON.stringify(obj);
+  if (!key) return json;
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+  const enc = Buffer.concat([cipher.update(json, 'utf8'), cipher.final()]);
+  const tag = cipher.getAuthTag();
+  return Buffer.concat([Buffer.from('v1:'), iv, tag, enc]).toString('base64');
+}
+
+function decryptLine(line) {
+  const key = getMemKey();
+  if (!key) return JSON.parse(line);
+  const buf = Buffer.from(line, 'base64');
+  const prefix = buf.slice(0,3).toString('utf8');
+  if (prefix !== 'v1:') throw new Error('invalid mem line');
+  const iv = buf.slice(3, 15);
+  const tag = buf.slice(15, 31);
+  const enc = buf.slice(31);
+  const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+  decipher.setAuthTag(tag);
+  const dec = Buffer.concat([decipher.update(enc), decipher.final()]).toString('utf8');
+  return JSON.parse(dec);
+}
+
 function appendJsonl(sessionId, message) {
   const dir = ensureSessionDir();
   const file = path.join(dir, `${sessionId}.jsonl`);
-  fs.appendFileSync(file, JSON.stringify(message) + '\n');
+  fs.appendFileSync(file, encryptLine(message) + '\n');
 }
 
 function readHistory(sessionId) {
@@ -26,7 +58,7 @@ function readHistory(sessionId) {
     .trim()
     .split('\n')
     .filter(Boolean)
-    .map(l => JSON.parse(l));
+    .map(l => decryptLine(l));
 }
 
 function getProvider() {
