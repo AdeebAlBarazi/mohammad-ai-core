@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: market-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header X-Accel-Buffering "no";
+      add_header Cache-Control "no-cache, no-transform";
+spec:
+  rules:
+    - host: chat.example.com  # replace with your domain
+      http:
+        paths:
+          - path: /api/ai/
+            pathType: Prefix
+            backend:
+              service:
+                name: market-app      # replace with your Service name
+                port:
+                  number: 3002        # replace with your Service port
+          - path: /pages/
+            pathType: Prefix
+            backend:
+              service:
+                name: market-app
+                port:
+                  number: 3002
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: market-app
+                port:
+                  number: 3002
+
+# Optional TLS example
+#  tls:
+#    - hosts:
+#        - chat.example.com
+#      secretName: chat-tls
