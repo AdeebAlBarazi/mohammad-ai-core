@@ -29,4 +29,59 @@ router.post('/chat', async (req, res) => {
   }
 });
 
+// Streaming via SSE (Server-Sent Events) using POST for payload convenience.
+router.post('/chat/stream', async (req, res) => {
+  let ended = false;
+  function end() { if (!ended) { ended = true; try { res.write('event: done\n'); res.write('data: [DONE]\n\n'); } catch(_){} try { res.end(); } catch(_){} } }
+  try {
+    const { prompt, history, sessionId, mode, maxTokens } = req.body || {};
+    if (!prompt || !String(prompt).trim()) {
+      res.status(400).set('Content-Type','application/json');
+      return res.end(JSON.stringify({ ok: false, error: 'prompt_required' }));
+    }
+    if (inFlight >= MAX_IN_FLIGHT) {
+      res.status(429).set('Content-Type','application/json');
+      return res.end(JSON.stringify({ ok: false, error: 'overloaded' }));
+    }
+    inFlight += 1;
+    // SSE headers
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    if (typeof res.flushHeaders === 'function') res.flushHeaders();
+
+    let full = '';
+    const t0 = Date.now();
+    await core().stream({
+      prompt: String(prompt),
+      history: Array.isArray(history) ? history.slice(-10) : [],
+      sessionId: sessionId || 'default',
+      mode,
+      maxTokens,
+      onDelta: async (delta, done) => {
+        if (ended) return;
+        if (typeof delta === 'string' && delta.length) { full += delta; res.write('data: ' + JSON.stringify({ delta }) + '\n\n'); }
+        if (done) {
+          const latency = Date.now() - t0;
+          res.write('event: meta\n');
+          res.write('data: ' + JSON.stringify({ ok:true, latency }) + '\n\n');
+          end();
+        }
+      }
+    });
+  } catch (e) {
+    try {
+      if (!ended) {
+        res.write('event: error\n');
+        res.write('data: ' + JSON.stringify({ ok:false, error: e && e.message || String(e) }) + '\n\n');
+        end();
+      }
+    } catch(_){}
+  } finally {
+    inFlight = Math.max(0, inFlight - 1);
+    // client disconnect safety
+    try { req.on('close', () => { try { end(); } catch(_){} }); } catch(_){ }
+  }
+});
+
 module.exports = router;
