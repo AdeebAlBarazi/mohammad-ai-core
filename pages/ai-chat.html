@@ -42,6 +42,11 @@
       </label>
       <button id="stopStream" style="display:none; font-size:12px; padding:6px 10px;">إيقاف البث</button>
       <button id="sessionsBtn" style="font-size:12px; padding:6px 10px;">جلساتي</button>
+      <label title="قاعدة واجهة البرمجة (API Base)" style="display:flex; align-items:center; gap:6px;">
+        <span>API:</span>
+        <input id="apiBaseInput" placeholder="مثال: http://localhost:3002" style="width:220px; padding:6px 8px; border-radius:8px; border:1px solid rgba(255,255,255,.15); background:#0f172a; color:#e8edf7;" />
+        <button id="apiBaseSave" style="font-size:12px; padding:6px 10px;">حفظ</button>
+      </label>
     </div>
   </header>
   <div class="wrap">
@@ -133,10 +138,14 @@
       }
 
       async function getBase(){
+        // Manual override via localStorage
+        try {
+          const manual = String(localStorage.getItem('ai_api_base')||'').trim();
+          if (manual) return manual.replace(/\/?$/,'');
+        } catch(_) {}
         // Prefer same-origin first; fallback to Market.Common; then localhost:3002
         try {
           const sameOrigin = (window.location && window.location.origin) ? window.location.origin : '';
-          // If served by server.js, same-origin is correct and exposes /api
           if (sameOrigin && /localhost|127\.0\.0\.1|\:[0-9]+/i.test(sameOrigin)) {
             return sameOrigin.replace(/\/?$/,'');
           }
@@ -146,7 +155,6 @@
           const base = (Market && Market.Common && Market.Common.getApiBase && Market.Common.getApiBase()) || (Market && Market.Common && Market.Common.apiBase) || '';
           if (base) return base.replace(/\/?api\/?$/i,'');
         } catch(_) {}
-        // Dev fallback: default to backend on 3002
         return 'http://localhost:3002';
       }
 
@@ -290,6 +298,26 @@
           // Preload sessions quietly
           setTimeout(()=>{ refreshSessions(); }, 300);
         } catch(_){ statusEl.textContent = '...'; }
+      })();
+
+      // API Base manual control
+      (function apiBaseCtl(){
+        const input = document.getElementById('apiBaseInput');
+        const saveBtn = document.getElementById('apiBaseSave');
+        try {
+          const stored = localStorage.getItem('ai_api_base');
+          if(stored){ input.value = stored; }
+        } catch(_) {}
+        saveBtn.addEventListener('click', async ()=>{
+          const v = (input.value||'').trim();
+          if(!v){ try{ localStorage.removeItem('ai_api_base'); }catch(_){ } statusEl.textContent = 'تم حذف الإعداد اليدوي'; return; }
+          try {
+            localStorage.setItem('ai_api_base', v);
+            statusEl.textContent = 'تم حفظ: ' + v;
+            // Optional: quick ping to validate
+            try { const r = await fetch(v.replace(/\/?$/,'') + '/api/market/ping'); if(r.ok){ statusEl.textContent = 'متصل بـ ' + v; } } catch(_) {}
+          } catch(_){ statusEl.textContent = 'تعذر الحفظ'; }
+        });
       })();
     })();
   </script>
