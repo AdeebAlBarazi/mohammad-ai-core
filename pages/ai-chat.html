@@ -172,6 +172,14 @@
                 sessionHistory.style.display='block';
               } catch(e){ sessionsStatus.textContent = 'تعذر عرض التاريخ'; }
             });
+            const exportBtn = document.createElement('button'); exportBtn.textContent='تصدير'; exportBtn.style.fontSize='11px'; exportBtn.addEventListener('click', async ()=>{
+              try {
+                const base2 = await getBase();
+                const urlExp = (base2||'') + '/api/ai/sessions/' + encodeURIComponent(it.id) + '/export';
+                const rr = await fetch(urlExp, { method:'GET' }); const blob = await rr.blob();
+                const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `session-${it.id}.json`; document.body.appendChild(link); link.click(); setTimeout(()=>{ URL.revokeObjectURL(link.href); link.remove(); }, 0);
+              } catch(e){ sessionsStatus.textContent = 'تعذر التصدير'; }
+            });
             const delBtn = document.createElement('button'); delBtn.textContent='حذف'; delBtn.style.fontSize='11px'; delBtn.addEventListener('click', async ()=>{
               try {
                 const urlDel = (base||'') + '/api/ai/sessions/' + encodeURIComponent(it.id);
@@ -180,7 +188,7 @@
                 await refreshSessions();
               } catch(e){ sessionsStatus.textContent = 'خطأ حذف'; }
             });
-            chip.appendChild(label); chip.appendChild(useBtn); chip.appendChild(viewBtn); chip.appendChild(delBtn);
+            chip.appendChild(label); chip.appendChild(useBtn); chip.appendChild(viewBtn); chip.appendChild(exportBtn); chip.appendChild(delBtn);
             sessionsList.appendChild(chip);
           }
           sessionsStatus.textContent = `الجلسة الحالية: ${sessionId}`;

@@ -241,3 +241,4 @@ module.exports = { chat, stream };
 module.exports.listSessions = memoryStore.listSessions;
 module.exports.getSessionHistory = memoryStore.getSessionHistory;
 module.exports.deleteSession = memoryStore.deleteSession;
+module.exports.getSessionAll = function(sessionId){ return memoryStore.getSessionHistory(sessionId, { limit: Number.MAX_SAFE_INTEGER }); };

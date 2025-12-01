@@ -141,4 +141,14 @@ router.delete('/sessions/:id', async (req, res) => {
   } catch (e) { return res.status(500).json({ ok: false, error: e && e.message || String(e) }); }
 });
 
+router.get('/sessions/:id/export', async (req, res) => {
+  try {
+    const id = String(req.params.id || 'default');
+    const items = core().getSessionAll(id) || [];
+    res.set('Content-Type','application/json');
+    res.set('Content-Disposition', `attachment; filename="session-${id}.json"`);
+    return res.status(200).end(JSON.stringify({ ok:true, id, items }));
+  } catch(e){ return res.status(500).json({ ok:false, error: e && e.message || String(e) }); }
+});
+
 module.exports = router;
