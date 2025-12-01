@@ -3,9 +3,9 @@
 
 const fs = require('fs');
 const path = require('path');
+const memoryStore = require('./memoryStore');
 
 const PROFILE_PATH = process.env.AI_PROFILE_PATH || path.join(__dirname, 'profile.json');
-const MEMORY_DIR = process.env.AI_MEMORY_DIR || path.join(__dirname, 'memory', 'sessions');
 const DEFAULT_MODEL = process.env.AI_MODEL || 'gpt-4.1-mini';
 
 function loadProfile() {
@@ -18,14 +18,6 @@ function loadProfile() {
 }
 
 function ensureDir(p) { try { fs.mkdirSync(p, { recursive: true }); } catch (_) {} }
-
-function appendMemory(sessionId, entry) {
-  try {
-    ensureDir(MEMORY_DIR);
-    const file = path.join(MEMORY_DIR, `${sessionId || 'default'}.jsonl`);
-    fs.appendFileSync(file, JSON.stringify(Object.assign({ ts: new Date().toISOString() }, entry)) + '\n', 'utf8');
-  } catch (_) {}
-}
 
 function listSessions() {
   try {
@@ -230,7 +222,7 @@ async function stream({ prompt, history, sessionId, mode, maxTokens, onDelta }) 
     result = { reply: out, usage: null, provider: 'stub', model: 'stub' };
   }
 
-  appendMemory(sessionId || 'default', { mode: activeMode, in: prompt, out: result.reply });
+  memoryStore.append(sessionId || 'default', { mode: activeMode, in: prompt, out: result.reply });
   return Object.assign({ mode: activeMode }, result);
 }
 
@@ -263,12 +255,12 @@ async function chat({ prompt, history, sessionId, mode, maxTokens }) {
     result = await respondStub({ system, messages });
   }
 
-  appendMemory(sessionId || 'default', { mode: activeMode, in: prompt, out: result.reply });
+  memoryStore.append(sessionId || 'default', { mode: activeMode, in: prompt, out: result.reply });
 
   return Object.assign({ mode: activeMode }, result);
 }
 
 module.exports = { chat, stream };
-module.exports.listSessions = listSessions;
-module.exports.getSessionHistory = getSessionHistory;
-module.exports.deleteSession = deleteSession;
+module.exports.listSessions = memoryStore.listSessions;
+module.exports.getSessionHistory = memoryStore.getSessionHistory;
+module.exports.deleteSession = memoryStore.deleteSession;
