@@ -19,11 +19,15 @@
     .msgs { display:flex; flex-direction:column; gap:10px; padding-bottom: 80px; }
     .msg { padding:10px 12px; border-radius:10px; max-width: 80%; line-height:1.5; }
     .user { background: rgba(80,120,255,.15); align-self:flex-end; border:1px solid rgba(80,120,255,.35); }
-    .ai { background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); }
+    .ai { background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); position:relative; }
+    .msg-actions { position:absolute; inset-inline-end:8px; inset-block-start:8px; display:flex; gap:6px; opacity:.8; }
+    .msg-actions button { font-size:11px; padding:4px 8px; border-radius:8px; }
     .composer { position:fixed; bottom:0; left:0; right:0; background:#0b1220; border-top:1px solid rgba(255,255,255,.08); padding:10px 16px; display:flex; gap:8px; }
     textarea { flex:1; resize:vertical; min-height:44px; max-height:160px; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,.15); background:#0f172a; color:#e8edf7; }
     button { padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.22); background:#17203a; color:#fff; cursor:pointer; }
     button:disabled { opacity:.5; cursor:not-allowed; }
+    .ai pre { background:#0f172a; padding:10px; border-radius:8px; overflow:auto; }
+    .ai code { background:#0f172a; padding:2px 4px; border-radius:6px; }
   </style>
 </head>
 <body>
@@ -36,6 +40,7 @@
         <input type="checkbox" id="streamToggle" checked />
         <span>بث مباشر</span>
       </label>
+      <button id="stopStream" style="display:none; font-size:12px; padding:6px 10px;">إيقاف البث</button>
     </div>
   </header>
   <div class="wrap">
@@ -58,9 +63,45 @@
       const typingEl = document.getElementById('typing');
       const history = [];
       let sessionId = 'web-'+Math.random().toString(36).slice(2,9);
+      let streamAbort = null;
+
+      function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+      function mdToHtml(md){
+        let s = String(md||'');
+        s = s.replace(/\r/g,'');
+        // code blocks ```
+        s = s.replace(/```([\s\S]*?)```/g, (m, p1) => '<pre><code>'+escapeHtml(p1)+'</code></pre>');
+        // inline code
+        s = s.replace(/`([^`]+)`/g, (m,p1)=> '<code>'+escapeHtml(p1)+'</code>');
+        // bold/italic
+        s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+        // links [text](url)
+        s = s.replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+        // lists
+        const lines = s.split('\n');
+        let html = ''; let ul = false;
+        for(const ln of lines){
+          if(/^\s*[-*]\s+/.test(ln)){ if(!ul){ html += '<ul>'; ul = true; } html += '<li>'+ln.replace(/^\s*[-*]\s+/,'')+'</li>'; }
+          else { if(ul){ html += '</ul>'; ul=false; } html += ln ? '<p>'+ln+'</p>' : '<br/>'; }
+        }
+        if(ul) html += '</ul>';
+        return html;
+      }
 
       function add(role, text){
-        const d = document.createElement('div'); d.className = 'msg ' + (role==='user'?'user':'ai'); d.textContent = text; msgs.appendChild(d); d.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        const d = document.createElement('div'); d.className = 'msg ' + (role==='user'?'user':'ai');
+        if(role==='assistant' || role==='ai'){
+          d.innerHTML = mdToHtml(text);
+          const act = document.createElement('div'); act.className='msg-actions';
+          const copyBtn = document.createElement('button'); copyBtn.textContent='نسخ';
+          copyBtn.addEventListener('click', async ()=>{ try { await navigator.clipboard.writeText(String(text)); copyBtn.textContent='تم'; setTimeout(()=>copyBtn.textContent='نسخ', 1500); } catch(_){ copyBtn.textContent='خطأ'; setTimeout(()=>copyBtn.textContent='نسخ', 1500); } });
+          act.appendChild(copyBtn);
+          d.appendChild(act);
+        } else {
+          d.textContent = text;
+        }
+        msgs.appendChild(d); d.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
 
       async function getBase(){
@@ -74,6 +115,7 @@
       }
 
       function setTyping(on){ if(typingEl){ typingEl.classList.toggle('on', !!on); } }
+      function setStopVisible(on){ const b=document.getElementById('stopStream'); if(b){ b.style.display = on ? 'inline-block' : 'none'; } }
 
       async function send(){
         const txt = (promptEl.value || '').trim();
@@ -86,12 +128,18 @@
         try {
           setTyping(true);
           if(useStream){
-            const r = await fetch(url, { method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'text/event-stream' }, body: JSON.stringify({ prompt: txt, history: history.slice(-8), sessionId }) });
+            streamAbort = new AbortController(); setStopVisible(true);
+            const r = await fetch(url, { method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'text/event-stream' }, body: JSON.stringify({ prompt: txt, history: history.slice(-8), sessionId }), signal: streamAbort.signal });
             if(!r.ok){ throw new Error('request_failed'); }
             const reader = r.body.getReader();
             const decoder = new TextDecoder('utf-8');
             let buf=''; let current='';
-            const live = document.createElement('div'); live.className='msg ai'; live.textContent=''; msgs.appendChild(live); live.scrollIntoView({ behavior:'smooth', block:'end' });
+            const live = document.createElement('div'); live.className='msg ai'; live.innerHTML='';
+            const act = document.createElement('div'); act.className='msg-actions';
+            const copyBtn = document.createElement('button'); copyBtn.textContent='نسخ'; copyBtn.disabled=true;
+            copyBtn.addEventListener('click', async ()=>{ try { await navigator.clipboard.writeText(String(current)); copyBtn.textContent='تم'; setTimeout(()=>copyBtn.textContent='نسخ', 1500); } catch(_){ copyBtn.textContent='خطأ'; setTimeout(()=>copyBtn.textContent='نسخ', 1500); } });
+            act.appendChild(copyBtn); live.appendChild(act);
+            msgs.appendChild(live); live.scrollIntoView({ behavior:'smooth', block:'end' });
             for(;;){
               const { value, done } = await reader.read();
               if(done) break;
@@ -108,13 +156,14 @@
                     if(data === '[DONE]') { break; }
                     try {
                       const j = JSON.parse(data);
-                      if(j && typeof j.delta === 'string'){ current += j.delta; live.textContent = current; }
+                      if(j && typeof j.delta === 'string'){ current += j.delta; live.innerHTML = mdToHtml(current); }
                       if(j && j.ok){ const latency = Math.round(performance.now()-t0); statusEl.textContent = `متصل • ${latency}ms`; }
                     } catch(_){ }
                   }
                 }
               }
             }
+            copyBtn.disabled = false; setStopVisible(false);
             history.push({ role:'assistant', content: current });
           } else {
             const r = await fetch(url, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ prompt: txt, history: history.slice(-8), sessionId }) });
@@ -125,8 +174,9 @@
             add('assistant', j.reply || ''); history.push({ role:'assistant', content: j.reply || '' });
           }
         } catch(e){ statusEl.textContent = 'تعذر الاتصال بالمساعد'; add('assistant', '⚠️ حدث خطأ: ' + (e && e.message || e)); }
-        finally { setTyping(false); sendBtn.disabled = false; }
+        finally { setTyping(false); sendBtn.disabled = false; setStopVisible(false); streamAbort = null; }
       }
+  document.getElementById('stopStream').addEventListener('click', ()=>{ try { if(streamAbort){ streamAbort.abort(); } setStopVisible(false); } catch(_){} });
 
       sendBtn.addEventListener('click', send);
       promptEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); }});
