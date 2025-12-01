@@ -11,6 +11,7 @@
     "seed": "cross-env MARKET_SEED_DEMO=1 node server.js",
     "dev:db": "cross-env MARKET_MONGO_URL=mongodb://127.0.0.1:27017/axiom_market MARKET_CREATE_INDEXES_ON_START=1 MARKET_SEED_DEMO=1 MARKET_ALLOW_DB_FAIL=1 MARKET_PORT=3002 node server.js",
     "dev:mem": "cross-env MARKET_ALLOW_DB_FAIL=1 MARKET_PORT=3002 node server.js",
+    "dev:5500": "cross-env MARKET_ALLOW_DB_FAIL=1 MARKET_PORT=5500 node server.js",
     "lint": "echo 'No linter configured'",
     "db:indexes": "node ./scripts/ensure-indexes.js",
     "db:indexes:staging": "cross-env MONGO_URI=mongodb://127.0.0.1:27017/axiom_market node ./scripts/ensure-indexes.js",
