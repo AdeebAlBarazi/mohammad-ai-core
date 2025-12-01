@@ -59,10 +59,12 @@ router.post('/chat/stream', async (req, res) => {
     }
     inFlight += 1;
     try { const m = getAiMetrics(); m.aiRequests && m.aiRequests.inc({ endpoint:'stream' }); } catch(_){ }
-    // SSE headers
+    // SSE headers (proxy-friendly)
     res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
     res.setHeader('Connection', 'keep-alive');
+    // Disable proxy buffering for Nginx/Ingress
+    res.setHeader('X-Accel-Buffering', 'no');
     if (typeof res.flushHeaders === 'function') res.flushHeaders();
 
     let full = '';

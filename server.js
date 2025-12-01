@@ -151,6 +151,11 @@ app.use((err, _req, res, next) => {
     return next(err);
 });
 app.use(express.json());
+// Serve static pages from /pages for same-origin UI (dev/prod)
+try {
+    const pagesDir = path.join(__dirname, 'pages');
+    app.use('/pages', express.static(pagesDir, { fallthrough: true, index: false }));
+} catch(_) { /* ignore */ }
 // HTTPS redirect (behind proxy) and HSTS
 if (String(process.env.FORCE_HTTPS || '0') === '1') {
     app.use((req, res, next) => {
