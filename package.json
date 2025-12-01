@@ -20,7 +20,7 @@
     "test:e2e:smoke": "node ./scripts/smoke-rbac-media.test.js && node ./scripts/smoke-jwks-autorefresh.test.js",
     "test": "npm run test:unit && npm run test:e2e:smoke && npm run test:e2e:newman && node ./scripts/smoke-e2e-user.test.js && node ./scripts/smoke-e2e-seller.test.js",
     "ci:smoke": "node ./scripts/ci-smoke.js",
-    "test:ci": "cross-env MARKET_ALLOW_DB_FAIL=1 JWT_SECRET=dev_secret_123 jest --passWithNoTests --runInBand"
+    "test:ci": "cross-env MARKET_ALLOW_DB_FAIL=1 JWT_SECRET=dev_secret_123 jest __tests__ --passWithNoTests --runInBand"
     ,"quick:test": "powershell -ExecutionPolicy Bypass -File scripts/quick-test.ps1"
     ,"quick:test:node": "node scripts/quick-test.js"
     ,"quick:test:node:stripe": "node scripts/quick-test.js --stripe --report"
