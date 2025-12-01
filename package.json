@@ -26,6 +26,8 @@
     "docs:diagram": "mmdc -i docs/architecture_diagram.mmd -o docs/architecture_diagram.png -b transparent -s 1.2",
     "docs:pdf": "md-to-pdf docs/AI_ARCHITECTURE_GUIDE.md docs/AI_ARCHITECTURE_GUIDE_EN.md > docs/AI_Portable_Agent_Guide.pdf",
     "docs:build": "npm run docs:diagram; npm run docs:pdf",
+    "docs:pdf:bi": "md-to-pdf docs/AI_ARCHITECTURE_GUIDE_BI.md > docs/AI_Portable_Agent_Guide_BI.pdf",
+    "docs:release": "npm run docs:diagram; npm run docs:pdf; npm run docs:pdf:bi",
     "quick:test": "powershell -ExecutionPolicy Bypass -File scripts/quick-test.ps1",
     "quick:test:node": "node scripts/quick-test.js",
     "quick:test:node:stripe": "node scripts/quick-test.js --stripe --report"
