@@ -41,10 +41,22 @@
         <span>بث مباشر</span>
       </label>
       <button id="stopStream" style="display:none; font-size:12px; padding:6px 10px;">إيقاف البث</button>
+      <button id="sessionsBtn" style="font-size:12px; padding:6px 10px;">جلساتي</button>
     </div>
   </header>
   <div class="wrap">
     <div class="msgs" id="msgs"></div>
+    <div id="sessionsPanel" style="display:none; margin-top:12px; border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:10px;">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <strong>إدارة الجلسات</strong>
+        <span id="sessionsStatus" style="font-size:12px; opacity:.8;"></span>
+        <div style="margin-inline-start:auto; display:flex; gap:6px; align-items:center;">
+          <input id="newSessionInput" placeholder="معرّف جلسة جديد" style="padding:6px 8px; border-radius:8px; border:1px solid rgba(255,255,255,.15); background:#0f172a; color:#e8edf7;"/>
+          <button id="useSessionBtn">استخدم</button>
+        </div>
+      </div>
+      <div id="sessionsList" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+    </div>
   </div>
   <div class="composer">
     <textarea id="prompt" placeholder="اكتب رسالتك…"></textarea>
@@ -64,6 +76,12 @@
       const history = [];
       let sessionId = 'web-'+Math.random().toString(36).slice(2,9);
       let streamAbort = null;
+      const sessionsBtn = document.getElementById('sessionsBtn');
+      const sessionsPanel = document.getElementById('sessionsPanel');
+      const sessionsList = document.getElementById('sessionsList');
+      const sessionsStatus = document.getElementById('sessionsStatus');
+      const newSessionInput = document.getElementById('newSessionInput');
+      const useSessionBtn = document.getElementById('useSessionBtn');
 
       function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
       function mdToHtml(md){
@@ -116,6 +134,37 @@
 
       function setTyping(on){ if(typingEl){ typingEl.classList.toggle('on', !!on); } }
       function setStopVisible(on){ const b=document.getElementById('stopStream'); if(b){ b.style.display = on ? 'inline-block' : 'none'; } }
+
+      async function refreshSessions(){
+        try {
+          sessionsStatus.textContent = '...';
+          const base = await getBase();
+          const url = (base || '') + '/api/ai/sessions';
+          const r = await fetch(url, { method:'GET' });
+          const j = await r.json();
+          if(!r.ok || !j.ok){ throw new Error(j && j.error || 'failed'); }
+          sessionsList.innerHTML = '';
+          const items = Array.isArray(j.items) ? j.items : [];
+          items.sort((a,b)=> String(b.lastTs||'').localeCompare(String(a.lastTs||'')) );
+          for(const it of items){
+            const chip = document.createElement('div');
+            chip.style.cssText = 'display:flex; gap:6px; align-items:center; padding:6px 8px; border:1px solid rgba(255,255,255,.15); border-radius:999px; background:#0f172a;';
+            const label = document.createElement('span'); label.textContent = it.id + (it.id===sessionId ? ' (نشط)' : ''); label.style.fontSize='12px';
+            const useBtn = document.createElement('button'); useBtn.textContent='تفعيل'; useBtn.style.fontSize='11px'; useBtn.addEventListener('click', ()=>{ sessionId = it.id; sessionsStatus.textContent='تم التفعيل: '+it.id; });
+            const delBtn = document.createElement('button'); delBtn.textContent='حذف'; delBtn.style.fontSize='11px'; delBtn.addEventListener('click', async ()=>{
+              try {
+                const urlDel = (base||'') + '/api/ai/sessions/' + encodeURIComponent(it.id);
+                const rr = await fetch(urlDel, { method:'DELETE' }); const jj = await rr.json(); if(!rr.ok || !jj.ok) throw new Error(jj && jj.error || 'delete_failed');
+                if(sessionId===it.id){ sessionId = 'web-'+Math.random().toString(36).slice(2,9); }
+                await refreshSessions();
+              } catch(e){ sessionsStatus.textContent = 'خطأ حذف'; }
+            });
+            chip.appendChild(label); chip.appendChild(useBtn); chip.appendChild(delBtn);
+            sessionsList.appendChild(chip);
+          }
+          sessionsStatus.textContent = `الجلسة الحالية: ${sessionId}`;
+        } catch(e){ sessionsStatus.textContent = 'تعذر تحميل الجلسات'; }
+      }
 
       async function send(){
         const txt = (promptEl.value || '').trim();
@@ -176,6 +225,16 @@
         } catch(e){ statusEl.textContent = 'تعذر الاتصال بالمساعد'; add('assistant', '⚠️ حدث خطأ: ' + (e && e.message || e)); }
         finally { setTyping(false); sendBtn.disabled = false; setStopVisible(false); streamAbort = null; }
       }
+        sessionsBtn.addEventListener('click', async ()=>{
+          const on = sessionsPanel.style.display !== 'none' ? false : true;
+          sessionsPanel.style.display = on ? 'block' : 'none';
+          if(on){ await refreshSessions(); }
+        });
+        useSessionBtn.addEventListener('click', async ()=>{
+          const id = (newSessionInput.value||'').trim(); if(!id) return;
+          sessionId = id; sessionsStatus.textContent = 'تم اختيار: '+id; newSessionInput.value='';
+          await refreshSessions();
+        });
   document.getElementById('stopStream').addEventListener('click', ()=>{ try { if(streamAbort){ streamAbort.abort(); } setStopVisible(false); } catch(_){} });
 
       sendBtn.addEventListener('click', send);
@@ -185,6 +244,8 @@
         try {
           const base = await getBase();
           if(base){ statusEl.textContent = 'جاهز'; } else { statusEl.textContent = 'قد يتطلب إعداد API Base'; }
+          // Preload sessions quietly
+          setTimeout(()=>{ refreshSessions(); }, 300);
         } catch(_){ statusEl.textContent = '...'; }
       })();
     })();
