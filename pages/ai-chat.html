@@ -133,13 +133,21 @@
       }
 
       async function getBase(){
+        // Prefer same-origin first; fallback to Market.Common; then localhost:3002
+        try {
+          const sameOrigin = (window.location && window.location.origin) ? window.location.origin : '';
+          // If served by server.js, same-origin is correct and exposes /api
+          if (sameOrigin && /localhost|127\.0\.0\.1|\:[0-9]+/i.test(sameOrigin)) {
+            return sameOrigin.replace(/\/?$/,'');
+          }
+        } catch(_) {}
         try {
           if (window.Market && Market.Common && typeof Market.Common.whenReady==='function') { await Market.Common.whenReady(); }
           const base = (Market && Market.Common && Market.Common.getApiBase && Market.Common.getApiBase()) || (Market && Market.Common && Market.Common.apiBase) || '';
-          if (!base) return '';
-          // If base already has /api strip trailing /api to avoid duplication
-          return base.replace(/\/?api\/?$/i,'');
-        } catch(_) { return ''; }
+          if (base) return base.replace(/\/?api\/?$/i,'');
+        } catch(_) {}
+        // Dev fallback: default to backend on 3002
+        return 'http://localhost:3002';
       }
 
       function setTyping(on){ if(typingEl){ typingEl.classList.toggle('on', !!on); } }
