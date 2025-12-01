@@ -608,6 +608,17 @@ $env:ORDER_SHIPPING_FIXED = "15"
 node server.js
 ```
 
+#### تشغيل مع Mongo Atlas (بدون كشف السر في المستودع)
+ضع سلسلة الاتصال في متغير البيئة `MARKET_MONGO_URL` ثم استخدم سكربت 5500 مع Mongo:
+```powershell
+$env:MARKET_MONGO_URL = "<YOUR_ATLAS_URI>"
+npm run dev:5500:db
+# افتح:
+# http://localhost:5500/pages/ai-chat-healthz.html
+# http://localhost:5500/pages/ai-chat.html
+```
+ملاحظة: لا تضع بيانات دخول Mongo داخل ملفات المستودع. استخدم متغيرات البيئة أو أسرار CI.
+
 3. الاختبار:
 - افتح `pages/checkout.html`، عبّئ العنوان، اضغط "تأكيد الطلب".
 - استخدم الروابط للانتقال إلى `pages/my-orders.html` أو `pages/order-details.html?id=<ORDER_ID>`.
