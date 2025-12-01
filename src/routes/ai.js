@@ -84,4 +84,30 @@ router.post('/chat/stream', async (req, res) => {
   }
 });
 
+// --- Sessions & History API ---
+router.get('/sessions', async (_req, res) => {
+  try {
+    const list = core().listSessions();
+    return res.json({ ok: true, items: list });
+  } catch (e) { return res.status(500).json({ ok: false, error: e && e.message || String(e) }); }
+});
+
+router.get('/sessions/:id', async (req, res) => {
+  try {
+    const id = String(req.params.id || 'default');
+    const limit = Number(req.query.limit || 100);
+    const hist = core().getSessionHistory(id, { limit });
+    return res.json({ ok: true, items: hist, id });
+  } catch (e) { return res.status(500).json({ ok: false, error: e && e.message || String(e) }); }
+});
+
+router.delete('/sessions/:id', async (req, res) => {
+  try {
+    const id = String(req.params.id || 'default');
+    const r = core().deleteSession(id);
+    if (!r.ok) return res.status(500).json(r);
+    return res.json({ ok: true, id });
+  } catch (e) { return res.status(500).json({ ok: false, error: e && e.message || String(e) }); }
+});
+
 module.exports = router;
