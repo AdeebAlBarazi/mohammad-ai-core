@@ -722,6 +722,56 @@ node server.js
 - تم إضافة مساعد ذكاء صناعي محمول (نواة مستقلة + واجهة HTTP ثابتة).
 - اطلع على التفاصيل وخطوات التشغيل في `README-AI.md` داخل نفس المجلد.
 
+### نشر واجهة الدردشة (SSE & Reverse Proxy)
+- نفس الأصل: التطبيق يقدّم الآن مجلد `pages/` من الخادم نفسه (`/pages/ai-chat.html` و`/pages/ai-chat-healthz.html`). يُنصح باستخدام نفس الدومين للأصل والـ API لتفادي CORS و405 من خوادم ثابتة.
+- متغيرات موصى بها (إنتاج):
+  - `FORCE_HTTPS=1` تفعيل التحويل إلى HTTPS + HSTS.
+  - `ENABLE_CSP=1` تفعيل سياسة أمن المحتوى. بما أن صفحات الدردشة تستخدم CSS مضمن، فعّل: `CSP_ALLOW_INLINE_STYLES=1`.
+  - `METRICS_ENABLED=1` إن رغبت في `/metrics`.
+  - للتطوير فقط مع أصول مختلفة: `MARKET_CORS_ALLOW_DEV=1`.
+- ترويسات SSE: الخادم يرسل `Content-Type: text/event-stream`, `Cache-Control: no-cache, no-transform`, و`X-Accel-Buffering: no`.
+
+Nginx (خلف وكيل)
+```
+location /api/ai/ {
+  proxy_pass http://app:3002/api/ai/;
+  proxy_http_version 1.1;
+  proxy_set_header Connection "";
+  proxy_buffering off;
+  chunked_transfer_encoding on;
+  add_header X-Accel-Buffering no;
+  proxy_read_timeout 3600s;
+  proxy_send_timeout 3600s;
+}
+
+location /pages/ {
+  proxy_pass http://app:3002/pages/;
+}
+```
+
+Kubernetes Ingress (Nginx)
+```yaml
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header X-Accel-Buffering "no";
+```
+
+تشغيل محلي ثابت
+```powershell
+$env:MARKET_ALLOW_DB_FAIL='1'; $env:MARKET_PORT='5500'; node server.js
+# افتح واجهة الصحة للتحقق:
+# http://localhost:5500/pages/ai-chat-healthz.html
+```
+
+فحص تلقائي (Node)
+```powershell
+npm run ci:sse
+```
+
 ## المراقبة والتنبيهات (Monitoring & Alerts)
 تم إعداد مجموعة مقاييس وتسجيلات + تنبيهات Prometheus لمراقبة الصحة والأداء والاعتمادية.
 
