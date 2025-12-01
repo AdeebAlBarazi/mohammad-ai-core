@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مساعدي الشخصي</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; background:#111; color:#eee; }
+    .row { display:flex; gap:8px; margin-bottom:8px; }
+    textarea { width:100%; height:90px; background:#1a1a1a; color:#eee; border:1px solid #333; padding:8px; }
+    button { background:#2d6cdf; color:#fff; border:0; padding:8px 12px; border-radius:6px; cursor:pointer; }
+    .msg { background:#161616; border:1px solid #333; padding:10px; border-radius:8px; margin:8px 0; }
+    .role { font-size:12px; opacity:.7; }
+  </style>
+</head>
+<body>
+  <h2>مساعدي الشخصي (منفصل تمامًا)</h2>
+  <div class="row">
+    <input id="apiKey" placeholder="X-API-KEY (اختياري)" />
+    <input id="apiBase" placeholder="API Base (مثال: http://localhost:5600)" />
+  </div>
+  <div class="row">
+    <input id="sessionId" value="personal-main" />
+    <button id="health">فحص الصحة</button>
+  </div>
+  <textarea id="prompt" placeholder="اكتب رسالتك هنا..."></textarea>
+  <div class="row">
+    <button id="send">أرسل</button>
+  </div>
+  <div id="out"></div>
+
+<script>
+const apiBaseEl = document.getElementById('apiBase');
+const apiKeyEl = document.getElementById('apiKey');
+const sessionEl = document.getElementById('sessionId');
+const promptEl = document.getElementById('prompt');
+const out = document.getElementById('out');
+
+apiBaseEl.value = localStorage.getItem('personal.apiBase') || `${location.protocol}//${location.host}`;
+apiKeyEl.value = localStorage.getItem('personal.apiKey') || '';
+
+apiBaseEl.addEventListener('change', () => localStorage.setItem('personal.apiBase', apiBaseEl.value));
+apiKeyEl.addEventListener('change', () => localStorage.setItem('personal.apiKey', apiKeyEl.value));
+
+function add(role, content) {
+  const div = document.createElement('div');
+  div.className = 'msg';
+  div.innerHTML = `<div class='role'>${role}</div><div>${content.replace(/</g,'&lt;')}</div>`;
+  out.prepend(div);
+}
+
+async function send() {
+  const apiBase = apiBaseEl.value || `${location.protocol}//${location.host}`;
+  const body = { prompt: promptEl.value, sessionId: sessionEl.value };
+  const headers = { 'Content-Type': 'application/json' };
+  if (apiKeyEl.value) headers['X-API-KEY'] = apiKeyEl.value;
+  const res = await fetch(`${apiBase}/api/personal/chat`, { method:'POST', headers, body: JSON.stringify(body) });
+  const data = await res.json();
+  if (!data.ok) { add('error', data.error || 'failed'); return; }
+  add('assistant', data.reply);
+}
+
+document.getElementById('send').onclick = send;
+
+document.getElementById('health').onclick = async () => {
+  const apiBase = apiBaseEl.value || `${location.protocol}//${location.host}`;
+  try {
+    const res = await fetch(`${apiBase}/healthz`);
+    const data = await res.json();
+    add('health', JSON.stringify(data));
+  } catch (e) {
+    add('health', 'failed: ' + e.message);
+  }
+};
+</script>
+</body>
+</html>
