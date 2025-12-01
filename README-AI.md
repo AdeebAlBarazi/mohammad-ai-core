@@ -19,10 +19,19 @@ This directory documents the portable AI assistant added to the marketplace serv
 - `.gitignore`: Excludes `.env`, `node_modules/`, and `agent-core/memory/`.
 
 ## API
-- `POST /api/ai/chat`
+- `POST /api/ai/chat` (رد غير متدفق)
   - Body: `{ prompt: string, history?: Array<{role:"user"|"assistant", content:string}>, sessionId?: string, mode?: string, maxTokens?: number }`
   - Response: `{ ok: true, reply: string, mode: string, provider: string, model: string, usage?: object, latency: number }`
-  - Returns HTTP 400 if `prompt` missing; 429 if overloaded; 500 on errors.
+  - أخطاء: 400 غياب `prompt`، 429 ازدحام، 500 خطأ داخلي.
+
+- `POST /api/ai/chat/stream` (SSE بث متدرّج)
+  - Header: `Accept: text/event-stream`
+  - Body: نفس `POST /chat`
+  - Stream: يرسل أسطر SSE بشكل متكرر:
+    - `data: {"delta":"..."}` أجزاء النص بالتتابع.
+    - `event: meta` ثم `data: { ok:true, latency: <ms> }` عند الإغلاق.
+    - `data: [DONE]` للإشارة لنهاية البث.
+  - في وضع Stub (بدون مفتاح): سيبث ردًا تجريبيًا بنفس البروتوكول.
 
 ## Environment
 Append to your `.env` (don’t commit it):
@@ -51,7 +60,47 @@ Invoke-RestMethod -Method Post -Uri http://localhost:3002/api/ai/chat `
 ```
 
 ## Web Client
-Open `pages/ai-chat.html` (e.g., via Live Server at `http://127.0.0.1:5500`). The page auto-detects the API base using existing market scripts.
+Open `pages/ai-chat.html` (e.g., via Live Server at `http://127.0.0.1:5500`).
+- كشف تلقائي لعنوان الـ API.
+- تبديل بين البث/non-stream من خلال مربع الاختيار "بث مباشر" في الشريط العلوي.
+
+### مثال استهلاك المتصفح (SSE عبر fetch)
+```js
+const res = await fetch('/api/ai/chat/stream', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Accept': 'text/event-stream' },
+  body: JSON.stringify({ prompt: 'السلام عليكم', history: [] })
+});
+const reader = res.body.getReader();
+const dec = new TextDecoder();
+let buf = ''; let full = '';
+for(;;){
+  const { value, done } = await reader.read(); if(done) break;
+  buf += dec.decode(value, { stream:true });
+  let idx; while((idx = buf.indexOf('\n\n')) !== -1){
+    const chunk = buf.slice(0, idx).trim(); buf = buf.slice(idx+2);
+    for(const line of chunk.split('\n')){
+      if(line.startsWith('data: ')){
+        const data = line.slice(6);
+        if(data === '[DONE]') break;
+        try { const j = JSON.parse(data); if(j.delta) { full += j.delta; } } catch(_){ }
+      }
+    }
+  }
+}
+console.log(full);
+```
+
+### مثال Node.js (v18+)
+```js
+import fetch from 'node-fetch';
+const r = await fetch('http://localhost:3002/api/ai/chat/stream', {
+  method: 'POST', headers: { 'Content-Type':'application/json', 'Accept':'text/event-stream' },
+  body: JSON.stringify({ prompt: 'Ping', history: [] })
+});
+const reader = r.body.getReader(); const dec = new TextDecoder(); let buf='';
+for(;;){ const { value, done } = await reader.read(); if(done) break; buf += dec.decode(value,{stream:true}); /* parse مثل المثال أعلاه */ }
+```
 
 ## Portability
 - Carry `agent-core/` + `agent-core/profile.json` with you.
@@ -59,7 +108,7 @@ Open `pages/ai-chat.html` (e.g., via Live Server at `http://127.0.0.1:5500`). Th
 - Any surface (web/CLI/extensions) should talk to `POST /api/ai/chat`.
 
 ## Roadmap (optional)
-- Streaming SSE/JSONL responses.
+- تحسينات البث (SSE/JSONL، إعادة المحاولة، تلخيص جزئي).
 - Unified `MemoryStore` (SQLite + embeddings) with pluggable backends.
 - Tools surface following MCP design; wrap into MCP later.
 - Thin CLI that posts to the same endpoint.
