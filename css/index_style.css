@@ -1,0 +1,1080 @@
+/* --- Global Setup & Variables --- */
+:root {
+    --primary-red: #B22222;
+    --primary-blue: #4169E1;
+    --dark-bg: #0a1425;
+    --text-color-light: #dceffc;
+    --text-color-dark: #4682b4;
+    --sidebar-bg: rgba(10, 20, 37, 0.8);
+    --card-bg: #1f2937;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--text-color-dark);
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    line-height: 1.7em;
+    background: radial-gradient(ellipse at center, #1a2941 0%, #0a1425 70%);
+    overflow-x: hidden;
+}
+
+/* --- Hide header initially to prevent FOUC --- */
+#header-placeholder {
+    /* ابدأ شفافاً تماماً */
+    transition: opacity 0.3s ease-in-out;
+    /* تأثير ظهور تدريجي لطيف */
+}
+
+#header-placeholder.loaded {
+    opacity: 1;
+    /* أظهره عند إضافة كلاس 'loaded' */
+}
+
+a {
+    color: var(--primary-red);
+    font-weight: normal;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#tecpioneer_wrapper {
+    width: 95%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+/* Header, Menu, Logo Styles */
+/* ===================================== */
+/* == START: Header Flexbox & Account Menu Styles == */
+/* ===================================== */
+
+#tecpioneer_menu {
+    position: relative;
+    width: 100%;
+    height: 88px;
+    background: url(../images/tecpioneer_menu.png) no-repeat center;
+    border-bottom: 2px solid var(--primary-blue);
+    /* --- Flexbox Layout --- */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+#tecpioneer_menu ul {
+    margin: 0;
+    /* إزالة أي هوامش افتراضية */
+    padding: 0;
+    /* إزالة أي حشوة افتراضية */
+    list-style: none;
+    /* إزالة نقاط القائمة */
+    flex-grow: 1;
+    /* السماح للقائمة بأخذ المساحة المتاحة */
+    text-align: center;
+    /* محاذاة النص لليمين (للعربي) */
+    /* لا حاجة لـ height: auto; لأن flexbox يتحكم بالارتفاع */
+}
+
+[dir="ltr"] #tecpioneer_menu ul {
+    text-align: center;
+    /* Adjust for LTR */
+}
+
+#tecpioneer_menu ul li {
+    display: inline-block;
+    /* جعل عناصر القائمة متجاورة */
+    margin: 0;
+    /* يمكنك إضافة هوامش أفقية صغيرة إذا أردت مسافة بين العناصر */
+    /* مثال: margin: 0 5px; */
+}
+
+#tecpioneer_menu ul li a {
+    display: block;
+    padding: 30px 25px;
+    /* Adjust vertical padding if needed */
+    font-size: 16px;
+    color: var(--text-color-dark);
+    text-align: center;
+    font-weight: 700;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+#tecpioneer_menu ul li a:hover,
+#tecpioneer_menu ul li a.current {
+    color: var(--text-color-light);
+    background-color: rgba(65, 105, 225, 0.2);
+    text-decoration: none;
+    /* إزالة الخط عند المرور أيضاً */
+}
+
+/* --- Header Actions Container --- */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+/* --- Account Area --- */
+#account-area-placeholder {
+    /* Container for button or user menu */
+}
+
+/* --- Account Button (Logged Out) --- */
+.account-button {
+    display: inline-block;
+    padding: 8px 18px;
+    background-color: var(--dark-bg);
+    color: #fff;
+    border: 1px solid var(--primary-blue);
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.account-button:hover {
+    background-color: var(--primary-blue);
+    color: #fff;
+    text-decoration: none;
+}
+
+/* --- User Menu (Logged In) --- */
+.user-menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-icon-button {
+    background: none;
+    border: none;
+    color: var(--text-color-light);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.user-icon-button:hover {
+    color: #fff;
+}
+
+/* --- Account Dropdown (Uses this class now) --- */
+.account-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    /* Default for RTL */
+    background-color: var(--card-bg);
+    border: 1px solid var(--primary-blue);
+    border-radius: 5px;
+    min-width: 220px;
+    /* Increased width */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    padding: 0;
+    /* Remove padding for better control */
+    margin-top: 5px;
+    overflow: hidden;
+    /* Ensure consistent border-radius */
+}
+
+[dir="ltr"] .account-dropdown {
+    left: auto;
+    right: 0;
+}
+
+.account-dropdown.hidden {
+    display: none;
+}
+
+/* Dropdown User Info Area */
+.account-dropdown div:first-child {
+    /* Target the user info div */
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.2);
+    /* Slight background */
+}
+
+.account-dropdown div:first-child span {
+    /* User Name */
+    font-weight: bold;
+    color: #fff;
+    font-size: 1em;
+    /* Adjust as needed */
+    display: block;
+    /* Ensure it takes full width */
+    margin-bottom: 3px;
+}
+
+.account-dropdown div:first-child small {
+    /* User Email */
+    color: var(--text-muted-color);
+    font-size: 0.8em;
+    display: block;
+    /* Ensure it takes full width */
+}
+
+
+.account-dropdown a {
+    display: block;
+    padding: 10px 15px;
+    /* Consistent padding */
+    color: var(--text-color-light);
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap;
+}
+
+.account-dropdown a:hover {
+    background-color: var(--primary-blue);
+    color: #fff;
+    text-decoration: none;
+}
+
+.account-dropdown hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 5px 0;
+    /* Reduced margin */
+}
+
+.account-dropdown #logout-link {
+    color: var(--logo-hub-red) !important;
+    font-weight: bold;
+}
+
+.account-dropdown #logout-link:hover {
+    background-color: var(--logo-hub-red) !important;
+    color: #fff !important;
+}
+
+/* --- Language Switcher --- */
+.language-switcher {
+    position: static;
+    transform: none;
+}
+
+/* --- Responsive Adjustments --- */
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    #tecpioneer_menu {
+        padding: 0 10px;
+        /* تقليل الحشوة الأفقية */
+        height: 70px;
+        /* تقليل ارتفاع الهيدر */
+        /* لا حاجة لـ flex-wrap أو justify-content هنا */
+    }
+
+    #tecpioneer_menu ul {
+        /* لا حاجة لـ order, flex-basis, margin-top هنا */
+        text-align: center;
+        /* الحفاظ على التوسيط إذا رغبت */
+    }
+
+    #tecpioneer_menu ul li a {
+        padding: 25px 10px;
+        /* تقليل الحشوة العمودية والأفقية */
+        font-size: 13px;
+        /* تصغير الخط قليلاً */
+    }
+
+    .header-actions {
+        /* لا حاجة لـ order, flex-basis, justify-content, margin-bottom هنا */
+        gap: 10px;
+        /* تقليل المسافة بين العناصر */
+    }
+
+    .account-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .user-icon-button {
+        font-size: 1.6rem;
+    }
+
+    .account-dropdown {
+        min-width: 180px;
+    }
+
+    /* تعديل عرض القائمة المنسدلة */
+
+    /* يمكنك إضافة تعديلات أخرى هنا إذا لزم الأمر لأجزاء الصفحة الأخرى */
+}
+
+@media (max-width: 480px) {
+    #tecpioneer_menu ul li a {
+        padding: 15px 5px;
+        /* Further reduce padding */
+        font-size: 10px;
+    }
+
+    .header-actions {
+        gap: 5px;
+    }
+}
+
+
+/* ===================================== */
+/* == END: Header Flexbox & Account Menu Styles == */
+/* ===================================== */
+/* **تعديل:** تم حذف قاعدة #hamburger-btn */
+
+.language-switcher {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+[dir="rtl"] .language-switcher {
+    right: 20px;
+}
+
+[dir="ltr"] .language-switcher {
+    left: 20px;
+}
+
+.lang-btn {
+    background: transparent;
+    border: 1px solid var(--text-color-dark);
+    color: var(--text-color-dark);
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.lang-btn.active,
+.lang-btn:hover {
+    background: var(--primary-red);
+    color: white;
+    border-color: var(--primary-red);
+}
+
+.logo-section {
+    padding: 30px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-iframe-container {
+    width: 750px;
+    height: 250px;
+}
+
+.logo-iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    overflow: hidden;
+}
+
+/* Main Layout Grid */
+.main-content-layout {
+    display: grid;
+    grid-template-columns: 1fr 250px;
+    gap: 20px;
+    align-items: start;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* --- Districts Section Styles --- */
+
+.districts-container {
+    display: grid;
+    /* تخطيط مرن: 4 أعمدة على الشاشات الكبيرة، 2 على المتوسطة، 1 على الصغيرة */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.district-card {
+    display: flex;
+    align-items: center;
+    background-color: var(--card-bg);
+    /* */
+    border-radius: 10px;
+    padding: 25px;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.district-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-color: var(--primary-blue);
+    /* */
+}
+
+.district-icon {
+    font-size: 3rem;
+    /* 48px */
+    color: var(--primary-blue);
+    /* */
+    margin-left: 20px;
+    /* في العربي، الأيقونة على اليمين */
+}
+
+[dir="ltr"] .district-icon {
+    margin-left: 0;
+    margin-right: 20px;
+}
+
+.district-content h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.4rem;
+    /* 22px */
+    color: var(--text-color-light);
+    /* */
+}
+
+.district-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-color-dark);
+    /* */
+    line-height: 1.5;
+}
+
+.sidebars-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar {
+    background-color: var(--sidebar-bg);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: calc(50vh - 55px);
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.sidebar h3 {
+    color: var(--text-color-light);
+    border-bottom: 2px solid var(--primary-red);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.product-offer,
+.news-item {
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+.product-offer {
+    display: flex;
+    gap: 15px;
+}
+
+.product-offer img {
+    border-radius: 5px;
+}
+
+.product-offer h4,
+.news-item h4 {
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.central-content {
+    display: flex;
+    flex-direction: column;
+}
+
+#tecpioneer_middle {
+    width: 100%;
+    height: 350px;
+    background: url('../images/MyMainCharckter.png') no-repeat center center;
+    background-size: contain;
+    margin-bottom: 0;
+}
+
+.separator {
+    width: 100%;
+    height: 1px;
+    background-color: var(--primary-blue);
+    margin: 30px 0;
+}
+
+#tecpioneer_middle+.separator {
+    margin-top: 2rem;
+}
+
+/* --- Draggable Card Rows Styles --- */
+.card-rows-container {
+    padding: 10px 0;
+}
+
+.card-row-header {
+    margin-bottom: 15px;
+}
+
+.card-row-title {
+    color: #e5e7eb;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.card-row {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    user-select: none;
+    scroll-behavior: smooth;
+}
+
+.card-row::-webkit-scrollbar {
+    display: none;
+}
+
+.card-row.active {
+    cursor: grabbing;
+}
+
+.card-item {
+    flex: 0 0 200px;
+    height: 250px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.card-item a {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+
+.card-media {
+    height: 70%;
+}
+
+.card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    height: 30%;
+    padding: 10px;
+    color: #d1d5db;
+    display: flex;
+    align-items: center;
+}
+
+.card-content h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #f9fafb;
+}
+
+/* ====================================================== */
+/* == START: RESPONSIVE MEDIA QUERIES == */
+/* ====================================================== */
+
+@media (max-width: 768px) {
+
+    /* **تعديل:** تم حذف زر الهامبرغر */
+
+    /* **تعديل:** إرجاع القائمة للظهور وتعديل الخطوط */
+    #tecpioneer_menu ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* **تعديل:** تصغير الخطوط والحشوة لتناسب الموبايل */
+    #tecpioneer_menu ul li a {
+        padding: 30px 8px;
+        /* تقليل الحشوة الأفقية */
+        font-size: 11px;
+        /* تصغير حجم الخط */
+    }
+
+    /* **تعديل:** تصغير أزرار اللغة قليلاً */
+    .lang-btn {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    .logo-iframe-container {
+        width: 90vw;
+        height: 30vw;
+        max-width: 750px;
+        max-height: 250px;
+    }
+
+    .main-content-layout {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+    }
+
+    .sidebars-container {
+        order: 3;
+    }
+
+    .central-content {
+        order: 2;
+    }
+
+    .logo-section {
+        order: 1;
+    }
+
+    .sidebar {
+        height: auto;
+        max-height: 400px;
+    }
+
+    #tecpioneer_middle {
+        height: 250px;
+    }
+
+    .card-row-title {
+        font-size: 1.5rem;
+    }
+
+    .card-item {
+        flex: 0 0 160px;
+        height: 210px;
+    }
+}
+
+/* --- News Section Styles --- */
+.news-section {
+    padding: 10px 0;
+}
+
+.news-section-title {
+    color: #e5e7eb;
+    font-size: 1.8rem;
+    margin: 0 0 15px 0;
+}
+
+#news-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.news-item-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.news-item-card h4 {
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.news-item-card p {
+    color: #d1d5db;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    /* مسافة قبل الأزرار */
+}
+
+.news-item-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+    margin-bottom: 15px;
+    /* مسافة قبل الأزرار */
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* **إضافة:** تنسيقات أزرار التفاعل */
+.news-item-actions {
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
+    margin-top: 15px;
+}
+
+.action-btn {
+    background: none;
+    border: 1px solid var(--text-color-dark);
+    color: var(--text-color-dark);
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* مسافة بين الأيقونة والنص */
+}
+
+.action-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color-light);
+}
+
+.action-btn i {
+    font-size: 1.1em;
+    /* حجم الأيقونة */
+}
+
+
+/* **إضافة:** تنسيقات قسم التعليقات */
+.comments-section {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comments-section h5 {
+    color: #fff;
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+}
+
+.comments-section textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    border: 1px solid #4682b4;
+    background: #0a1425;
+    color: var(--text-color-light);
+    font-family: 'Tajawal', sans-serif;
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+.submit-comment {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-comment:hover {
+    background-color: #5a82e6;
+}
+
+.comments-list {
+    margin-top: 15px;
+    /* يمكن إضافة تنسيقات للتعليقات الفعلية هنا لاحقاً */
+}
+
+/* تنسيق ملخص الأخبار في الشريط الجانبي */
+#dynamic-news-summary .news-item h4 {
+    font-size: 1rem;
+    /* تصغير عنوان الملخص */
+}
+
+#dynamic-news-summary .news-item p {
+    font-size: 0.8rem;
+    /* تصغير نص الملخص */
+    color: #aaa;
+}
+
+.read-more {
+    font-size: 0.8rem;
+    color: var(--primary-blue);
+    text-decoration: none;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+/* تنسيق لرسالة الترحيب في الهيدر */
+.welcome-user {
+    display: inline-block;
+    /* أو flex إذا لزم الأمر مع زر الخروج */
+    padding: 30px 15px;
+    /* مطابقة لحشوة الرابط */
+    font-size: 16px;
+    /* مطابقة لحجم خط الرابط */
+    color: var(--text-color-light);
+    /* استخدام لون فاتح */
+    font-weight: 500;
+    /* أقل سماكة قليلاً من الروابط */
+}
+
+/* تعديل حشوة رابط تسجيل الخروج إذا لزم الأمر */
+#logout-link {
+    /* أضف تنسيقات خاصة إذا كانت حشوة الرابط الافتراضية غير مناسبة */
+}
+
+/* تنسيقات محسنة لرسالة الترحيب وتسجيل الخروج */
+
+#tecpioneer_menu ul li .welcome-user {
+    display: inline-block;
+    /* لجعله بجانب الزر */
+    padding: 30px 10px 30px 20px;
+    /* تعديل الحشوة */
+    font-size: 15px;
+    /* حجم أصغر قليلاً من الرابط */
+    color: var(--text-color-light);
+    font-weight: 500;
+    vertical-align: middle;
+    /* محاذاة عمودية مع الزر */
+}
+
+[dir="ltr"] #tecpioneer_menu ul li .welcome-user {
+    padding: 30px 20px 30px 10px;
+}
+
+
+#tecpioneer_menu ul li .logout-button {
+    display: inline-block;
+    /* لجعله بجانب الرسالة */
+    padding: 8px 15px;
+    /* حشوة أصغر لجعله كزر */
+    margin: 22px 10px 22px 0;
+    /* هوامش لضبط الموضع العمودي والأفقي */
+    font-size: 14px;
+    color: #fff;
+    /* لون أبيض للنص */
+    background-color: var(--logo-hub-red);
+    /* خلفية حمراء */
+    border-radius: 5px;
+    /* حواف دائرية */
+    text-decoration: none;
+    vertical-align: middle;
+    /* محاذاة عمودية */
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+[dir="ltr"] #tecpioneer_menu ul li .logout-button {
+    margin: 22px 0 22px 10px;
+}
+
+
+#tecpioneer_menu ul li .logout-button:hover {
+    background-color: #c93a3a;
+    /* لون أغمق عند المرور */
+    text-decoration: none;
+    /* إزالة الخط عند المرور */
+    color: #fff;
+}
+
+/* تعديل بسيط للهواتف إذا لزم الأمر */
+@media (max-width: 768px) {
+    #tecpioneer_menu ul li .welcome-user {
+        padding: 20px 5px;
+        font-size: 10px;
+    }
+
+    #tecpioneer_menu ul li .logout-button {
+        padding: 5px 8px;
+        font-size: 10px;
+        margin: 15px 5px 15px 0;
+    }
+
+    [dir="ltr"] #tecpioneer_menu ul li .logout-button {
+        margin: 15px 0 15px 5px;
+    }
+}
+
+/* --- تنسيقات قائمة المستخدم المنسدلة --- */
+
+.user-menu-container {
+    position: relative;
+    /* لتحديد موضع القائمة المنسدلة */
+    display: inline-block;
+    /* لجعله يتماشى مع عناصر القائمة الأخرى */
+}
+
+.user-menu-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+    padding: 30px 25px;
+    /* نفس حشوة روابط القائمة العادية */
+    font-size: 16px;
+    color: var(--text-color-light);
+    /* لون فاتح لاسم المستخدم */
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Tajawal', sans-serif;
+    /* تأكد من استخدام نفس الخط */
+}
+
+.user-menu-button:hover {
+    color: #fff;
+    /* لون أفتح عند المرور */
+}
+
+.user-menu-button i {
+    margin-right: 5px;
+    /* مسافة لليمين في العربي */
+    font-size: 0.8em;
+}
+
+[dir="ltr"] .user-menu-button i {
+    margin-right: 0;
+    margin-left: 5px;
+    /* مسافة لليسار في الإنجليزي */
+}
+
+
+.user-menu-dropdown {
+    position: absolute;
+    top: 100%;
+    /* الظهور تحت الزر */
+    left: 0;
+    /* البدء من يسار الزر في العربي */
+    background-color: var(--card-bg);
+    /* نفس لون خلفية البطاقات */
+    border: 1px solid var(--primary-blue);
+    border-radius: 5px;
+    min-width: 180px;
+    /* عرض أدنى للقائمة */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    /* للتأكد من ظهوره فوق العناصر الأخرى */
+    padding: 10px 0;
+    /* حشوة عمودية */
+    margin-top: 5px;
+    /* مسافة صغيرة من الزر */
+}
+
+[dir="ltr"] .user-menu-dropdown {
+    left: auto;
+    right: 0;
+    /* البدء من يمين الزر في الإنجليزي */
+}
+
+.user-menu-dropdown.hidden {
+    display: none;
+    /* إخفاء القائمة */
+}
+
+.user-menu-dropdown a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color-light);
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap;
+    /* منع التفاف النص */
+}
+
+.user-menu-dropdown a:hover {
+    background-color: var(--primary-blue);
+    color: #fff;
+    text-decoration: none;
+}
+
+.user-menu-dropdown hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    /* */
+    margin: 8px 0;
+}
+
+#logout-link {
+    color: var(--logo-hub-red) !important;
+    /* لون أحمر مميز للخروج */
+    font-weight: bold;
+}
+
+#logout-link:hover {
+    background-color: var(--logo-hub-red) !important;
+    color: #fff !important;
+}
+
+/* تعديلات للهواتف */
+@media (max-width: 768px) {
+    .user-menu-button {
+        padding: 20px 10px;
+        /* تقليل الحشوة */
+        font-size: 11px;
+        /* تصغير الخط */
+    }
+
+    .user-menu-dropdown {
+        /* يمكن تقليل العرض الأدنى إذا لزم الأمر */
+        min-width: 150px;
+    }
+
+    .user-menu-dropdown a {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-shrink: 0;
+    }
+}

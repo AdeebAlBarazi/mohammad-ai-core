@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعدادات سير العمل - نظام الطلبات</title>
+    <link rel="stylesheet" href="../css/orders-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="orders-container">
+        <aside class="orders-sidebar">
+            <div class="sidebar-header">
+                <h2>نظام الطلبات</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="orders-dashboard.html">طلبات الشراء</a></li>
+                    <li><a href="#">الموردون</a></li>
+                    <li><a href="#">عروض الأسعار</a></li>
+                    <li><a href="#">التقارير</a></li>
+                    <li><a href="orders-settings.html" class="active">الإعدادات</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="orders-main-content">
+            <div class="content-header">
+                <h1>إعدادات سير عمل الموافقات</h1>
+            </div>
+
+            <div class="content-block settings-block">
+                <div class="setting-item">
+                    <h3>سير عمل الموافقات المتقدم</h3>
+                    <p>قم بتفعيل هذا الخيار لإنشاء قواعد موافقة مخصصة بناءً على قيمة الطلب.</p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="workflow-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="rule-builder-container" class="content-block" style="display: none;">
+                <h2>باني القواعد (Rule Builder)</h2>
+                <div id="rules-list">
+                    <!-- سيتم إضافة القواعد هنا ديناميكياً -->
+                    <div class="rule-row">
+                        <span>إذا كان</span>
+                        <select class="rule-field">
+                            <option value="amount">مبلغ الطلب</option>
+                        </select>
+                        <select class="rule-operator">
+                            <option value="gt">أكبر من</option>
+                        </select>
+                        <input type="number" class="rule-value" placeholder="5000">
+                        <span>ريال، فإن الموافقة تتطلب</span>
+                        <select class="rule-roles" multiple>
+                            <option>مدير المشروع</option>
+                            <option>المدير المالي</option>
+                        </select>
+                        <button class="btn-remove-rule">🗑️</button>
+                    </div>
+                </div>
+                <button id="add-rule-btn" class="btn btn-add-item" style="margin-top: 20px;">إضافة قاعدة جديدة</button>
+            </div>
+
+            <div class="content-footer">
+                <button id="save-settings-btn" class="btn">حفظ الإعدادات</button>
+            </div>
+
+        </main>
+    </div>
+
+    <script type="module" src="../js/orders-main.js"></script>
+</body>
+
+</html>

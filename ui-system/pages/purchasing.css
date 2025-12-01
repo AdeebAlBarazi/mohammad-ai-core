@@ -1,0 +1,29 @@
+/* Purchasing Page Layout (extracted) */
+/* Maintains original visual identity; scoped with .purchasing-page to avoid bleed. */
+.purchasing-page header {
+    background: var(--ax-color-surface);
+    border-bottom: 1px solid var(--ax-color-border);
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.purchasing-page nav a {
+    text-decoration: none;
+    color: var(--ax-color-text);
+    font-size: 13px;
+    padding: 4px 8px;
+    border-radius: var(--ax-radius-sm);
+    transition: var(--ax-transition-fast);
+}
+
+.purchasing-page nav a:hover {
+    background: var(--ax-color-surface-alt);
+}
+
+.purchasing-page main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px;
+}

@@ -1,0 +1,143 @@
+{
+  "title": "Marketplace Overview",
+  "timezone": "browser",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "HTTP Requests by Route (RPS)",
+      "targets": [
+        { "expr": "sum(rate(http_requests_total{job=\"market\"}[5m])) by (route)", "legendFormat": "{{route}}" }
+      ],
+      "lines": true
+    },
+    {
+      "type": "graph",
+      "title": "Top Routes (Last 1h)",
+      "targets": [
+        { "expr": "topk(10, sum(increase(http_requests_total{job=\"market\"}[1h])) by (route))", "legendFormat": "{{route}}" }
+      ],
+      "lines": true
+    },
+    {
+      "type": "graph",
+      "title": "Errors by Route (4xx vs 5xx)",
+      "targets": [
+        { "expr": "sum(rate(http_errors_total{class=\"4xx\",job=\"market\"}[5m])) by (route)", "legendFormat": "4xx {{route}}" },
+        { "expr": "sum(rate(http_errors_total{class=\"5xx\",job=\"market\"}[5m])) by (route)", "legendFormat": "5xx {{route}}" }
+      ],
+      "lines": true
+    },
+    {
+      "type": "graph",
+      "title": "p95 Latency by Route (Market)",
+      "targets": [
+        { "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"market\"}[5m])) by (le, route))", "legendFormat": "{{route}}" }
+      ],
+      "lines": true
+    },
+    {
+      "type": "graph",
+      "title": "p95 Latency Comparison (Market vs Auth)",
+      "targets": [
+        { "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"market\"}[5m])) by (le))", "legendFormat": "market p95" },
+        { "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"auth\"}[5m])) by (le))", "legendFormat": "auth p95" }
+      ],
+      "lines": true
+    },
+    {
+      "type": "graph",
+      "title": "Product Requests (Rate)",
+      "targets": [
+        { "expr": "rate(market_products_requests_total[5m])", "legendFormat": "products" }
+      ],
+      "lines": true
+    },
+    {
+      "type": "graph",
+      "title": "Order Errors (Rate)",
+      "targets": [
+        { "expr": "rate(market_order_errors_total[5m])", "legendFormat": "order errors" }
+      ],
+      "lines": true
+    },
+    {
+      "type": "graph",
+      "title": "Node CPU Usage (%)",
+      "targets": [
+        { "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)", "legendFormat": "cpu {{instance}}" }
+      ],
+      "lines": true
+    },
+    {
+      "type": "graph",
+      "title": "Node Memory Used (%)",
+      "targets": [
+        { "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100", "legendFormat": "mem %" }
+      ],
+      "lines": true
+    },
+    {
+      "type": "graph",
+      "title": "MongoDB Opcounters (Rate)",
+      "targets": [
+        { "expr": "rate(mongodb_op_counters_total{type=\"query\"}[5m])", "legendFormat": "query" },
+        { "expr": "rate(mongodb_op_counters_total{type=\"insert\"}[5m])", "legendFormat": "insert" },
+        { "expr": "rate(mongodb_op_counters_total{type=\"update\"}[5m])", "legendFormat": "update" },
+        { "expr": "rate(mongodb_op_counters_total{type=\"delete\"}[5m])", "legendFormat": "delete" }
+      ],
+      "lines": true
+    }
+    ,{
+      "type": "graph",
+      "title": "Active Firing Alerts",
+      "targets": [
+        { "expr": "ALERTS{alertstate=\"firing\"}", "legendFormat": "{{alertname}} ({{severity}})" }
+      ],
+      "lines": true
+    }
+    ,{
+      "type": "graph",
+      "title": "SLO Error Rate (%)",
+      "targets": [
+        { "expr": "market:http_error_rate_ratio * 100", "legendFormat": "5xx %" }
+      ],
+      "lines": true
+    }
+    ,{
+      "type": "graph",
+      "title": "SLO p95 / p99 Latency",
+      "targets": [
+        { "expr": "market:http_request_duration_p95", "legendFormat": "p95" },
+        { "expr": "market:http_request_duration_p99", "legendFormat": "p99" }
+      ],
+      "lines": true
+    }
+    ,{
+      "type": "graph",
+      "title": "Error Budget Burn (short vs long)",
+      "targets": [
+        { "expr": "market:error_budget_burn_short", "legendFormat": "short" },
+        { "expr": "market:error_budget_burn_long", "legendFormat": "long" }
+      ],
+      "lines": true
+    }
+    ,{
+      "type": "graph",
+      "title": "Requests Per Second (RPS)",
+      "targets": [
+        { "expr": "market:http_requests_rps", "legendFormat": "RPS" }
+      ],
+      "lines": true
+    }
+    ,{
+      "type": "graph",
+      "title": "Heartbeat (Rate)",
+      "targets": [
+        { "expr": "rate(market_heartbeat_total[5m])", "legendFormat": "heartbeat" }
+      ],
+      "lines": true
+    }
+  ],
+  "schemaVersion": 30,
+  "version": 1
+}

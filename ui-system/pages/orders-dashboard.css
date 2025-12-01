@@ -1,0 +1,13 @@
+/* Orders Dashboard Page (extracted minimal inline styles) */
+/* Scoped with .orders-page to avoid leaking styles. */
+.orders-page .content-header.top-gap {
+    margin-top: 40px;
+}
+
+.orders-page #po-filters {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 12px 0 20px;
+}

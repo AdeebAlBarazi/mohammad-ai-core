@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "marketplace",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "marketplace"
+	}
+}

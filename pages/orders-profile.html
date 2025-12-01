@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملفي الشخصي - نظام الطلبات</title>
+    <link rel="stylesheet" href="../css/orders-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="orders-container">
+        <aside class="orders-sidebar">
+            <div class="sidebar-header">
+                <h2>نظام الطلبات</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="orders-dashboard.html">طلبات الشراء</a></li>
+                    <li><a href="#">الموردون</a></li>
+                    <li><a href="#">عروض الأسعار</a></li>
+                    <li><a href="#">التقارير</a></li>
+                    <li><a href="orders-settings.html">الإعدادات</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="theme-switcher">
+                    <span>☀️</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span>🌙</span>
+                </div>
+                <div class="profile-link">
+                    <a href="orders-profile.html" class="active">👤 ملفي الشخصي</a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="orders-main-content">
+            <div class="content-header">
+                <h1>ملفي الشخصي</h1>
+                <div style="margin-inline-start:auto;display:flex;gap:10px;align-items:center;">
+                    <input id="header-search" type="text" placeholder="ابحث..." style="min-width:200px;" />
+                    <button id="header-search-btn" class="btn btn-secondary" style="padding:6px 10px;">بحث</button>
+                </div>
+            </div>
+
+            <div class="content-block profile-block">
+                <h2>تعديل المعلومات الشخصية</h2>
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="profile-fullname">الاسم الكامل</label>
+                        <input type="text" id="profile-fullname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-email">البريد الإلكتروني</label>
+                        <input type="email" id="profile-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-username">اسم المستخدم</label>
+                        <input type="text" id="profile-username" required>
+                    </div>
+                    <button type="submit" class="btn">حفظ التغييرات</button>
+                </form>
+            </div>
+
+            <div class="content-block profile-block">
+                <h2>تغيير كلمة المرور</h2>
+                <form id="password-form">
+                    <div class="form-group">
+                        <label for="current-password">كلمة المرور الحالية</label>
+                        <input type="password" id="current-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">كلمة المرور الجديدة</label>
+                        <input type="password" id="new-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">تأكيد كلمة المرور الجديدة</label>
+                        <input type="password" id="confirm-password" required>
+                    </div>
+                    <button type="submit" class="btn">تغيير كلمة المرور</button>
+                </form>
+            </div>
+
+            <div class="content-block profile-block">
+                <h2>الترقية إلى بائع</h2>
+                <div id="vendor-status" style="margin-bottom:10px;color:#555;">جاري التحقق من الحالة...</div>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <button id="vendor-apply-btn" class="btn">التقدّم كبائع</button>
+                    <small id="vendor-hint" style="color:#888;">بعد الموافقة سيظهر رابط "لوحة البائع" في حسابك.</small>
+                </div>
+            </div>
+
+            <div class="content-block profile-block">
+                <h2>المعرّف العام (Handle)</h2>
+                <div id="handle-msg" style="font-size:13px;color:#555;margin-bottom:8px;"></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:10px;">
+                    <div>
+                        <label style="font-size:12px;">معرّفك الحالي</label>
+                        <div id="handle-current"
+                            style="min-width:160px;font-family:monospace;padding:6px 10px;border:1px solid #eee;border-radius:6px;background:#fafafa;">
+                            —</div>
+                    </div>
+                    <div>
+                        <label for="handle-desired" style="font-size:12px;">أرغب في (بدون @)</label>
+                        <input id="handle-desired" type="text" placeholder="Ahmed123" style="min-width:220px;" />
+                    </div>
+                    <div style="display:flex;gap:6px;">
+                        <button id="handle-suggest" type="button" class="btn btn-secondary">اقتراحات</button>
+                        <button id="handle-claim" type="button" class="btn">حجز</button>
+                    </div>
+                </div>
+                <div id="handle-suggestions" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <script type="module" src="../js/orders-main.js"></script>
+    <script src="../js/header-search.js"></script>
+</body>
+
+</html>

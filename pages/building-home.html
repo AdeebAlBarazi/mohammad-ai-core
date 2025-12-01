@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>سوق مواد البناء - الصفحة التفاعلية</title>
+  <link rel="stylesheet" href="../css/marketplace.css" />
+  <link rel="stylesheet" href="../css/building-home.css" />
+</head>
+<body>
+  <header class="bh-header">
+    <div class="brand">سوق مواد البناء</div>
+    <nav class="actions">
+      <a href="./marketplace-index.html">النسخة القديمة</a>
+    </nav>
+  </header>
+
+  <main class="bh-main">
+    <section class="hero">
+      <div class="ring">
+        <div class="slot" data-slot="0"></div>
+        <div class="slot" data-slot="1"></div>
+        <div class="slot" data-slot="2"></div>
+        <div class="slot" data-slot="3"></div>
+        <div class="slot" data-slot="4"></div>
+        <div class="slot" data-slot="5"></div>
+      </div>
+      <div class="video-wrap">
+        <video id="promoVideo" class="promo" autoplay muted loop playsinline>
+          <source src="../vendor/placeholder/promo.mp4" type="video/mp4" />
+        </video>
+        <div class="video-overlay">
+          <h1>المـــدينة الرقميـــة لمـواد البنـــاء</h1>
+          <p>منتجات موثوقة من أحدث عروض البائعين</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="chat-panel" id="chatPanel">
+      <div class="chat-header">ما الذي تبحث عنه؟</div>
+      <div class="chat-body" id="chatBody"></div>
+      <div class="chat-input">
+        <input id="chatInput" type="text" placeholder="اكتب إجابتك هنا..." />
+        <button id="chatSend">إرسال</button>
+      </div>
+    </section>
+
+    <section class="results">
+      <h2 id="resultsHeading">نتائج مقترحة <span id="apiStatus" class="api-status" aria-live="polite" aria-label="حالة الاتصال" title="حالة الاتصال">…</span></h2>
+      <div id="facetChips" class="facet-chips" aria-label="فلاتر سريعة"></div>
+      <div id="market-grid" class="grid"></div>
+    </section>
+  </main>
+
+  <script src="../js/i18n.js"></script>
+  <script src="../js/format.js"></script>
+  <script src="../js/dev-api-detect.js"></script>
+  <script src="../js/market-common.js"></script>
+  <script src="../js/products-api.js"></script>
+  <script src="../js/products-ui.js"></script>
+  <script src="../js/building-home.js"></script>
+  <script src="../js/request-chat.js"></script>
+</body>
+</html>

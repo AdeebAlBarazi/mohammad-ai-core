@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم البائع - Axiom Marketplace</title>
+    <!-- نمط صفحة البائع (الهوية الأصلية) - نسخة منظمة ضمن systems/seller -->
+    <link rel="stylesheet" href="../css/seller-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="seller-container">
+        <aside class="seller-sidebar">
+            <div class="sidebar-header">
+                <h2>لوحة التحكم</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="seller-dashboard.html" class="active">لوحة التحكم</a></li>
+                    <li><a href="seller-products.html">المنتجات</a></li>
+                    <li><a href="#">الطلبات</a></li>
+                    <li><a href="#">المالية</a></li>
+                    <li><a href="#">الإعدادات</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>&copy; 2025 AxiomHub</p>
+            </div>
+        </aside>
+
+        <main class="seller-main-content">
+            <div class="content-header">
+                <h1 class="h2"
+                    style="background:linear-gradient(90deg,#4169E1,#B22222);-webkit-background-clip:text;background-clip:text;color:transparent;">
+                    لوحة البائع الموحدة</h1>
+                <div class="header-search" style="display:flex;gap:8px;align-items:center;">
+                    <input id="global-search" type="text" placeholder="بحث شامل (منتج / طلب / تقييم)" />
+                    <button id="global-search-btn" class="btn btn-secondary">بحث</button>
+                </div>
+            </div>
+            <nav id="seller-tabs" class="tabs">
+                <button class="tab-btn active" data-tab="overview">نظرة عامة</button>
+                <button class="tab-btn" data-tab="products">المنتجات</button>
+                <button class="tab-btn" data-tab="orders">الطلبات</button>
+                <button class="tab-btn" data-tab="settlements">التسويات المالية</button>
+                <button class="tab-btn" data-tab="ratings">التقييمات</button>
+                <button class="tab-btn" data-tab="analytics">التحليلات</button>
+            </nav>
+
+            <section id="tab-content" class="mt-3">
+                <!-- المحتوى الديناميكي لكل تبويب سيتم حقنه هنا بواسطة seller-dashboard.js -->
+                <div class="muted fade-in">جاري التحميل الأولي...</div>
+            </section>
+        </main>
+    </div>
+    <script type="module" src="../js/seller-main.js"></script>
+    <script src="../js/seller-dashboard.js" defer></script>
+    <script>
+        (function () {
+            try {
+                if (sessionStorage.getItem('showVendorWelcome') === '1') {
+                    sessionStorage.removeItem('showVendorWelcome');
+                    var t = document.createElement('div');
+                    t.style.cssText = 'position:fixed;top:12px;right:12px;background:#065f46;color:#ecfdf5;padding:10px 14px;border-radius:8px;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,0.35);z-index:99999;opacity:0;transform:translateY(-6px);transition:opacity .2s, transform .2s';
+                    t.textContent = 'مرحباً بك كبائع';
+                    document.body.appendChild(t);
+                    requestAnimationFrame(function () { t.style.opacity = '1'; t.style.transform = 'translateY(0)'; });
+                    setTimeout(function () { try { t.style.opacity = '0'; t.style.transform = 'translateY(-6px)'; } catch (_) { } }, 1600);
+                }
+            } catch (_) { }
+        });
+    </script>
+</body>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/role-guard.js"></script>
+
+</html>

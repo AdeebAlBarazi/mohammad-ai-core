@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Axiom Auth</title>
+  <link rel="stylesheet" href="./css/login.css">
+</head>
+<body>
+  <div class="card">
+    <h1>تسجيل الدخول</h1>
+    <label>البريد أو اسم المستخدم</label>
+    <input id="login-user" type="text" placeholder="email@example.com أو username" autocomplete="username">
+    <label>كلمة المرور</label>
+    <input id="login-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+    <div class="actions">
+      <button id="btn-login">دخول</button>
+    </div>
+    <div id="login-msg" class="msg"></div>
+    <div class="muted">ليس لديك حساب؟ <a class="link" href="register.html">إنشاء حساب جديد</a></div>
+    <div class="muted">الخدمة: /api/auth • الصحة: /health</div>
+  </div>
+    <script src="./js/config.js"></script>
+    <script src="./js/login.js"></script>
+</body>
+</html>

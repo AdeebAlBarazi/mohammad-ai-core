@@ -1,0 +1,48 @@
+/* Portal page layout and quick system search styles */
+.portal-header {
+    padding: 16px 0;
+}
+
+.gs-panel {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    max-width: 560px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .06);
+}
+
+.gs-panel h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+.gs-input {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+}
+
+.gs-suggestions {
+    margin-top: 10px;
+    display: grid;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.gs-link {
+    display: block;
+    padding: 8px 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #111827;
+    background: #f9fafb;
+}
+
+.gs-empty {
+    color: #6b7280;
+}

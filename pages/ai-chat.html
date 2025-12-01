@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>محادثة المساعد الشخصي</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background:#0b1220; color:#e8edf7; margin:0; }
+    header { padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.08); display:flex; align-items:center; gap:12px; }
+    .status { font-size:12px; opacity:.8; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 16px; }
+    .msgs { display:flex; flex-direction:column; gap:10px; padding-bottom: 80px; }
+    .msg { padding:10px 12px; border-radius:10px; max-width: 80%; line-height:1.5; }
+    .user { background: rgba(80,120,255,.15); align-self:flex-end; border:1px solid rgba(80,120,255,.35); }
+    .ai { background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); }
+    .composer { position:fixed; bottom:0; left:0; right:0; background:#0b1220; border-top:1px solid rgba(255,255,255,.08); padding:10px 16px; display:flex; gap:8px; }
+    textarea { flex:1; resize:vertical; min-height:44px; max-height:160px; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,.15); background:#0f172a; color:#e8edf7; }
+    button { padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.22); background:#17203a; color:#fff; cursor:pointer; }
+    button:disabled { opacity:.5; cursor:not-allowed; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>🤝 مساعد محمد</div>
+    <div class="status" id="aiStatus">يتصل بالخادم…</div>
+  </header>
+  <div class="wrap">
+    <div class="msgs" id="msgs"></div>
+  </div>
+  <div class="composer">
+    <textarea id="prompt" placeholder="اكتب رسالتك…"></textarea>
+    <button id="send">إرسال</button>
+  </div>
+
+  <script src="../js/dev-api-detect.js"></script>
+  <script src="../js/market-common.js"></script>
+  <script>
+    (function(){
+      const msgs = document.getElementById('msgs');
+      const promptEl = document.getElementById('prompt');
+      const sendBtn = document.getElementById('send');
+      const statusEl = document.getElementById('aiStatus');
+      const history = [];
+      let sessionId = 'web-'+Math.random().toString(36).slice(2,9);
+
+      function add(role, text){
+        const d = document.createElement('div'); d.className = 'msg ' + (role==='user'?'user':'ai'); d.textContent = text; msgs.appendChild(d); d.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
+
+      async function getBase(){
+        try {
+          if (window.Market && Market.Common && typeof Market.Common.whenReady==='function') { await Market.Common.whenReady(); }
+          const base = (Market && Market.Common && Market.Common.getApiBase && Market.Common.getApiBase()) || (Market && Market.Common && Market.Common.apiBase) || '';
+          if (!base) return '';
+          // If base already has /api strip trailing /api to avoid duplication
+          return base.replace(/\/?api\/?$/i,'');
+        } catch(_) { return ''; }
+      }
+
+      async function send(){
+        const txt = (promptEl.value || '').trim();
+        if(!txt) return; sendBtn.disabled = true; promptEl.value = '';
+        add('user', txt); history.push({ role:'user', content: txt });
+        const base = await getBase();
+        const url = (base || '') + '/api/ai/chat';
+        const t0 = performance.now();
+        try {
+          const r = await fetch(url, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ prompt: txt, history: history.slice(-8), sessionId }) });
+          const j = await r.json();
+          if(!r.ok || !j.ok){ throw new Error(j && j.error || 'request_failed'); }
+          const latency = Math.round(performance.now()-t0);
+          statusEl.textContent = `متصل • ${latency}ms`;
+          add('assistant', j.reply || ''); history.push({ role:'assistant', content: j.reply || '' });
+        } catch(e){ statusEl.textContent = 'تعذر الاتصال بالمساعد'; add('assistant', '⚠️ حدث خطأ: ' + (e && e.message || e)); }
+        finally { sendBtn.disabled = false; }
+      }
+
+      sendBtn.addEventListener('click', send);
+      promptEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); }});
+
+      (async function init(){
+        try {
+          const base = await getBase();
+          if(base){ statusEl.textContent = 'جاهز'; } else { statusEl.textContent = 'قد يتطلب إعداد API Base'; }
+        } catch(_){ statusEl.textContent = '...'; }
+      })();
+    })();
+  </script>
+</body>
+</html>

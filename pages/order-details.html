@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>تفاصيل الطلب</title>
+  <link rel="stylesheet" href="../ui-system/components.css" />
+  <link rel="stylesheet" href="../css/marketplace.css" />
+  <style>
+    .wrap{max-width:960px;margin:24px auto;padding:16px;background:#fff;border:1px solid #eee;border-radius:8px}
+    .rows{display:flex;flex-direction:column;gap:6px}
+    .row{display:flex;justify-content:space-between}
+    .card{border:1px solid #eee;border-radius:8px;padding:12px;background:#fafafa;margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>تفاصيل الطلب</h2>
+    <div id="basic" class="rows"></div>
+    <div id="items" class="card"></div>
+  </div>
+  <script src="../js/dev-auth-loader.js"></script>
+  <script src="../js/order-details.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تفاصيل الطلب - Axiom Marketplace</title>
+    <!-- Use root marketplace style to avoid duplication -->
+    <link rel="stylesheet" href="../../market-style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 10px 16px;
+        }
+
+        .box {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 12px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            background: #eee;
+            color: #333
+        }
+
+        .status-paid {
+            background: #d1e7dd;
+            color: #0f5132
+        }
+
+        .status-failed {
+            background: #f8d7da;
+            color: #842029
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #664d03
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .vendor-card {
+            border: 1px dashed #e0e0e0;
+            padding: 10px;
+            border-radius: 6px;
+            background: #fafafa
+        }
+
+        .btn {
+            background: #0d6efd;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #0b5ed7
+        }
+
+        .btn-secondary {
+            background: #6c757d
+        }
+
+        .btn-secondary:hover {
+            background: #5c636a
+        }
+
+        .dev-panel {
+            background: #fff3cd;
+            border: 1px solid #ffecb5;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <header class="market-header">
+        <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;">
+            <h1><a href="marketplace-index.html">Axiom Marketplace</a></h1>
+            <nav style="display:flex;gap:14px;align-items:center;">
+                <a href="marketplace-index.html">الرئيسية</a>
+                <a href="cart.html">السلة</a>
+                <a href="my-orders.html">طلباتي</a>
+                <div class="header-search" style="display:flex;gap:6px;align-items:center;">
+                    <input id="header-search" type="text" placeholder="ابحث..." style="min-width:200px;" />
+                    <button id="header-search-btn" class="btn btn-secondary">بحث</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="msg" style="color:#b02a37;margin-top:4px;"></div>
+        <div class="box">
+            <h2 id="od-title" style="margin-top:0;">تفاصيل الطلب</h2>
+            <div id="od-meta" style="font-size:13px;color:#555"></div>
+            <div id="od-status" style="margin-top:6px;"></div>
+        </div>
+
+        <div class="box">
+            <h3 style="margin-top:0;">العناصر</h3>
+            <div id="od-items"></div>
+        </div>
+
+        <div class="box">
+            <h3 style="margin-top:0;">تفصيل البائعين</h3>
+            <div id="od-vendors" class="grid"></div>
+        </div>
+
+        <div class="dev-panel">
+            <strong>لوحة تجارب الدفع (محلية):</strong>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">
+                <label for="od-webhook-status">تحديث الحالة:</label>
+                <select id="od-webhook-status">
+                    <option value="paid">مدفوع</option>
+                    <option value="pending">قيد الانتظار</option>
+                    <option value="failed">فشل</option>
+                </select>
+                <button id="od-webhook-send" class="btn btn-secondary">إرسال Webhook</button>
+                <span id="od-webhook-msg" style="font-size:12px;color:#555;"></span>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/i18n.js" defer></script>
+    <script src="../js/format.js" defer></script>
+    <script type="module" src="../../js/order-details-page.js"></script>
+    <script src="../js/header-search.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة المنتجات - Axiom Marketplace</title>
+    <link rel="stylesheet" href="../css/seller-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="seller-container">
+        <aside class="seller-sidebar">
+            <div class="sidebar-header">
+                <h2>لوحة التحكم</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="seller-dashboard.html">لوحة التحكم</a></li>
+                    <li><a href="seller-products.html" class="active">المنتجات</a></li>
+                    <li><a href="#">الطلبات</a></li>
+                    <li><a href="#">المالية</a></li>
+                    <li><a href="#">الإعدادات</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>&copy; 2025 AxiomHub</p>
+            </div>
+        </aside>
+
+        <main class="seller-main-content">
+            <div class="content-header">
+                <h1>إدارة المنتجات</h1>
+                <a href="#" class="btn" id="add-product-btn">إضافة منتج جديد</a>
+                <div class="header-search" style="margin-inline-start:auto;display:flex;gap:8px;align-items:center;">
+                    <input id="header-search" type="text" placeholder="ابحث عن منتج..." style="min-width:220px;" />
+                    <button id="header-search-btn" class="btn btn-secondary"
+                        style="padding:6px 12px;font-size:12px;">بحث</button>
+                </div>
+            </div>
+
+            <!-- شريط الفلترة والفرز -->
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <label for="filter-category">القسم</label>
+                    <select id="filter-category">
+                        <option value="">الكل</option>
+                        <option value="سيراميك">سيراميك</option>
+                        <option value="رخام">رخام</option>
+                        <option value="أدوات بناء">أدوات بناء</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-status">الحالة</label>
+                    <select id="filter-status">
+                        <option value="">الكل</option>
+                        <option value="active">نشط</option>
+                        <option value="inactive">غير نشط</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-price-min">السعر من</label>
+                    <input type="number" id="filter-price-min" min="0" step="0.01" placeholder="0">
+                </div>
+                <div class="filter-group">
+                    <label for="filter-price-max">إلى</label>
+                    <input type="number" id="filter-price-max" min="0" step="0.01" placeholder="5000">
+                </div>
+                <div class="filter-group">
+                    <label for="filter-sort">ترتيب حسب</label>
+                    <select id="filter-sort">
+                        <option value="recent">الأحدث</option>
+                        <option value="price-asc">السعر (تصاعدي)</option>
+                        <option value="price-desc">السعر (تنازلي)</option>
+                        <option value="stock-desc">المخزون (أعلى)</option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button id="apply-filters-btn" class="btn btn-secondary">تطبيق</button>
+                    <button id="reset-filters-btn" class="btn btn-secondary" title="إعادة">إعادة</button>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>الصورة</th>
+                            <th>اسم المنتج</th>
+                            <th>SKU</th>
+                            <th>السعر</th>
+                            <th>المخزون</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- سيتم ملء المنتجات هنا باستخدام JavaScript -->
+                        <!-- الصفوف الديناميكية -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- مؤشر التحميل للتمرير اللانهائي -->
+            <div id="infinite-scroll-loader" style="display: none; text-align: center; padding: 20px;">
+                <p>جاري تحميل المزيد من المنتجات...</p>
+            </div>
+            <div id="scroll-sentinel"></div> <!-- العنصر الحارس -->
+        </main>
+    </div>
+
+    <!-- Modal لإضافة/تعديل المنتجات -->
+    <div id="product-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">إضافة منتج جديد</h2>
+                <button id="close-modal-btn" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form">
+                    <input type="hidden" id="product-id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="product-name-ar">اسم المنتج (عربي)</label>
+                            <input type="text" id="product-name-ar" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-name-en">اسم المنتج (إنجليزي)</label>
+                            <input type="text" id="product-name-en" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-price">السعر</label>
+                            <input type="number" id="product-price" required min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-quantity">الكمية</label>
+                            <input type="number" id="product-quantity" required min="0">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="product-category">القسم</label>
+                            <select id="product-category" required>
+                                <option value="">-- جاري تحميل الأقسام --</option>
+                                <!-- سيتم ملء الأقسام هنا باستخدام JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description-ar">الوصف (عربي)</label>
+                        <textarea id="product-description-ar" rows="3"></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="product-images">صور المنتج (5 كحد أقصى)</label>
+                        <input type="file" id="product-images" multiple accept="image/*">
+                        <div id="image-preview-container" class="image-preview">
+                            <!-- سيتم عرض الصور المصغرة هنا -->
+                        </div>
+                    </div>
+                    <!-- سيتم إضافة المزيد من الحقول هنا لاحقاً -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancel-btn" class="btn btn-secondary">إلغاء</button>
+                <button type="submit" form="product-form" id="save-product-btn" class="btn">حفظ المنتج</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/seller-main.js"></script>
+    <script src="../js/header-search.js"></script>
+</body>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/role-guard.js"></script>
+
+</html>

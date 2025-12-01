@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>إنشاء حساب</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./css/login.css" />
+</head>
+<body>
+  <div class="card">
+    <h1>إنشاء حساب جديد</h1>
+    <label>الاسم الكامل</label>
+    <input id="reg-name" type="text" placeholder="الاسم الكامل" autocomplete="name">
+    <label>البريد</label>
+    <input id="reg-email" type="email" placeholder="email@example.com" autocomplete="email">
+    <label>اسم المستخدم</label>
+    <input id="reg-username" type="text" placeholder="username" autocomplete="username">
+    <label>كلمة المرور</label>
+    <input id="reg-pass" type="password" placeholder="••••••••" autocomplete="new-password">
+    <div class="actions">
+      <button id="btn-register">تسجيل</button>
+    </div>
+    <div id="reg-msg" class="msg"></div>
+    <div class="muted">لديك حساب؟ <a class="link" href="login.html">تسجيل الدخول</a></div>
+  </div>
+  <script src="./js/config.js"></script>
+  <script src="./js/register.js"></script>
+</body>
+</html>

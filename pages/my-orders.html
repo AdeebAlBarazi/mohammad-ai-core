@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>طلباتي</title>
+  <link rel="stylesheet" href="../ui-system/components.css" />
+  <link rel="stylesheet" href="../css/marketplace.css" />
+  <style>
+    .wrap{max-width:960px;margin:24px auto;padding:16px;background:#fff;border:1px solid #eee;border-radius:8px}
+    .row{display:flex;justify-content:space-between;border-bottom:1px dashed #eee;padding:8px 0}
+    .filters{margin-bottom:10px;display:flex;gap:8px}
+    .btn{display:inline-block;padding:8px 12px;border-radius:6px;border:1px solid #ddd;background:#0ea5e9;color:#fff}
+    .link{color:#0ea5e9;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>طلباتي</h2>
+    <div class="filters" style="flex-wrap:wrap;gap:8px">
+      <input id="q" placeholder="بحث بالرقم أو SKU" />
+      <select id="sort">
+        <option value="createdAt_desc">الأحدث</option>
+        <option value="createdAt_asc">الأقدم</option>
+        <option value="total_desc">المجموع الأعلى</option>
+        <option value="total_asc">المجموع الأقل</option>
+      </select>
+      <select id="pay">
+        <option value="">حالة الدفع (الكل)</option>
+        <option value="paid">مدفوع</option>
+        <option value="pending">قيد الانتظار</option>
+        <option value="failed">فشل</option>
+      </select>
+      <select id="ful">
+        <option value="">حالة التنفيذ (الكل)</option>
+        <option value="processing">جاري التنفيذ</option>
+        <option value="completed">مكتمل</option>
+        <option value="failed">فشل</option>
+      </select>
+      <button id="apply" class="btn">تطبيق</button>
+    </div>
+    <div class="legend" style="margin:8px 0;display:flex;gap:8px;align-items:center;font-size:12px;color:#555">
+      <span>دليل الحالات:</span>
+      <span class="status-badge status-paid" title="مدفوع">مدفوع</span>
+      <span class="status-badge status-pending" title="قيد الانتظار">قيد الانتظار</span>
+      <span class="status-badge status-processing" title="جاري التنفيذ">جاري التنفيذ</span>
+      <span class="status-badge status-completed" title="مكتمل">مكتمل</span>
+      <span class="status-badge status-failed" title="فشل">فشل</span>
+    </div>
+    <div id="list"></div>
+    <div id="pager" style="margin-top:10px">
+      <button id="prev" class="btn">السابق</button>
+      <button id="next" class="btn">التالي</button>
+    </div>
+  </div>
+  <script src="../js/dev-auth-loader.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/my-orders.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>طلباتي - Axiom Marketplace</title>
+  <link rel="stylesheet" href="../css/market-style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    .orders-container{max-width:1100px;margin:20px auto;padding:10px 16px;}
+    .orders-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .orders-table{margin-top:16px;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;background:#fff;}
+    .orders-table table{width:100%;border-collapse:collapse;}
+    .orders-table th,.orders-table td{padding:10px 12px;border-bottom:1px solid #eee;font-size:14px;}
+    .orders-table th{background:#fafafa;text-align:right;font-weight:600;}
+    .status-badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:12px;background:#eee;color:#333}
+    .status-paid{background:#d1e7dd;color:#0f5132}
+    .status-failed{background:#f8d7da;color:#842029}
+    .status-pending{background:#fff3cd;color:#664d03}
+    .paginator{display:flex;gap:8px;justify-content:flex-end;margin-top:10px;}
+    .btn{background:#0d6efd;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:14px;}
+    .btn:hover{background:#0b5ed7}
+    .btn-secondary{background:#6c757d}
+    .btn-secondary:hover{background:#5c636a}
+  .btn:disabled, .btn-secondary:disabled{background:#ced4da !important;color:#555 !important;cursor:not-allowed;opacity:.65;}
+  .btn-disabled{background:#ced4da !important;color:#555 !important;cursor:not-allowed;opacity:.65;}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000}
+    .modal-content{background:#fff;border-radius:10px;max-width:620px;width:95%;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+    .modal-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #eee}
+    .modal-body{padding:14px 16px}
+    .close-btn{background:transparent;border:none;font-size:22px;cursor:pointer}
+  </style>
+</head>
+<body>
+  
+
+  <!-- Order Details Modal -->
+  <div id="order-details-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="order-modal-title">تفاصيل الطلب</h2>
+        <button id="order-modal-close" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="order-details-body" style="font-size:14px;">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="market-header">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;">
+  <h1><a href="marketplace-index.html">Axiom Marketplace</a></h1>
+      <nav style="display:flex;gap:14px;align-items:center;">
+  <a href="marketplace-index.html">الرئيسية</a>
+        <a href="cart.html">السلة</a>
+        <a href="my-orders.html" class="active">طلباتي</a>
+        <div class="header-search" style="display:flex;gap:6px;align-items:center;">
+          <input id="header-search" type="text" placeholder="ابحث..." style="min-width:200px;" />
+          <button id="header-search-btn" class="btn btn-secondary">بحث</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="orders-container">
+    <div class="orders-header">
+      <h2>طلباتي</h2>
+      <div style="font-size:12px;color:#666" id="orders-meta"></div>
+    </div>
+
+    <!-- Filters -->
+    <form id="orders-filters" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-top:10px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:10px;">
+      <div>
+        <label for="f-search" style="font-size:12px;">بحث</label>
+        <input id="f-search" type="text" placeholder="رقم الطلب / SKU" style="min-width:220px;">
+      </div>
+      <div>
+        <label for="f-pay" style="font-size:12px;">حالة الدفع</label>
+        <select id="f-pay">
+          <option value="">الكل</option>
+          <option value="paid">مدفوع</option>
+          <option value="pending">قيد الانتظار</option>
+          <option value="failed">فشل</option>
+        </select>
+      </div>
+      <div>
+        <label for="f-ful" style="font-size:12px;">حالة التنفيذ</label>
+        <select id="f-ful">
+          <option value="">الكل</option>
+          <option value="processing">جاري التنفيذ</option>
+          <option value="completed">مكتمل</option>
+          <option value="failed">فشل</option>
+        </select>
+      </div>
+      <div>
+        <label for="f-from" style="font-size:12px;">من</label>
+        <input id="f-from" type="date">
+      </div>
+      <div>
+        <label for="f-to" style="font-size:12px;">إلى</label>
+        <input id="f-to" type="date">
+      </div>
+      <div>
+        <label for="f-sort" style="font-size:12px;">الفرز</label>
+        <select id="f-sort">
+          <option value="createdAt_desc" selected>الأحدث أولاً</option>
+          <option value="createdAt_asc">الأقدم أولاً</option>
+          <option value="total_desc">الإجمالي: تنازلي</option>
+          <option value="total_asc">الإجمالي: تصاعدي</option>
+        </select>
+      </div>
+      <div style="margin-inline-start:auto;display:flex;gap:6px;">
+        <button type="submit" class="btn">تطبيق</button>
+        <button id="filters-clear" type="button" class="btn btn-secondary">مسح</button>
+      </div>
+      <div style="display:flex;gap:6px;align-items:end;">
+        <div>
+          <label style="font-size:12px;">حجم الصفحة</label>
+          <div style="display:flex;gap:6px;">
+            <button id="ps-10" type="button" class="btn btn-secondary" title="10 عناصر لكل صفحة">10/صفحة</button>
+            <button id="ps-25" type="button" class="btn btn-secondary" title="25 عنصراً لكل صفحة">25/صفحة</button>
+            <button id="ps-50" type="button" class="btn btn-secondary" title="50 عنصراً لكل صفحة">50/صفحة</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div id="orders-messages" style="margin-top:10px;font-size:13px;color:#b02a37;"></div>
+
+    <div class="orders-table">
+      <table>
+        <thead>
+          <tr>
+            <th>رقم الطلب</th>
+            <th>التاريخ</th>
+            <th>الإجمالي</th>
+            <th>الدفع</th>
+            <th>التنفيذ</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="orders-body">
+          <tr><td colspan="6" style="text-align:center;color:#666;padding:22px;">جاري التحميل...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="paginator">
+      <button id="pg-prev" class="btn btn-secondary">السابق</button>
+      <button id="pg-next" class="btn btn-secondary">التالي</button>
+    </div>
+  </div>
+
+  <script src="../js/i18n.js" defer></script>
+  <script src="../js/format.js" defer></script>
+  <script src="../js/orders-page.js" defer></script>
+</body>
+</html>

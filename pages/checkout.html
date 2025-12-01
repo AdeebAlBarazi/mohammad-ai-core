@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>الدفع</title>
+  <link rel="stylesheet" href="../ui-system/components.css" />
+  <link rel="stylesheet" href="../css/marketplace.css" />
+  <style>
+    .checkout-container{max-width:960px;margin:24px auto;padding:16px;background:#fff;border:1px solid #eee;border-radius:8px}
+    .checkout-grid{display:grid;grid-template-columns:1fr 320px;gap:16px}
+    .card{border:1px solid #eee;border-radius:8px;padding:12px;background:#fafafa}
+    .field{margin-bottom:8px}
+    .field label{display:block;font-weight:600;margin-bottom:4px}
+    .field input{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:6px;border:1px solid #ddd;background:#0ea5e9;color:#fff}
+    .btn:disabled{background:#9ca3af}
+    .rows{display:flex;flex-direction:column;gap:6px}
+    .row{display:flex;justify-content:space-between}
+    .msg{margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="checkout-container">
+    <h2>الدفع</h2>
+    <div class="checkout-grid">
+      <div class="card">
+        <h3>عنوان الشحن</h3>
+        <div class="field"><label>الاسم</label><input id="ship-name" /></div>
+        <div class="field"><label>العنوان 1</label><input id="ship-line1" required /></div>
+        <div class="field"><label>العنوان 2</label><input id="ship-line2" /></div>
+        <div class="field"><label>المدينة</label><input id="ship-city" required /></div>
+        <div class="field"><label>المنطقة</label><input id="ship-state" /></div>
+        <div class="field"><label>الرمز البريدي</label><input id="ship-postal" /></div>
+        <div class="field"><label>رمز الدولة</label><input id="ship-country" value="SA" maxlength="2" /></div>
+        <div class="field"><label>الهاتف</label><input id="ship-phone" /></div>
+        <button id="checkout-submit" class="btn">تأكيد الطلب</button>
+        <div id="checkout-msg" class="msg"></div>
+      </div>
+      <div class="card">
+        <h3>ملخص السلة</h3>
+        <div id="summary" class="rows"></div>
+        <div id="totals" class="rows" style="margin-top:6px"></div>
+      </div>
+    </div>
+  </div>
+  <script src="../js/dev-auth-loader.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/checkout.js"></script>
+</body>
+</html>

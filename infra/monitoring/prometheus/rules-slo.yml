@@ -1,0 +1,40 @@
+groups:
+  - name: market-slo-recording
+    rules:
+      # Recording rules for SLO metrics (reduce query cost in dashboards / alerts)
+      - record: market:http_requests_rps
+        expr: sum(rate(http_requests_total{job="market"}[5m]))
+      - record: market:http_errors_5xx_rate
+        expr: sum(rate(http_errors_total{class="5xx",job="market"}[5m]))
+      - record: market:http_errors_4xx_rate
+        expr: sum(rate(http_errors_total{class="4xx",job="market"}[5m]))
+      - record: market:http_error_rate_ratio
+        expr: (sum(rate(http_errors_total{class="5xx",job="market"}[5m])))/(sum(rate(http_requests_total{job="market"}[5m])))
+      - record: market:http_request_duration_p95
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job="market"}[5m])) by (le))
+      - record: market:http_request_duration_p99
+        expr: histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{job="market"}[5m])) by (le))
+      # Burn rate (error budget consumption) assuming SLO availability=99% => error_budget=0.01
+      - record: market:error_budget_burn_short
+        expr: (sum(rate(http_errors_total{class="5xx",job="market"}[5m])))/(0.01 * sum(rate(http_requests_total{job="market"}[5m])))
+      - record: market:error_budget_burn_long
+        expr: (sum(rate(http_errors_total{class="5xx",job="market"}[1h])))/(0.01 * sum(rate(http_requests_total{job="market"}[1h])))
+
+  - name: market-slo-alerts
+    rules:
+      - alert: MarketErrorBudgetRapidBurn
+        expr: market:error_budget_burn_short > 14 and market:error_budget_burn_long > 14
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Market service rapid error budget burn"
+          description: "Error budget burn >14x (short & long window) indicates severe reliability issue."
+      - alert: MarketHighLatencyP95SLO
+        expr: market:http_request_duration_p95 > 0.8
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Market p95 latency above SLO target"
+          description: "p95 latency >800ms for 10m. Investigate slow endpoints or resource saturation."

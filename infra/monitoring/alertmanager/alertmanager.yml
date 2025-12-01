@@ -1,0 +1,68 @@
+route:
+  receiver: default
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 3h
+  routes:
+    - matchers:
+        - severity="critical"
+      receiver: slack
+    - matchers:
+        - severity="critical"
+        - team="platform"
+      receiver: pager
+    - matchers:
+        - severity="warning"
+      receiver: telegram
+    - matchers:
+        - severity="info"
+      receiver: email
+
+receivers:
+  - name: default
+  - name: slack
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#prod-alerts'
+        username: 'prometheus'
+        title: '{{ .CommonAnnotations.summary }}'
+        text: >-
+          {{ if eq (index .Alerts 0).Labels.severity "critical" }}:rotating_light:{{ else if eq (index .Alerts 0).Labels.severity "warning" }}:warning:{{ else }}:information_source:{{ end }}
+          *Status:* {{ .Status }}
+          {{ range .Alerts }}• *{{ .Labels.alertname }}* ({{ .Labels.severity }}) route={{ .Labels.route }}
+          {{ end }}
+          Silence: {{ .ExternalURL }}/#/silences
+          Generated: {{ .ExternalURL }}
+  - name: telegram
+    telegram_configs:
+      - bot_token: '${TELEGRAM_BOT_TOKEN}'
+        # Telegram chat_id must be an integer. Replace the placeholder below with the numeric ID
+        # via templating or inject a rendered file in CI/CD.
+        chat_id: 1234567890
+        message: >-
+          [{{ .Status }}] {{ .CommonAnnotations.summary }}\n{{ range .Alerts }}• {{ .Labels.alertname }} ({{ .Labels.severity }})\n{{ end }}\nLink: {{ .ExternalURL }}
+  - name: email
+    email_configs:
+      - to: 'ops@example.com'
+        from: 'noreply@example.com'
+        smarthost: 'smtp.example.com:587'
+        auth_username: 'noreply@example.com'
+        auth_password: 'CHANGE_ME'
+        require_tls: true
+  - name: pager
+    pagerduty_configs:
+      - routing_key: '${PAGERDUTY_ROUTING_KEY}'
+        description: '{{ .CommonAnnotations.summary }}'
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname']
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'info'
+    equal: ['alertname']

@@ -1,0 +1,74 @@
+/* تنسيقات صفحات الأحياء (marketplace.html, services.html, etc.) */
+
+.district-page-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: var(--card-bg); /* */
+    border-radius: 8px;
+    border: 1px solid var(--primary-blue); /* */
+}
+
+.district-page-container h1 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.district-page-container p {
+    color: var(--text-color-muted); /* */
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+/* تنسيق شبكة عرض البطاقات */
+.items-grid-container {
+    display: grid;
+    /* تخطيط مرن: سيعرض أكبر عدد ممكن من البطاقات بعرض 250px */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding-top: 20px;
+}
+
+/* إعادة استخدام تنسيق البطاقة من index.html 
+   نحن نستخدم .card-item من index_style.css 
+   لكننا نعدل حجمها قليلاً هنا
+*/
+.items-grid-container .card-item {
+    flex-basis: auto; /* إلغاء التعيين من card-row */
+    width: 100%; /* جعلها تأخذ عرض خانة الشبكة */
+    height: 300px; /* يمكن تعديل الارتفاع حسب الحاجة */
+}
+
+.items-grid-container .card-content {
+    height: 35%; /* إعطاء مساحة أكبر للعنوان */
+    justify-content: center;
+    text-align: center;
+}
+
+/* تنسيق لرسالة دعوة تسجيل الدخول */
+.login-prompt-card {
+    background-color: var(--card-bg); /* */
+    border: 1px dashed var(--primary-blue); /* */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px; /* نفس مسافة create-post-card */
+    text-align: center;
+    color: var(--text-color-muted); /* */
+}
+
+.login-prompt-card p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.login-prompt-card a {
+    color: var(--text-color-light); /* */
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.login-prompt-card a:hover {
+    color: var(--primary-blue); /* */
+}

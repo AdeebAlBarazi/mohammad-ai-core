@@ -1,0 +1,23 @@
+# Environment & local configs
+.env
+.env.*
+*.local
+
+# Logs & OS junk
+logs/
+npm-debug.log*
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Node modules & builds
+node_modules/
+dist/
+build/
+
+# Runtime uploads/media (if used locally)
+uploads/
+
+# AI assistant memory (portable but not for commit)
+agent-core/memory/

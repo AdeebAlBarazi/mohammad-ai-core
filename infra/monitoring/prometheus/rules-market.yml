@@ -1,0 +1,40 @@
+groups:
+  - name: market-service
+    rules:
+      - alert: MarketHighErrorRate
+        expr: sum(rate(http_errors_total{class="5xx",job="market"}[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High 5xx rate in market service"
+          description: "5xx errors >1/s over 5m"
+
+      - alert: MarketHighLatencyP95
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job="market"}[5m])) by (le, route)) > 0.5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High p95 latency in market service"
+          description: "p95 latency over 0.5s for 10m"
+
+  - name: auth-service
+    rules:
+      - alert: AuthHighErrorRate
+        expr: sum(rate(http_errors_total{class="5xx",job="auth"}[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High 5xx rate in auth service"
+          description: "5xx errors >1/s over 5m"
+
+      - alert: AuthHighLatencyP95
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job="auth"}[5m])) by (le, route)) > 0.3
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High p95 latency in auth service"
+          description: "p95 latency over 0.3s for 10m"

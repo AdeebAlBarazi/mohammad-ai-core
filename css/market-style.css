@@ -1,0 +1,14 @@
+/* ORIGINAL_PATH: /market-style.css */
+
+/* copied non-destructively; prefer linking this path from systems/marketplace pages */
+
+:root {
+    --market-primary: #2563eb;
+    --market-secondary: #475569;
+    --market-background: #f8fafc;
+    --market-text: #1e293b;
+    --market-white: #ffffff;
+    --market-border: #e2e8f0;
+}
+
+/* ... (content copied from original) ... */

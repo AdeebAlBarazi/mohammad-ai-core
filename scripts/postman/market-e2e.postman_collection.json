@@ -1,0 +1,79 @@
+{
+  "info": {
+    "name": "Axiom Market E2E",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "User: Browse Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/market/products",
+          "host": ["{{baseUrl}}"],
+          "path": ["api","v1","market","products"]
+        }
+      }
+    },
+    {
+      "name": "User: Add to Cart",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key":"Authorization","value":"Bearer {{userToken}}"},
+          {"key":"Content-Type","value":"application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"sku\": \"E2E-SKU-1\",\n  \"quantity\": 1\n}"
+        },
+        "url": {"raw":"{{baseUrl}}/api/v1/market/cart","host":["{{baseUrl}}"],"path":["api","v1","market","cart"]}
+      }
+    },
+    {
+      "name": "User: Get Cart",
+      "request": {
+        "method": "GET",
+        "header": [ {"key":"Authorization","value":"Bearer {{userToken}}"} ],
+        "url": {"raw":"{{baseUrl}}/api/v1/market/cart","host":["{{baseUrl}}"],"path":["api","v1","market","cart"]}
+      }
+    },
+    {
+      "name": "User: Create Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key":"Authorization","value":"Bearer {{userToken}}"},
+          {"key":"Content-Type","value":"application/json"}
+        ],
+        "body": {"mode":"raw","raw":"{\n  \"currency\": \"SAR\"\n}"},
+        "url": {"raw":"{{baseUrl}}/api/v1/market/orders","host":["{{baseUrl}}"],"path":["api","v1","market","orders"]}
+      }
+    },
+    {
+      "name": "Seller: Create Product",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key":"Authorization","value":"Bearer {{sellerToken}}"},
+          {"key":"Content-Type","value":"application/json"}
+        ],
+        "body": {"mode":"raw","raw":"{\n  \"name\": \"E2E Product\",\n  \"price\": 150,\n  \"currency\": \"SAR\",\n  \"vendorId\": \"v2\",\n  \"countryCode\": \"SA\"\n}"},
+        "url": {"raw":"{{baseUrl}}/api/v1/market/products","host":["{{baseUrl}}"],"path":["api","v1","market","products"]}
+      }
+    },
+    {
+      "name": "Seller: Upload Media",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key":"Authorization","value":"Bearer {{sellerToken}}"},
+          {"key":"Content-Type","value":"application/json"}
+        ],
+        "body": {"mode":"raw","raw":"{\n  \"filename\": \"postman.png\",\n  \"contentType\": \"image/png\",\n  \"data\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=\"\n}"},
+        "url": {"raw":"{{baseUrl}}/api/v1/market/media/upload","host":["{{baseUrl}}"],"path":["api","v1","market","media","upload"]}
+      }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+    "countries": [
+        {
+            "code": "SA",
+            "name": "Saudi Arabia",
+            "currency": "SAR",
+            "domains": [
+                "sa.market.local",
+                "market.sa.local"
+            ],
+            "regions": [
+                "Riyadh",
+                "Jeddah",
+                "Dammam"
+            ],
+            "categories": [
+                {
+                    "id": "07",
+                    "name": "Marble & Stone"
+                },
+                {
+                    "id": "08",
+                    "name": "Building Materials"
+                }
+            ]
+        },
+        {
+            "code": "AE",
+            "name": "United Arab Emirates",
+            "currency": "AED",
+            "domains": [
+                "ae.market.local"
+            ],
+            "regions": [
+                "Dubai",
+                "Abu Dhabi",
+                "Sharjah"
+            ],
+            "categories": [
+                {
+                    "id": "07",
+                    "name": "Marble & Stone"
+                },
+                {
+                    "id": "09",
+                    "name": "Tools"
+                }
+            ]
+        }
+    ]
+}

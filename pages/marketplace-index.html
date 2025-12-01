@@ -1,0 +1,292 @@
+<!-- Marketplace UI (self-contained minimal page) -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>السوق الكبير - Axiom Hub</title>
+    <!-- Essential runtime setup: API base is auto-detected by market-common.js -->
+    <script src="../js/token.js" defer></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Design system + marketplace styles -->
+    <link rel="stylesheet" href="../ui-system/components.css">
+    <link rel="stylesheet" href="../css/marketplace.css">
+    <style>
+        body { font-family: 'Tajawal', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; background:#0a1425; }
+        header { background:#0f1d36; color:#eaf2ff; padding:12px 16px; display:flex; align-items:center; gap:12px; border-bottom:1px solid #1e3157; }
+        header .brand { font-weight:700; }
+        header .spacer { flex:1; }
+        .search { display:flex; gap:8px; align-items:center; }
+        .search input { padding:8px 10px; border-radius:6px; border:1px solid #1e3157; min-width:220px; background:#0e1a30; color:#eaf2ff; }
+        .cart-btn { position:relative; background:transparent; color:#eaf2ff; border:1px solid #1e3157; border-radius:8px; padding:8px 12px; cursor:pointer; }
+        #cart-badge { position:absolute; top:-6px; left:-6px; background:#dc3545; color:#fff; border-radius:999px; padding:2px 6px; font-size:12px; display:none; }
+        main { padding:20px; max-width:1200px; margin:0 auto; color:#eaf2ff; }
+        /* Product card styles (to match existing JS templates) */
+        .product-card { background:#0e1a30; border:1px solid #1e3157; border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px; }
+        .product-card .p-name { font-weight:600; color:#eaf2ff; }
+        .product-card .p-price { color:#19c37d; }
+        .product-card .btn { border:1px solid #4169E1; background:linear-gradient(180deg,#4f78ff,#4169E1); color:#fff; border-radius:8px; padding:8px; cursor:pointer; }
+        .product-card.sk { background:linear-gradient(90deg,#0b1222 0%,#12243f 50%,#0b1222 100%); background-size:200% 100%; animation:sh 1.2s ease-in-out infinite; height:110px; }
+        .product-card.sk .line{ height:12px; background:#0f1d36; border-radius:6px; margin:8px 0; }
+        .product-card.sk .w-70{ width:70%; } .product-card.sk .w-40{ width:40%; }
+        @keyframes sh { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+        /* Suggestions dropdowns */
+        .suggest { position:absolute; background:#0e1a30; border:1px solid #1e3157; border-radius:8px; width:260px; max-height:220px; overflow:auto; display:none; z-index:10; color:#eaf2ff; }
+        .suggest-item { padding:8px 10px; cursor:pointer; }
+        .suggest-item:hover { background:#0f1d36; }
+        /* Cart modal */
+        #cart-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:100; }
+        .cart-panel { background:#0e1a30; color:#eaf2ff; width:420px; max-width:92vw; margin:40px auto; border-radius:12px; padding:14px; border:1px solid #1e3157; }
+        .cart-row { padding:6px 0; border-bottom:1px dashed #1e3157; }
+        .cart-actions { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:10px; }
+    </style>
+</head>
+
+<body class="market-page">
+    <header>
+        <div class="brand" data-i18n="brand">السوق الكبير</div>
+        <div class="spacer"></div>
+        <div class="search" style="position:relative;">
+            <select id="search-category" class="input" style="height:36px;background:#0e1a30;color:#eaf2ff;border:1px solid #1e3157">
+                <option value="" data-i18n="cat_all">الكل</option>
+                <option value="مواد البناء" data-i18n="cat_building">مواد البناء</option>
+                <option value="رخام" data-i18n="cat_marble">رخام</option>
+                <option value="الكترونيات" data-i18n="cat_electronics">الكترونيات</option>
+                <option value="أزياء" data-i18n="cat_fashion">أزياء</option>
+                <option value="منزل" data-i18n="cat_home">منزل</option>
+                <option value="ألعاب" data-i18n="cat_toys">ألعاب</option>
+                <option value="عناية شخصية" data-i18n="cat_care">عناية شخصية</option>
+                <option value="بقالة" data-i18n="cat_grocery">بقالة</option>
+                <option value="كتب" data-i18n="cat_books">كتب</option>
+            </select>
+            <input id="header-search" type="search" placeholder="ابحث عن منتج" autocomplete="off" />
+            <div id="header-suggest" class="suggest"></div>
+        </div>
+        <div class="cart-btn" style="position:relative;">
+            <button id="account-button" class="cart-btn" aria-label="الحساب" style="padding-inline-start:8px;padding-inline-end:8px;">
+                <span id="account-icon" style="display:inline-block;width:24px;height:24px;border-radius:50%;background:#0e1a30;border:1px solid #1e3157;margin-inline-end:6px"></span>
+                <span id="account-label" data-i18n="account">حسابي</span>
+                <span style="margin-inline-start:6px;opacity:.8">▾</span>
+            </button>
+            <div id="account-menu" style="display:none;position:absolute;inset-inline-end:0;top:100%;background:#0e1a30;border:1px solid #1e3157;border-radius:8px;min-width:200px;z-index:20">
+                <a href="./orders-profile.html" class="menu-item" data-role="user" data-i18n="menu_profile" style="display:block;padding:8px 10px;color:#eaf2ff;text-decoration:none;border-bottom:1px solid #1e3157">ملفي</a>
+                <a href="./my-orders.html" class="menu-item" data-role="user" data-i18n="menu_orders" style="display:block;padding:8px 10px;color:#eaf2ff;text-decoration:none;border-bottom:1px solid #1e3157">طلباتي</a>
+                <a href="./seller-dashboard.html" class="menu-item" data-role="seller" data-i18n="menu_seller" style="display:block;padding:8px 10px;color:#eaf2ff;text-decoration:none;border-bottom:1px solid #1e3157">لوحة البائع</a>
+                <a href="./contractor-dashboard.html" class="menu-item" data-role="contractor" data-i18n="menu_contractor" style="display:block;padding:8px 10px;color:#eaf2ff;text-decoration:none;border-bottom:1px solid #1e3157">لوحة المقاول</a>
+                <a href="./admin-dashboard.html" class="menu-item" data-role="admin" data-i18n="menu_admin" style="display:block;padding:8px 10px;color:#eaf2ff;text-decoration:none;border-bottom:1px solid #1e3157">لوحة المشرف</a>
+                <button id="logout-btn" class="menu-item" data-i18n="menu_logout" style="display:block;width:100%;text-align:start;padding:8px 10px;background:transparent;color:#eaf2ff;border:none">تسجيل الخروج</button>
+            </div>
+        </div>
+        <a id="seller-link" href="./seller-upgrade.html" class="cart-btn" data-i18n="seller_link" style="text-decoration:none;display:inline-block;">أضفني كبائع</a>
+        <a id="admin-link" href="./admin-seller-requests.html" class="cart-btn" data-i18n="admin_link" style="text-decoration:none;display:inline-block;">طلبات البائعين (مشرف)</a>
+        <button id="cart-button" class="cart-btn" data-i18n="cart">سلة المشتريات <span id="cart-badge">0</span></button>
+        <button id="toggle-debug-views" class="cart-btn" title="تشغيل/إيقاف تتبع المشاهدات (للاختبار)" data-i18n="debug_views">المشاهدات: إيقاف</button>
+        <button id="lang-toggle" class="cart-btn" title="اللغة">العربية | English</button>
+    </header>
+    <main>
+        <div class="market-container">
+            <div class="market-header">
+                <div class="market-title">
+                    <h1 data-i18n="title">استكشف المنتجات</h1>
+                    <div class="market-subtitle" data-i18n="subtitle">تسوق أحدث العروض والمنتجات الموثوقة</div>
+                </div>
+            </div>
+
+            <!-- Hero Promo -->
+            <section class="card inline fade-in" style="margin-bottom:12px;">
+                <div>
+                    <div class="card-title" data-i18n="hero_title">عروض الإطلاق الخاصة</div>
+                    <div class="card-muted" data-i18n="hero_sub">خصومات وعروض لفترة محدودة على فئات مختارة</div>
+                </div>
+                <a href="#market-grid" class="btn btn-primary" data-i18n="hero_cta">تسوّق الآن</a>
+            </section>
+
+            <!-- Categories Bar -->
+            <nav class="ax-grid cols-4 fade-in" id="category-bar" style="margin-bottom:12px;">
+                <button class="btn btn-outline" data-cat="مواد البناء" data-i18n="cat_building">مواد البناء</button>
+                <button class="btn btn-outline" data-cat="رخام" data-i18n="cat_marble">رخام</button>
+                <button class="btn btn-outline" data-cat="الكترونيات" data-i18n="cat_electronics">الكترونيات</button>
+                <button class="btn btn-outline" data-cat="أزياء" data-i18n="cat_fashion">أزياء</button>
+                <button class="btn btn-outline" data-cat="منزل" data-i18n="cat_home">منزل</button>
+                <button class="btn btn-outline" data-cat="ألعاب" data-i18n="cat_toys">ألعاب</button>
+                <button class="btn btn-outline" data-cat="عناية شخصية" data-i18n="cat_care">عناية شخصية</button>
+                <button class="btn btn-outline" data-cat="بقالة" data-i18n="cat_grocery">بقالة</button>
+                <button class="btn btn-outline" data-cat="كتب" data-i18n="cat_books">كتب</button>
+            </nav>
+
+            <div id="market-status" class="market-status"></div>
+
+            <!-- Sidebar + Main -->
+            <div class="market-layout">
+                <aside class="seller-panel" aria-label="فلاتر المنتجات" style="position:sticky;top:80px">
+                    <h3 class="seller-panel-title" data-i18n="filter_by">تصفية حسب</h3>
+                    <div class="seller-panel-body">
+                        <div class="filter-group">
+                            <label data-i18n="filters_categories">الفئات</label>
+                            <div class="flex flex-wrap gap-2">
+                                <label><input type="checkbox" class="cat-check" value="مواد البناء"> مواد البناء</label>
+                                <label><input type="checkbox" class="cat-check" value="رخام"> رخام</label>
+                                <label><input type="checkbox" class="cat-check" value="الكترونيات"> الكترونيات</label>
+                                <label><input type="checkbox" class="cat-check" value="أزياء"> أزياء</label>
+                                <label><input type="checkbox" class="cat-check" value="منزل"> منزل</label>
+                                <label><input type="checkbox" class="cat-check" value="ألعاب"> ألعاب</label>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label data-i18n="filters_price">السعر</label>
+                            <div class="price-range">
+                                <input id="price-min" type="number" placeholder="أدنى" min="0" step="1" />
+                                <span class="dash">—</span>
+                                <input id="price-max" type="number" placeholder="أعلى" min="0" step="1" />
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label data-i18n="filters_rating_min">التقييم الأدنى</label>
+                            <select id="rating-min">
+                                <option value="" data-i18n="all">الكل</option>
+                                <option value="4" data-i18n="stars_4">4+ نجوم</option>
+                                <option value="3" data-i18n="stars_3">3+ نجوم</option>
+                                <option value="2" data-i18n="stars_2">2+ نجوم</option>
+                            </select>
+                        </div>
+                        <button id="apply-filters-side" class="btn btn-primary" data-i18n="apply">تطبيق</button>
+                    </div>
+                </aside>
+                <section class="market-main">
+            <!-- Filters Bar -->
+            <section class="market-filters" aria-label="عناصر التصفية">
+                <div class="filter-group search-group">
+                    <label for="search-text" data-i18n="filters_search">بحث</label>
+                    <input id="search-text" type="search" placeholder="ابحث بالاسم أو الرمز" />
+                </div>
+                <div class="filter-group">
+                    <label for="sort-select" data-i18n="filters_sort">ترتيب</label>
+                    <select id="sort-select">
+                        <option value="rank" data-i18n="sort_popular">الأكثر رواجًا</option>
+                        <option value="price_asc" data-i18n="sort_price_asc">السعر: من الأقل للأعلى</option>
+                        <option value="price_desc" data-i18n="sort_price_desc">السعر: من الأعلى للأقل</option>
+                        <option value="newest" data-i18n="sort_newest" selected>الأحدث</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label data-i18n="filters_price">السعر</label>
+                    <div class="price-range">
+                        <input id="price-min" type="number" placeholder="أدنى" min="0" step="1" />
+                        <span class="dash">—</span>
+                        <input id="price-max" type="number" placeholder="أعلى" min="0" step="1" />
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label for="page-size-select" data-i18n="filters_page_size">حجم الصفحة</label>
+                    <select id="page-size-select" class="page-size-select">
+                        <option value="12">12</option>
+                        <option value="20" selected>20</option>
+                        <option value="40">40</option>
+                    </select>
+                </div>
+                <div class="filters-actions">
+                    <button id="apply-filters" class="btn btn-primary" data-i18n="apply_filters">تطبيق التصفية</button>
+                </div>
+            </section>
+
+            <!-- Products Grid -->
+            <section id="market-grid" class="market-grid" aria-live="polite"></section>
+
+            <!-- Pagination -->
+            <div id="market-pagination" class="market-pagination" style="display:none;">
+                <button id="prev-page" class="btn btn-outline" data-i18n="prev">السابق</button>
+                <div class="page-info"><span data-i18n="page">صفحة</span> <span id="current-page">1</span> <span data-i18n="of">من</span> <span id="total-pages">1</span></div>
+                <button id="next-page" class="btn btn-outline" data-i18n="next">التالي</button>
+            </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal">
+        <div class="cart-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                <strong data-i18n="cart_title">سلة المشتريات</strong>
+                <button id="cart-modal-close" class="cart-btn" style="padding:4px 10px;" data-i18n="close">إغلاق</button>
+            </div>
+            <div id="cart-msg" style="margin:6px 0; font-size:14px;"></div>
+            <div id="cart-empty" style="color:#6b7280;" data-i18n="cart_empty">السلة فارغة</div>
+            <div id="cart-items"></div>
+            <div class="cart-actions">
+                <div><span data-i18n="items">العناصر:</span> <span id="cart-count">0</span> — <span data-i18n="subtotal">المجموع:</span> <span id="cart-subtotal">0.00</span> SAR</div>
+                <div>
+                    <button id="cart-refresh" class="cart-btn" data-i18n="refresh">تحديث</button>
+                    <button id="cart-checkout" class="cart-btn" data-i18n="checkout">إتمام الطلب</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link back to the new interactive home -->
+    <a href="./building-home.html" aria-label="العودة للصفحة الجديدة" style="position:fixed;bottom:16px;left:16px;z-index:9999;background:#ff6b35;color:#fff;padding:10px 12px;border-radius:12px;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.25);">
+        العودة للصفحة الجديدة
+    </a>
+
+    <!-- Scripts: only ones that exist and needed -->
+    <script src="../js/i18n.js" defer></script>
+    <script src="../js/format.js" defer></script>
+    <script src="../js/market-common.js" defer></script>
+    <script src="../js/products-api.js" defer></script>
+    <script src="../js/products-ui.js" defer></script>
+    <script src="../js/search.js" defer></script>
+    <script src="../js/pagination.js" defer></script>
+    <script src="../js/header.js" defer></script>
+    <script src="../js/filters.js" defer></script>
+    <script src="../js/market-products.js" defer></script>
+    <script src="../js/market-cart.js" defer></script>
+    <script src="../js/market-init.js" defer></script>
+    <script src="../js/market-search-autocomplete.js" defer></script>
+    <script src="../js/account.js" defer></script>
+    <script>
+        (function(){
+            function onReady(fn){ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fn);} else {fn();} }
+            // Header and filters are now modularized in js/header.js and js/filters.js
+            onReady(function(){
+                var btn = document.getElementById('toggle-debug-views');
+                if(!btn) return;
+                function updateLabel(){
+                    try {
+                        var enabled = (localStorage.getItem('MP_DEBUG_VIEWS') === '1') || (window.Market && window.Market.Products && window.Market.Products._debugViewsEnabled);
+                        btn.textContent = 'المشاهدات: ' + (enabled ? 'تشغيل' : 'إيقاف');
+                    } catch(_) { btn.textContent = 'المشاهدات'; }
+                }
+                updateLabel();
+                btn.addEventListener('click', function(){
+                    try {
+                        var enabled = !(localStorage.getItem('MP_DEBUG_VIEWS') === '1');
+                        if(window.Market && window.Market.Products && typeof window.Market.Products.setDebugViews === 'function'){
+                            window.Market.Products.setDebugViews(enabled);
+                        } else {
+                            localStorage.setItem('MP_DEBUG_VIEWS', enabled ? '1':'0');
+                        }
+                        updateLabel();
+                    } catch(_){}
+                });
+            });
+            onReady(function(){
+                var btn = document.getElementById('lang-toggle'); if(!btn) return;
+                function currentLang(){ return (window.Market && window.Market.I18n && window.Market.I18n.getLang()) || 'ar'; }
+                function setLang(l){
+                    if (window.Market && window.Market.I18n){ window.Market.I18n.setLang(l); window.Market.I18n.applyAll(l); }
+                    document.documentElement.lang = (l==='en'?'en':'ar');
+                    document.documentElement.dir = (l==='en'?'ltr':'rtl');
+                    btn.textContent = (l==='en'?'English | العربية':'العربية | English');
+                }
+                setLang(currentLang());
+                btn.addEventListener('click', function(){ var l = currentLang(); setLang(l==='ar'?'en':'ar'); });
+            });
+        })();
+    </script>
+</body>
+
+</html>

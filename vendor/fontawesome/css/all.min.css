@@ -1,0 +1,7 @@
+/* Placeholder for Font Awesome CSS. To fully enable icons offline, drop the real all.min.css and webfonts here.
+Suggested structure:
+- vendor/fontawesome/css/all.min.css (this file)
+- vendor/fontawesome/webfonts/fa-solid-900.woff2 (and others)
+
+Until real files are added, icons that rely on fonts may not render.
+*/

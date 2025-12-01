@@ -1,0 +1,11 @@
+groups:
+  - name: test-pipeline
+    rules:
+      - alert: TestAlwaysFiring
+        expr: vector(1)
+        for: 30s
+        labels:
+          severity: info
+        annotations:
+          summary: "Test alert to validate Alertmanager pipeline"
+          description: "This alert fires continuously. Remove rules-test.yml or comment this rule once validation is done."

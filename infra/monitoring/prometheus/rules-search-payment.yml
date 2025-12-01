@@ -1,0 +1,112 @@
+groups:
+  - name: market-search
+    rules:
+      - alert: MarketSearchZeroResultSpike
+        expr: (sum(rate(market_search_zero_results_total[5m])) / sum(rate(market_search_requests_total[5m]))) > 0.4
+        for: 10m
+        labels:
+          severity: warning
+          service: market
+          component: search
+        annotations:
+          summary: "High zero-result rate in search"
+          description: "Zero-result ratio >40% over 10m. Possible relevance or indexing issue."
+          runbook: "docs/runbooks/search-zero-results.md"
+
+      - alert: MarketSearchZeroResultCritical
+        expr: (sum(rate(market_search_zero_results_total[5m])) / sum(rate(market_search_requests_total[5m]))) > 0.6
+        for: 15m
+        labels:
+          severity: critical
+          service: market
+          component: search
+        annotations:
+          summary: "Critical zero-result rate in search"
+          description: "Zero-result ratio >60% for 15m. Immediate investigation required."
+          runbook: "docs/runbooks/search-zero-results.md"
+
+      - alert: MarketSearchFallbackHigh
+        expr: (sum(rate(market_search_fallback_total[10m])) / sum(rate(market_search_zero_results_total[10m]))) > 0.5 and sum(rate(market_search_zero_results_total[10m])) > 0
+        for: 15m
+        labels:
+          severity: warning
+          service: market
+          component: search
+        annotations:
+          summary: "Fallback mechanism heavily used"
+          description: ">50% of zero-result queries salvaged by fallback for 15m. Consider improving primary matching."
+          runbook: "docs/runbooks/search-fallback.md"
+
+      - alert: MarketSearchLatencyP95High
+        expr: histogram_quantile(0.95, sum(rate(market_search_duration_seconds_bucket[5m])) by (le)) > 1.2
+        for: 10m
+        labels:
+          severity: warning
+          service: market
+          component: search
+        annotations:
+          summary: "Search p95 latency high"
+          description: "p95 search latency >1.2s for 10m. Investigate DB aggregation performance or cache effectiveness."
+          runbook: "docs/runbooks/search-latency.md"
+
+      - alert: MarketSearchCacheIneffective
+        expr: sum(rate(market_search_requests_total[15m])) > 1 and ((sum(rate(market_products_cache_hits_total[15m])) / (sum(rate(market_products_cache_hits_total[15m])) + sum(rate(market_products_cache_misses_total[15m])))) < 0.2)
+        for: 30m
+        labels:
+          severity: info
+          service: market
+          component: cache
+        annotations:
+          summary: "Low products cache hit ratio"
+          description: "Hit ratio <20% for 30m. Verify cache key logic or adjust TTL/patterns."
+          runbook: "docs/runbooks/cache-low-hit.md"
+
+  - name: market-payments
+    rules:
+      - alert: MarketPaymentProviderFailureRate
+        expr: (sum(rate(market_payment_provider_fail_total[5m])) / (sum(rate(market_payment_provider_fail_total[5m])) + sum(rate(market_payment_provider_success_total[5m])))) > 0.1
+        for: 10m
+        labels:
+          severity: warning
+          service: market
+          component: payments
+        annotations:
+          summary: "Payment provider failure rate high"
+          description: ">10% provider failures over 10m. Check Stripe status or webhook signature issues."
+          runbook: "docs/runbooks/payment-provider-failures.md"
+
+      - alert: MarketPaymentProviderFailureCritical
+        expr: (sum(rate(market_payment_provider_fail_total[5m])) / (sum(rate(market_payment_provider_fail_total[5m])) + sum(rate(market_payment_provider_success_total[5m])))) > 0.25
+        for: 15m
+        labels:
+          severity: critical
+          service: market
+          component: payments
+        annotations:
+          summary: "Critical payment provider failure rate"
+          description: ">25% provider failures for 15m. Investigate credentials, network, or Stripe outage."
+          runbook: "docs/runbooks/payment-provider-failures.md"
+
+      - alert: MarketPaymentIntentCreationLatencyHigh
+        expr: histogram_quantile(0.95, sum(rate(market_payment_provider_duration_seconds_bucket[5m])) by (le)) > 2
+        for: 10m
+        labels:
+          severity: warning
+          service: market
+          component: payments
+        annotations:
+          summary: "Payment intent creation latency high"
+          description: "p95 provider creation >2s for 10m. Possible network slowness or API rate limits."
+          runbook: "docs/runbooks/payment-latency.md"
+
+      - alert: MarketPaymentNoSuccesses
+        expr: sum(rate(market_payment_provider_success_total[30m])) == 0 and sum(rate(market_payment_provider_fail_total[30m])) > 0
+        for: 30m
+        labels:
+          severity: critical
+          service: market
+          component: payments
+        annotations:
+          summary: "No successful payments while failures present"
+          description: "30m window with failures but zero successes. Likely systemic breakage (webhook, credentials)."
+          runbook: "docs/runbooks/payment-provider-failures.md"
