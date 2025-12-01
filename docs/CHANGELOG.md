@@ -56,3 +56,13 @@ All notable changes to this project will be documented here.
 - ai(sessions): add session listing, history retrieval, delete endpoints; file-backed memory helpers (e40e9b4)
 - ui(ai): add typing indicator with animated dots; toggle during send/stream (e4cf100)
 
+
+## v0.2.0 - 2025-12-01
+
+### Feat
+- feat(personal): add AES-GCM encrypted memory via PERSONAL_MEM_KEY and SSE streaming endpoint + UI toggle (b101b99)
+- feat(personal): scaffold isolated personal assistant service (port 5600) with private profile and memory; add dev:personal (3ff0a91)
+
+### Docs
+- docs: add Arabic system overview; chore: add personal smoke test script and npm task (3c6768c)
+
