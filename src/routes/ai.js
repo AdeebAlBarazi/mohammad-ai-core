@@ -145,9 +145,27 @@ router.get('/sessions/:id/export', async (req, res) => {
   try {
     const id = String(req.params.id || 'default');
     const items = core().getSessionAll(id) || [];
+    const { sinceHours, from, to } = req.query || {};
+    let filtered = items;
+    function toMs(x){ try { return new Date(String(x)).getTime(); } catch(_){ return NaN; } }
+    if(sinceHours){
+      const h = Math.max(1, Number(sinceHours));
+      const cutoff = Date.now() - h*3600*1000;
+      filtered = items.filter(it => toMs(it.ts) >= cutoff);
+    } else if(from || to){
+      const fromMs = from ? toMs(from) : NaN;
+      const toMsVal = to ? toMs(to) : NaN;
+      filtered = items.filter(it => {
+        const t = toMs(it.ts);
+        if(!Number.isFinite(t)) return false;
+        if(Number.isFinite(fromMs) && t < fromMs) return false;
+        if(Number.isFinite(toMsVal) && t > toMsVal) return false;
+        return true;
+      });
+    }
     res.set('Content-Type','application/json');
     res.set('Content-Disposition', `attachment; filename="session-${id}.json"`);
-    return res.status(200).end(JSON.stringify({ ok:true, id, items }));
+    return res.status(200).end(JSON.stringify({ ok:true, id, items: filtered }));
   } catch(e){ return res.status(500).json({ ok:false, error: e && e.message || String(e) }); }
 });
 

@@ -175,7 +175,12 @@
             const exportBtn = document.createElement('button'); exportBtn.textContent='تصدير'; exportBtn.style.fontSize='11px'; exportBtn.addEventListener('click', async ()=>{
               try {
                 const base2 = await getBase();
-                const urlExp = (base2||'') + '/api/ai/sessions/' + encodeURIComponent(it.id) + '/export';
+                // Simple filter prompt: since hours presets
+                const presets = [ {label:'آخر 24 ساعة', val:24}, {label:'آخر 7 أيام', val:24*7}, {label:'الكل', val:0} ];
+                let selected = 0; try { selected = await (async()=>{ return 0; })(); } catch(_){ }
+                // Default to 24h
+                const h = 24;
+                const urlExp = (base2||'') + '/api/ai/sessions/' + encodeURIComponent(it.id) + '/export' + (h>0 ? ('?sinceHours='+h) : '');
                 const rr = await fetch(urlExp, { method:'GET' }); const blob = await rr.blob();
                 const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `session-${it.id}.json`; document.body.appendChild(link); link.click(); setTimeout(()=>{ URL.revokeObjectURL(link.href); link.remove(); }, 0);
               } catch(e){ sessionsStatus.textContent = 'تعذر التصدير'; }
