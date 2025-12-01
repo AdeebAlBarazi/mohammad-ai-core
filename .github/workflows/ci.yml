@@ -30,3 +30,14 @@ jobs:
       - name: Tests (optional)
         run: |
           npm test || echo "No tests yet"
+
+      - name: Start service (background)
+        run: |
+          nohup bash -c "MARKET_ALLOW_DB_FAIL=1 MARKET_PORT=3002 node server.js" >/dev/null 2>&1 &
+          echo "Service started"
+
+      - name: SSE smoke test
+        run: |
+          # Wait a moment for server to bind the port
+          sleep 2
+          npm run ci:sse
