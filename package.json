@@ -29,6 +29,7 @@
     "docs:pdf:bi": "md-to-pdf docs/AI_ARCHITECTURE_GUIDE_BI.md > docs/AI_Portable_Agent_Guide_BI.pdf",
     "docs:release": "npm run docs:diagram; npm run docs:pdf; npm run docs:pdf:bi",
     "dev:personal": "cross-env PERSONAL_PORT=5600 MARKET_ALLOW_DB_FAIL=1 node server-personal.js",
+    "test:personal": "powershell -ExecutionPolicy Bypass -File scripts/personal-smoke.ps1",
     "version:bump": "node scripts/bump-version.js",
     "docs:changelog": "node scripts/generate-changelog.js",
     "release:patch": "node scripts/release-patch.js",

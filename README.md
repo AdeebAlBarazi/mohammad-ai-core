@@ -729,6 +729,9 @@ node server.js
 ---
 تم إعداد هذا المستند ليتماشى مع إعادة تنظيم الشيفرة ويسهّل الانطلاق السريع.
 
+لمزيد من نظرة شاملة ومنظمة: راجع وثيقة النظرة العامة
+- `docs/MARKETPLACE_SYSTEM_OVERVIEW_AR.md`
+
 ## AI Assistant (Portable Agent)
 - تم إضافة مساعد ذكاء صناعي محمول (نواة مستقلة + واجهة HTTP ثابتة).
 - اطلع على التفاصيل وخطوات التشغيل في `README-AI.md` داخل نفس المجلد.
@@ -781,6 +784,68 @@ $env:MARKET_ALLOW_DB_FAIL='1'; $env:MARKET_PORT='5500'; node server.js
 فحص تلقائي (Node)
 ```powershell
 npm run ci:sse
+```
+
+## Personal Assistant (Isolated)
+- خدمة مساعد شخصية مستقلة تمامًا عن بيانات السوق. تعمل على منفذ منفصل وتستخدم ذاكرة جلسات بصيغة JSONL مع تشفير AES-256-GCM اختياري.
+
+### الملفات ذات الصلة
+- `server-personal.js` — خادم Express للمساعد الشخصي (منفذ افتراضي 5600).
+- `agent-personal/index.js` — نواة المساعد والذاكرة المشفرة والجلسات.
+- `agent-personal/profile.json` — هوية المساعد وسياسة الخصوصية.
+- `pages/personal-chat.html` — واجهة ويب بسيطة تدعم البث SSE.
+
+### المتغيرات البيئية
+- `PERSONAL_PORT` — المنفذ (افتراضي `5600`).
+- `PERSONAL_API_KEY` — مفتاح اختياري لطلبه عبر الترويسة `X-API-KEY`.
+- `PERSONAL_MEM_KEY` — مفتاح تشفير سري لـ AES-256-GCM (مطلوب للتشفير؛ إذا غاب تُحفظ الذاكرة كنص عادي).
+- `AI_MODEL` — اسم النموذج (افتراضي مزود داخلي مبسط؛ يمكن ربط OpenAI لاحقًا).
+- `OPENAI_API_KEY` — مفتاح اختياري إن فُعِّل مزود OpenAI في `agent-personal/index.js`.
+
+### نقاط واجهة API
+- `POST /api/personal/chat` — رد غير متدفق. الجسم: `{ sessionId, prompt }`، يعيد `{ ok, reply }`.
+- `POST /api/personal/chat/stream` — رد متدفق SSE. الجسم: `{ sessionId, prompt }`. الترويسات المرسلة تتضمن `Content-Type: text/event-stream`, `Cache-Control: no-cache, no-transform`, و`X-Accel-Buffering: no`.
+- `GET /healthz` — فحص صحة بسيط.
+
+### التشغيل المحلي (PowerShell)
+```powershell
+# تثبيت الحزم (إن لم تكن مثبّتة)
+npm install
+
+# تعيين متغيرات مبدئية وتشغيل الخادم الشخصي
+$env:PERSONAL_PORT = "5600";
+$env:PERSONAL_API_KEY = "dev-key-123";  # اختياري
+$env:PERSONAL_MEM_KEY = "0123456789abcdef0123456789abcdef"; # 32 بايت سداسي
+node server-personal.js
+```
+الوصول:
+- صفحة الدردشة: `http://localhost:5600/pages/personal-chat.html`
+- عند تفعيل مفتاح API أدخل القيمة في حقل "API Key" داخل الصفحة.
+
+### استخدام واجهة الدردشة
+- أدخل `API Base` إذا غيرت المنفذ (افتراضي: `http://localhost:5600`).
+- اختر `Session` (يُنشئ معرفًا جديدًا تلقائيًا عند الحاجة).
+- فعّل خيار `Stream (SSE)` للحصول على ردود متدرجة مباشرة.
+
+### ملاحظات الخصوصية
+- الذاكرة تُحفظ في ملفات جلسات بصيغة JSONL لدى `agent-personal/`.
+- عند ضبط `PERSONAL_MEM_KEY` تُشفّر كل سطر بوسم nonce ووسم توثيق GCM.
+- لا يصل هذا المساعد إلى أي خدمة أو قاعدة بيانات السوق.
+
+### عكس وكيل (اختياري)
+Nginx snippet للبث بدون تخزين مؤقت:
+```
+location /api/personal/ {
+  proxy_pass http://personal:5600/api/personal/;
+  proxy_http_version 1.1;
+  proxy_set_header Connection "";
+  proxy_buffering off;
+  chunked_transfer_encoding on;
+  add_header X-Accel-Buffering no;
+}
+location /pages/ {
+  proxy_pass http://personal:5600/pages/;
+}
 ```
 
 ## المراقبة والتنبيهات (Monitoring & Alerts)
