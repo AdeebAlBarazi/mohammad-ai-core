@@ -247,6 +247,8 @@ try {
 
 // Mount AI router (portable assistant MVP)
 try {
+    // Initialize AI metrics
+    try { require('./src/metrics/aiMetrics').init(register); } catch(_e) { console.warn('[market] aiMetrics init failed:', _e && _e.message); }
     const aiRouter = require('./src/routes/ai');
     app.use('/api/ai', aiRouter);
     app.use('/api/v1/ai', aiRouter);

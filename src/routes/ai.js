@@ -1,6 +1,8 @@
 // systems/marketplace/src/routes/ai.js
 const express = require('express');
 const router = express.Router();
+const { get: getAiMetrics } = require('../metrics/aiMetrics');
+const { audit } = (()=>{ try { return require('../../utils/logger'); } catch(_) { return { audit: ()=>{} }; } })();
 
 // Lazy require to avoid cost on cold start
 function core() { return require('../../agent-core'); }
@@ -18,11 +20,15 @@ router.post('/chat', async (req, res) => {
       return res.status(429).json({ ok: false, error: 'overloaded' });
     }
     inFlight += 1;
+    try { const m = getAiMetrics(); m.aiRequests && m.aiRequests.inc({ endpoint:'chat' }); } catch(_){ }
     const t0 = Date.now();
     const r = await core().chat({ prompt: String(prompt), history: Array.isArray(history) ? history.slice(-10) : [], sessionId: sessionId || 'default', mode, maxTokens });
     const latency = Date.now() - t0;
+    try { const m = getAiMetrics(); m.aiDuration && m.aiDuration.observe({ endpoint:'chat' }, latency/1000); } catch(_){ }
+    try { audit('ai_chat',{ latency, provider: r.provider, mode: r.mode }, req); } catch(_){ }
     return res.json({ ok: true, reply: r.reply, mode: r.mode, provider: r.provider, model: r.model, usage: r.usage || null, latency });
   } catch (e) {
+    try { const m = getAiMetrics(); m.aiErrors && m.aiErrors.inc({ endpoint:'chat' }); } catch(_){ }
     return res.status(500).json({ ok: false, error: e && e.message || String(e) });
   } finally {
     inFlight = Math.max(0, inFlight - 1);
@@ -44,6 +50,7 @@ router.post('/chat/stream', async (req, res) => {
       return res.end(JSON.stringify({ ok: false, error: 'overloaded' }));
     }
     inFlight += 1;
+    try { const m = getAiMetrics(); m.aiRequests && m.aiRequests.inc({ endpoint:'stream' }); } catch(_){ }
     // SSE headers
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
@@ -63,6 +70,8 @@ router.post('/chat/stream', async (req, res) => {
         if (typeof delta === 'string' && delta.length) { full += delta; res.write('data: ' + JSON.stringify({ delta }) + '\n\n'); }
         if (done) {
           const latency = Date.now() - t0;
+          try { const m = getAiMetrics(); m.aiDuration && m.aiDuration.observe({ endpoint:'stream' }, latency/1000); } catch(_){ }
+          try { audit('ai_stream',{ latency, bytes: Buffer.byteLength(full||''), mode }, req); } catch(_){ }
           res.write('event: meta\n');
           res.write('data: ' + JSON.stringify({ ok:true, latency }) + '\n\n');
           end();
@@ -71,6 +80,7 @@ router.post('/chat/stream', async (req, res) => {
     });
   } catch (e) {
     try {
+      try { const m = getAiMetrics(); m.aiErrors && m.aiErrors.inc({ endpoint:'stream' }); } catch(_){ }
       if (!ended) {
         res.write('event: error\n');
         res.write('data: ' + JSON.stringify({ ok:false, error: e && e.message || String(e) }) + '\n\n');
@@ -82,6 +92,18 @@ router.post('/chat/stream', async (req, res) => {
     // client disconnect safety
     try { req.on('close', () => { try { end(); } catch(_){} }); } catch(_){ }
   }
+});
+
+// Minimal tool-call endpoint
+router.post('/tools/call', async (req, res) => {
+  try {
+    const { name, input } = req.body || {};
+    if(!name) return res.status(400).json({ ok:false, error:'name_required' });
+    const tools = require('../../agent-core/tools');
+    const r = await tools.callTool({ name: String(name), input });
+    try { audit('ai_tool_call',{ name, ok: r.ok }, req); } catch(_){ }
+    return res.json(r);
+  } catch(e){ return res.status(500).json({ ok:false, error: e && e.message || String(e) }); }
 });
 
 // --- Sessions & History API ---

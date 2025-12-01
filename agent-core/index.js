@@ -4,6 +4,8 @@
 const fs = require('fs');
 const path = require('path');
 const memoryStore = require('./memoryStore');
+const openaiProvider = require('./providers/openai');
+const stubProvider = require('./providers/stub');
 
 const PROFILE_PATH = process.env.AI_PROFILE_PATH || path.join(__dirname, 'profile.json');
 const DEFAULT_MODEL = process.env.AI_MODEL || 'gpt-4.1-mini';
@@ -201,26 +203,9 @@ async function stream({ prompt, history, sessionId, mode, maxTokens, onDelta }) 
   const apiKey = process.env.OPENAI_API_KEY || '';
   let result;
   if (apiKey) {
-    try {
-      result = await callOpenAIStream({ apiKey, model: process.env.AI_MODEL, system, messages, maxTokens: maxT, onDelta });
-    } catch (e) {
-      // Fallback to stub streaming
-      let out = '';
-      const stub = await respondStub({ system, messages });
-      const parts = (stub.reply || '').split(/(\s+)/);
-      for (const p of parts) { out += p; try { await onDelta && onDelta(p, false); } catch(_){} }
-      try { await onDelta && onDelta(null, true); } catch(_){}
-      result = { reply: out, usage: null, provider: 'stub', model: 'stub', error: String(e && e.message || e) };
-    }
-  } else {
-    // Pure stub streaming
-    let out = '';
-    const stub = await respondStub({ system, messages });
-    const parts = (stub.reply || '').split(/(\s+)/);
-    for (const p of parts) { out += p; try { await onDelta && onDelta(p, false); } catch(_){} }
-    try { await onDelta && onDelta(null, true); } catch(_){}
-    result = { reply: out, usage: null, provider: 'stub', model: 'stub' };
-  }
+    try { result = await openaiProvider.callOpenAIStream({ apiKey, model: process.env.AI_MODEL, system, messages, maxTokens: maxT, onDelta }); }
+    catch(e){ result = await stubProvider.stream({ system, messages, onDelta }); result.error = String(e && e.message || e); }
+  } else { result = await stubProvider.stream({ system, messages, onDelta }); }
 
   memoryStore.append(sessionId || 'default', { mode: activeMode, in: prompt, out: result.reply });
   return Object.assign({ mode: activeMode }, result);
@@ -244,16 +229,8 @@ async function chat({ prompt, history, sessionId, mode, maxTokens }) {
 
   const apiKey = process.env.OPENAI_API_KEY || '';
   let result;
-  if (apiKey) {
-    try {
-      result = await callOpenAIChat({ apiKey, model: process.env.AI_MODEL, system, messages, maxTokens: maxT });
-    } catch (e) {
-      result = await respondStub({ system, messages });
-      result.error = String(e && e.message || e);
-    }
-  } else {
-    result = await respondStub({ system, messages });
-  }
+  if(apiKey){ try { result = await openaiProvider.callOpenAIChat({ apiKey, model: process.env.AI_MODEL, system, messages, maxTokens: maxT }); } catch(e){ result = await stubProvider.chat({ system, messages }); result.error = String(e && e.message || e); } }
+  else { result = await stubProvider.chat({ system, messages }); }
 
   memoryStore.append(sessionId || 'default', { mode: activeMode, in: prompt, out: result.reply });
 
