@@ -1,7 +1,7 @@
 // systems/marketplace/src/routes/ai.js
 const express = require('express');
 const router = express.Router();
-const { get: getAiMetrics } = require('../metrics/aiMetrics');
+const { get: getAiMetrics, recordTokens } = require('../metrics/aiMetrics');
 const { audit } = (()=>{ try { return require('../../utils/logger'); } catch(_) { return { audit: ()=>{} }; } })();
 
 // Lazy require to avoid cost on cold start
@@ -26,6 +26,14 @@ router.post('/chat', async (req, res) => {
     const latency = Date.now() - t0;
     try { const m = getAiMetrics(); m.aiDuration && m.aiDuration.observe({ endpoint:'chat' }, latency/1000); } catch(_){ }
     try { audit('ai_chat',{ latency, provider: r.provider, mode: r.mode }, req); } catch(_){ }
+    // Model-reported token usage (non-stream)
+    try {
+      const u = r.usage || {}; const model = r.model || 'unknown';
+      if(u && (typeof u.prompt_tokens === 'number' || typeof u.completion_tokens === 'number')){
+        recordTokens({ model, prompt: u.prompt_tokens, completion: u.completion_tokens });
+      }
+      const m = getAiMetrics(); if(m.outputChars && typeof r.reply === 'string'){ m.outputChars.inc({ endpoint:'chat' }, r.reply.length); }
+    } catch(_){ }
     return res.json({ ok: true, reply: r.reply, mode: r.mode, provider: r.provider, model: r.model, usage: r.usage || null, latency });
   } catch (e) {
     try { const m = getAiMetrics(); m.aiErrors && m.aiErrors.inc({ endpoint:'chat' }); } catch(_){ }
@@ -72,6 +80,7 @@ router.post('/chat/stream', async (req, res) => {
           const latency = Date.now() - t0;
           try { const m = getAiMetrics(); m.aiDuration && m.aiDuration.observe({ endpoint:'stream' }, latency/1000); } catch(_){ }
           try { audit('ai_stream',{ latency, bytes: Buffer.byteLength(full||''), mode }, req); } catch(_){ }
+          try { const m = getAiMetrics(); if(m.outputChars){ m.outputChars.inc({ endpoint:'stream' }, (full||'').length); } } catch(_){ }
           res.write('event: meta\n');
           res.write('data: ' + JSON.stringify({ ok:true, latency }) + '\n\n');
           end();
