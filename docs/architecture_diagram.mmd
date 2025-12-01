@@ -1,0 +1,82 @@
+flowchart TD
+
+    subgraph Client["Client Layer"]
+        BROWSER["🧑‍💻 Browser<br/>ai-chat.html"]
+    end
+
+    subgraph Edge["Edge / Gateway"]
+        NGINX["🌐 Nginx / Ingress<br/>TLS, CSP, Routing<br/>FORCE_HTTPS, HSTS"]
+    end
+
+    subgraph API["API Layer (Node/Express)"]
+        API_AI["/api/ai/*<br/>AI Routes"]
+        API_MARKET["/api/market/*<br/>Market Routes"]
+    end
+
+    subgraph CORE["AI Core (agent-core)"]
+        AGENT["agent-core/index.js<br/>chat(), tools(), memory()"]
+        PROFILE["profile.json<br/>Personality & Modes"]
+        MEMORY["memory/*<br/>Sessions, History"]
+        TOOLS["tools/*<br/>Market, Files, System Tools"]
+    end
+
+    subgraph RAG["RAG & Knowledge Layer"]
+        VDB["RAG Vector DB<br/>(SQLite / Supabase / pgvector)"]
+        DOCS["Domain Docs<br/>(Market, Contracts, Projects)"]
+    end
+
+    subgraph MODEL["Model Provider Layer"]
+        OPENAI["OpenAI API<br/>GPT-4.1-mini / ..."]
+        STUB["Local Stub<br/>No-cost Model"]
+    end
+
+    subgraph MARKET["Core Systems / Market"]
+        MSYS["Market System<br/>Orders, Products, Sellers"]
+        OTHER["Other Systems<br/>Inspection, Club, ..."]
+    end
+
+    subgraph OBS["Observability"]
+        LOGS["Logs<br/>Request/Response, Errors"]
+        METRICS["Metrics & Monitoring<br/>Dashboards, Alerts"]
+    end
+
+    subgraph CICD["CI / CD Pipeline"]
+        GIT["GitHub Repo<br/>mohammad-ai-core / marketplace"]
+        CI["CI Jobs<br/>Lint, Test, Build"]
+        CD["CD Deploy<br/>VPS / Docker / K8s"]
+    end
+
+    subgraph FUTURE["Future Enhancements"]
+        SSE["SSE Streaming<br/>/api/ai/chat/stream"]
+        MCP["MCP Tools<br/>Shared Tool Protocol"]
+    end
+
+    BROWSER -->|"HTTPS / fetch"| NGINX
+    NGINX -->|"Proxy /api/ai"| API_AI
+    NGINX -->|"Proxy /api/market"| API_MARKET
+
+    API_AI -->|"chat(prompt, sessionId, mode)"| AGENT
+    AGENT --> PROFILE
+    AGENT --> MEMORY
+    AGENT --> TOOLS
+
+    TOOLS --> MSYS
+    TOOLS --> OTHER
+
+    AGENT -->|"Embeddings / Search"| VDB
+    VDB --> DOCS
+
+    AGENT -->|"if OPENAI_API_KEY"| OPENAI
+    AGENT -->|"else"| STUB
+
+    API_AI --> LOGS
+    API_MARKET --> LOGS
+    API_AI --> METRICS
+    AGENT --> METRICS
+
+    GIT --> CI --> CD --> NGINX
+    CD --> API_AI
+    CD --> AGENT
+
+    AGENT --> SSE
+    TOOLS --> MCP
