@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: market-app
+  namespace: default
+  labels:
+    app: market-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: market-app
+  template:
+    metadata:
+      labels:
+        app: market-app
+    spec:
+      containers:
+        - name: market-app
+          # TODO: replace with your image (e.g., ghcr.io/owner/repo:tag)
+          image: ghcr.io/owner/market-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3002
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: MARKET_PORT
+              value: "3002"
+            - name: METRICS_ENABLED
+              value: "1"
+            - name: ENABLE_CSP
+              value: "1"
+            - name: CSP_ALLOW_INLINE_STYLES
+              value: "1"
+            # For dev without Mongo; remove in prod if DB is required
+            - name: MARKET_ALLOW_DB_FAIL
+              value: "1"
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 3002
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3002
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 3
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+      securityContext:
+        fsGroup: 2000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: market-app
+  namespace: default
+  labels:
+    app: market-app
+spec:
+  selector:
+    app: market-app
+  ports:
+    - name: http
+      port: 3002
+      targetPort: 3002
+  type: ClusterIP
