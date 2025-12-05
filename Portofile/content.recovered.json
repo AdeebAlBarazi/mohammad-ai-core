@@ -1,0 +1,1987 @@
+{
+    "video": {
+        "url": "https://youtu.be/OqSukfHEbkI?si=SlV0x6iolt95wzFg",
+        "poster": "",
+        "background": true,
+        "autoplay": true,
+        "muted": true,
+        "loop": true
+    },
+    "hero": {
+        "title": {
+            "ar": "الدكتور المهندس محمد أديب فواز البرازي",
+            "en": "Mohammed Adeeb Fawaz AlBarazi"
+        },
+        "subtitle": {
+            "ar": "مدير تنفيذي و مالي استراتيجي",
+            "en": "Strategic Executive and Financial Director"
+        },
+        "description": {
+            "ar": "مدير <strong>تنفيذي ومالي</strong> يقود المشاريع برؤية استراتيجية وانضباط تشغيلي؛ متمرس في <strong>إدارة العمليات التنفيذية</strong> و<strong>الميزانيات التنفيذية</strong> وضبط التكاليف والتدفقات النقدية. أبرع في <strong>متابعة الأعمال واستلامها وتسليمها</strong> وفق النطاق والوقت والتكلفة، مع إدارة دقيقة <strong>للمخاطر والعقود ومؤشرات الأداء</strong>. أستخدم <strong>تحليلات مالية ولوحات تحكم</strong> لاتخاذ قرارات سريعة وموثوقة تعظّم العائد وتحد من الهدر، وأقود الفرق لتحقيق نتائج قابلة للقياس واستدامة في الأداء.",
+            "en": "Financial leader specialized in <strong>transforming data into strategic decisions</strong>, achieving cost discipline, and managing accounting operations and major projects. Deep experience in <strong>construction, trade, and information technology</strong> sectors. With <strong>deep market understanding</strong> and advanced mathematical thinking in financial analysis and effective organizational management."
+        }
+    },
+    "sections": {
+        "projects": {
+            "title": {
+                "ar": "أعمالي ومشاريعي",
+                "en": "My Works & Projects"
+            },
+            "subtitle": {
+                "ar": "مجموعة من المشاريع التي تم إنجازها بنجاح",
+                "en": "A collection of successfully completed projects"
+            }
+        },
+        "certificates": {
+            "title": {
+                "ar": "الشهادات والمؤهلات",
+                "en": "Certificates & Qualifications"
+            },
+            "subtitle": {
+                "ar": "مجموعة متنوعة من الشهادات المهنية والأكاديمية",
+                "en": "A diverse range of professional and academic certificates"
+            }
+        },
+        "competencies": {
+            "title": {
+                "ar": "الكفاءات الرئيسية",
+                "en": "Core Competencies"
+            },
+            "subtitle": {
+                "ar": "خبرات متنوعة في القيادة المالية والإدارية",
+                "en": "Diverse expertise in financial and administrative leadership"
+            }
+        },
+        "experience": {
+            "title": {
+                "ar": "الخبرة العملية والإنجازات",
+                "en": "Professional Experience & Achievements"
+            },
+            "subtitle": {
+                "ar": "مسيرة مهنية حافلة بالإنجازات والقيادة المالية",
+                "en": "A career full of achievements and financial leadership"
+            }
+        },
+        "education": {
+            "title": {
+                "ar": "التعليم والمؤهلات",
+                "en": "Education & Qualifications"
+            },
+            "subtitle": {
+                "ar": "",
+                "en": ""
+            }
+        },
+        "contact": {
+            "title": {
+                "ar": "تواصل معي",
+                "en": "Contact Me"
+            },
+            "subtitle": {
+                "ar": "جاهز للمساهمة في نجاح مؤسستك",
+                "en": "Ready to contribute to your organization's success"
+            }
+        }
+    },
+    "certificates": [
+        {
+            "title": {
+                "ar": "بكالوريوس في العلوم",
+                "en": "Bachelor of Science"
+            },
+            "subtitle": {
+                "ar": "الرياضيات والمعلوماتية",
+                "en": "Mathematics & Computer Science"
+            },
+            "year": "1994",
+            "imageUrl": "assets/images/AlBath.jpg",
+            "icon": "graduation-cap"
+        },
+        {
+            "title": {
+                "ar": "إدارة البنية التحتية",
+                "en": "Infrastructure Management"
+            },
+            "subtitle": {
+                "ar": "للشبكات والداتا سنتر",
+                "en": "Networks & Data Centers"
+            },
+            "year": "2015",
+            "imageUrl": "data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='280'><rect width='100%' height='100%' fill='%232c3b4c'/><text x='50%' y='50%' fill='%23ffffff' font-family='Arial' font-size='20' text-anchor='middle' dominant-baseline='middle'>Infrastructure</text></svg>",
+            "icon": "server"
+        },
+        {
+            "title": {
+                "ar": "إدارة وتحليل البيانات",
+                "en": "Data Management & Analysis"
+            },
+            "subtitle": {
+                "ar": "Udacity Nanodegree",
+                "en": "Udacity Nanodegree"
+            },
+            "year": "2020",
+            "imageUrl": "data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='280'><rect width='100%' height='100%' fill='%232c3b4c'/><text x='50%' y='50%' fill='%23ffffff' font-family='Arial' font-size='20' text-anchor='middle' dominant-baseline='middle'>Data%20Analysis</text></svg>",
+            "icon": "chart-line"
+        },
+        {
+            "title": {
+                "ar": "ماجستير في إدارة المشاريع",
+                "en": "Master's in Project Management"
+            },
+            "subtitle": {
+                "ar": "MBA - معهد إيباس",
+                "en": "MBA - IPAS Institute"
+            },
+            "year": "2025",
+            "imageUrl": "assets/images/MBA-Certificate.png",
+            "icon": "medal"
+        }
+    ],
+    "projects": [
+        {
+            "id": "saudi-concrete-factory-offices",
+            "title": {
+                "ar": "مكاتب مصنع الخرسانة السعودية",
+                "en": "Saudi Concrete Factory Offices"
+            },
+            "description": {
+                "ar": "تنفيذ إنشاء وتشطيب مكاتب مصنع الخرسانة السعودية",
+                "en": "Construction and finishing of Saudi Concrete Factory offices"
+            },
+            "category": {
+                "ar": "إنشاءات",
+                "en": "Construction"
+            },
+            "location": {
+                "ar": "المدينة المنورة، السعودية",
+                "en": "Medina, Saudi Arabia"
+            },
+            "year": "2024",
+            "thumbnail": "/uploads/1764268714847-bbc86015fc63-medium.webp",
+            "gallery": [
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268714847-bbc86015fc63-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268715269-8bf020956de9-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268715706-e73c5dd65d89-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268716131-b48d2f3313d3-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268716556-e558bc57cced-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268716953-73b4201ed0e3-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268717354-e4aee9355d16-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268717754-2abf210f6b05-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268718148-ae327900887e-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268718564-1c8129929935-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268718978-606b2a2cc0f7-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268719387-fe149b808294-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268719723-86859bb22f81-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268720134-5c3ebcb4dc87-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268720533-94c1f3a9281b-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268720936-4cea8c717cb7-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268721341-a5715aca0664-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268721737-524682d87e6f-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268722244-9ca3639f872e-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268722713-603c334be1f4-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268723225-85ed22da5567-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268723749-78f946e5a906-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268724218-0fec84f941fd-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268724619-d4776638e813-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                }
+            ]
+        },
+        {
+            "id": "white-horse-hotel-rehabilitation",
+            "title": {
+                "ar": "إعادة تأهيل فندق الحصان الأبيض",
+                "en": "White Horse Hotel Rehabilitation"
+            },
+            "description": {
+                "ar": "مشروع إعادة تأهيل وتطوير فندق الحصان الأبيض",
+                "en": "Rehabilitation and development project of White Horse Hotel"
+            },
+            "category": {
+                "ar": "فنادق",
+                "en": "Hotels"
+            },
+            "location": {
+                "ar": "جدة، السعودية",
+                "en": "Jeddah, Saudi Arabia"
+            },
+            "year": "2023",
+            "thumbnail": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80",
+            "gallery": [
+                {
+                    "url": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80",
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "url": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&q=80",
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "url": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200&q=80",
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                }
+            ]
+        },
+        {
+            "id": "youssef-albdeiri-hotel",
+            "title": {
+                "ar": "فندق يوسف البديري",
+                "en": "Youssef AlBdeiri Hotel"
+            },
+            "description": {
+                "ar": "تصميم وتنفيذ إنشاء وتشطيب فندق يوسف البديري",
+                "en": "Design and execution of hotel construction and finishing"
+            },
+            "category": {
+                "ar": "فنادق",
+                "en": "Hotels"
+            },
+            "location": {
+                "ar": "المدينة المنورة، حي قباء",
+                "en": "Medina, Quba"
+            },
+            "year": "2024",
+            "thumbnail": "/uploads/1764268929147-14fb70bf3c68-medium.webp",
+            "gallery": [
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268929147-14fb70bf3c68-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268929572-918a1b88fbcd-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268930020-74cd0ecf32df-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268930469-e660d387855f-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268930907-0df882aa8dad-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268931198-8b73ee77f73a-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268931481-a5adf2b9fd07-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268931810-2d21cbb869c1-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268932050-531463ebee75-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268932466-afed233abf63-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268932867-6f8087994cb0-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268933305-ae339a0216f3-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268933736-a4ac83f73727-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268934281-2d387387bfba-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268934753-831bea343e0a-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268935188-7649356c1d5b-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268935610-72964a31cf38-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268936055-0602226b24df-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268936570-0c6b9e391dc0-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268937090-c94854af5370-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268937594-c58dd1cf847b-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268938130-d6d5116d6d9a-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268938564-50872eada21e-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268938944-d3908a9b4397-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268939328-9dd5e38cd4c3-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268939828-344940d6b673-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268940250-77c416898514-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268940678-716208141eb7-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268941112-b3e45b9b5eb3-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268941551-6372a1d542ce-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268941975-9d069c564457-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268942375-af8a6d4c1825-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268942798-5c9ecc8b486e-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268943242-7bfb5e72bf37-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268943699-751ad45c08fe-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268944098-4149c180d47e-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268944511-1cdad0cba22c-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268945020-880cb633ce41-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268945428-ad6866a3d4b6-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                }
+            ]
+        },
+        {
+            "id": "youssef-althubaiti-villa",
+            "title": {
+                "ar": "فيلا يوسف الثبيتي",
+                "en": "Youssef AlThubaiti Villa"
+            },
+            "description": {
+                "ar": "تصميم وتنفيذ إنشاء وتشطيب فيلا يوسف الثبيتي",
+                "en": "Design and execution of villa construction and finishing"
+            },
+            "category": {
+                "ar": "فلل",
+                "en": "Villas"
+            },
+            "location": {
+                "ar": "جدة، درة العروس",
+                "en": "Jeddah, Durrat Al-Arus"
+            },
+            "year": "2023",
+            "thumbnail": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+            "gallery": [
+                {
+                    "url": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80",
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "url": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80",
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "url": "https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=1200&q=80",
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                }
+            ]
+        },
+        {
+            "id": "turbah-police-station",
+            "title": {
+                "ar": "مركز شرطة تربة",
+                "en": "Turbah Police Station"
+            },
+            "description": {
+                "ar": "تنفيذ بناء وتشطيب مركز الشرطة في مدينة تربة",
+                "en": "Construction and finishing of Police Station"
+            },
+            "category": {
+                "ar": "مباني حكومية",
+                "en": "Government"
+            },
+            "location": {
+                "ar": "تربة، السعودية",
+                "en": "Turbah, Saudi Arabia"
+            },
+            "year": "2022",
+            "thumbnail": "/uploads/1764269202523-c9f7f5ad1db9-medium.webp",
+            "gallery": [
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269202523-c9f7f5ad1db9-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269202926-bc58149d2f9f-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269203365-11cfa78d5331-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269203842-a850cf680aa3-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269204303-363d78050d49-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269204728-16f5210279f9-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269205174-4e0bec61ba84-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269205614-a3d3e11821cd-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269206100-b66dea924f70-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269206536-1fafea175663-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269206957-abb84b0ad0bd-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269207396-ff9fd7666b54-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269207877-53bea356b598-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269208364-bc9708bac4a2-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269208814-2dab47498e3e-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269209324-b1e4952e638c-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269209816-3edf2afe89e5-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269210276-e02dd7acee62-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764269210718-f385be35ba04-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                }
+            ]
+        },
+        {
+            "id": "mohammadia-villas",
+            "title": {
+                "ar": "فلل المحمدية",
+                "en": "Mohammadia Villas"
+            },
+            "description": {
+                "ar": "تنفيذ 9 فلل سكنية في حي المحمدية",
+                "en": "Construction of 9 residential villas"
+            },
+            "category": {
+                "ar": "فلل",
+                "en": "Villas"
+            },
+            "location": {
+                "ar": "الرياض، حي المحمدية",
+                "en": "Riyadh, Mohammadia"
+            },
+            "year": "2023",
+            "thumbnail": "/uploads/1764268809564-bca780e879a3-medium.webp",
+            "gallery": [
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268809564-bca780e879a3-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268810075-742966d7f2fa-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268810616-26faf8372c5a-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268811179-0764ff026834-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268811751-eba4cfa98973-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268812340-492403149f32-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268812919-f6b5d08b5530-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268813515-0c37aa5994da-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268814080-f9861dfcddeb-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268814627-5a5e5d3fb05c-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268815116-156c9d16e429-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268815740-02b0bf698228-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268816347-c0984601f635-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268816890-e9fd2cb34508-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268817492-741fb2d54146-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268818093-dfed23644d80-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268818657-ad7c9b75a186-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268819224-d760625e58d2-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268819741-4ce06595d741-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268820223-b0ebe27311b0-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268820742-87f03c8ceef1-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268821181-52f757059fe7-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268821589-a3bc833a349e-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268822056-3fa665a39375-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268822597-cda74073ac55-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268823075-88dfcdbdaff8-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268823471-facc455a1025-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268823963-d642286adf91-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                }
+            ]
+        },
+        {
+            "id": "ministry-of-health-rehabilitation",
+            "title": {
+                "ar": "إعادة تأهيل أدوار وزارة الصحة",
+                "en": "Ministry of Health Rehabilitation"
+            },
+            "description": {
+                "ar": "تصميم هيكلية إدارة مشاريع لإعادة تأهيل أدوار وزارة الصحة",
+                "en": "Project management for Ministry rehabilitation"
+            },
+            "category": {
+                "ar": "مباني حكومية",
+                "en": "Government"
+            },
+            "location": {
+                "ar": "الرياض، المدينة الرقمية",
+                "en": "Riyadh, Digital City"
+            },
+            "year": "2024",
+            "thumbnail": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",
+            "gallery": [
+                {
+                    "url": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&q=80",
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "url": "https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=1200&q=80",
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "url": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80",
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                }
+            ]
+        },
+        {
+            "id": "khuzama-villas",
+            "title": {
+                "ar": "فلل الخزامى",
+                "en": "Khuzama Villas"
+            },
+            "description": {
+                "ar": "تصميم وتنفيذ 12 فيلا سكنية في منطقة الربوة",
+                "en": "Design and construction of 12 residential villas"
+            },
+            "category": {
+                "ar": "فلل",
+                "en": "Villas"
+            },
+            "location": {
+                "ar": "الرياض، الربوة",
+                "en": "Riyadh, Rabwah"
+            },
+            "year": "2024",
+            "thumbnail": "/uploads/1764268577631-7cb637039add-medium.webp",
+            "gallery": [
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268577631-7cb637039add-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268577965-2128067ffe0f-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268578275-a4ac7ee014ec-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268578854-4517fd444601-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268579283-2f97798e594a-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268580025-a86bd2c9f52c-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268580808-d88badbc8a52-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268581534-d4189b7e0984-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268582309-3839c5c0920d-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268583402-9fd73c7c4787-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268583741-2f3da26e8465-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268584067-fe4a7aac9d94-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268584384-2ceef9ba9a41-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268584781-51a966c43adb-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268585103-736a9cd83e9c-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268585417-f3dff3f4a010-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268585749-9881e4927334-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268586073-f7c60d6e03a2-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268586397-de8e73ea3b31-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268586773-107280a159bf-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268587140-05ff52fa623a-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268587489-64feb0fc1791-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268587855-08466d77fc31-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268588239-9577836f5275-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268588637-7bbe540f15be-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268589378-e6507df251a3-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268590129-cd9706ffaf08-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268590842-5acd728291b0-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268591320-11c8b5a90370-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268591792-5cf6d0ef2518-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268592222-f821c43b7947-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "title": {
+                        "ar": "",
+                        "en": ""
+                    },
+                    "url": "/uploads/1764268592685-2c919bbe3d1f-large.webp",
+                    "description": {
+                        "ar": "",
+                        "en": ""
+                    }
+                }
+            ]
+        }
+    ]
+}

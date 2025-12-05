@@ -1,0 +1,103 @@
+{
+  "video": {
+    "url": "",
+    "poster": "",
+    "autoplay": true,
+    "muted": true,
+    "loop": true,
+    "background": true
+  },
+  "hero": {
+    "title": {
+      "ar": "",
+      "en": ""
+    },
+    "subtitle": {
+      "ar": "",
+      "en": ""
+    },
+    "description": {
+      "ar": "",
+      "en": ""
+    }
+  },
+  "sections": {
+    "competencies": {
+      "title": {
+        "ar": "",
+        "en": ""
+      },
+      "subtitle": {
+        "ar": "",
+        "en": ""
+      }
+    },
+    "experience": {
+      "title": {
+        "ar": "",
+        "en": ""
+      },
+      "subtitle": {
+        "ar": "",
+        "en": ""
+      }
+    },
+    "education": {
+      "title": {
+        "ar": "",
+        "en": ""
+      },
+      "subtitle": {
+        "ar": "",
+        "en": ""
+      }
+    },
+    "contact": {
+      "title": {
+        "ar": "",
+        "en": ""
+      },
+      "subtitle": {
+        "ar": "",
+        "en": ""
+      }
+    }
+  },
+  "certificates": [],
+  "projects": [
+    {
+      "id": "project-5rjv9q",
+      "title": {
+        "ar": "مشروع شبرا",
+        "en": ""
+      },
+      "description": {
+        "ar": "تطوير عمراني",
+        "en": ""
+      },
+      "category": {
+        "ar": "",
+        "en": ""
+      },
+      "location": {
+        "ar": "الرياض - شبرا",
+        "en": ""
+      },
+      "year": "",
+      "thumbnail": "/uploads/1764260607111-74bc54ef751b-medium.webp",
+      "gallery": [
+        {
+          "url": "/uploads/1764260607111-74bc54ef751b-large.webp",
+          "title": {
+            "ar": "مصنع الخرسانة السعودية",
+            "en": ""
+          },
+          "description": {
+            "ar": "",
+            "en": ""
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jack - مساعدي الذكي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e16 0%, #1a1f2e 100%);
+            color: #e0e0e0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .chat-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .jack-avatar {
+            font-size: 2.5rem;
+            display: inline-block;
+            animation: glowPulse 1.5s ease-in-out infinite;
+            will-change: filter, transform;
+            text-shadow: 0 0 10px #38ef7d,
+                         0 0 20px #38ef7d,
+                         0 0 30px #11998e;
+        }
+        
+        @keyframes glowPulse {
+            0% {
+                text-shadow: 0 0 10px #38ef7d,
+                            0 0 20px #38ef7d,
+                            0 0 30px #11998e,
+                            0 0 40px #11998e;
+                transform: scale(1);
+            }
+            50% {
+                text-shadow: 0 0 20px #38ef7d,
+                            0 0 40px #38ef7d,
+                            0 0 60px #11998e,
+                            0 0 80px #11998e;
+                transform: scale(1.15);
+            }
+            100% {
+                text-shadow: 0 0 10px #38ef7d,
+                            0 0 20px #38ef7d,
+                            0 0 30px #11998e,
+                            0 0 40px #11998e;
+                transform: scale(1);
+            }
+        }
+
+        .chat-header p {
+            font-size: 0.95rem;
+            opacity: 0.95;
+            margin-top: 8px;
+        }
+
+        .welcome-message {
+            background: rgba(56, 239, 125, 0.1);
+            border-right: 4px solid #38ef7d;
+            padding: 20px;
+            margin: 15px;
+            border-radius: 10px;
+            line-height: 1.8;
+            transition: all 0.3s ease;
+        }
+
+        .welcome-message.hidden {
+            display: none;
+        }
+
+        .welcome-message h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #38ef7d;
+        }
+
+        .welcome-message ul {
+            list-style: none;
+            padding-right: 10px;
+        }
+
+        .welcome-message li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome-message li::before {
+            content: '✓';
+            background: #38ef7d;
+            color: #0a0e16;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        
+        .chat-active-indicator {
+            background: rgba(56, 239, 125, 0.15);
+            padding: 10px 20px;
+            margin: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #38ef7d;
+            border: 1px solid rgba(56, 239, 125, 0.3);
+            display: none;
+        }
+        
+        .chat-active-indicator.active {
+            display: block;
+        }
+
+        #chatMessages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            text-align: left;
+        }
+
+        .message.assistant {
+            text-align: right;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            max-width: 75%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            line-height: 1.7;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.assistant .message-bubble {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input-area {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .input-container {
+            display: flex !important;
+            gap: 10px;
+            align-items: center;
+            background: rgba(255,255,255,0.08);
+            border-radius: 25px;
+            padding: 8px 15px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        #messageInput {
+            flex: 1 !important;
+            background: transparent !important;
+            border: none !important;
+            color: #e0e0e0 !important;
+            font-size: 1rem !important;
+            padding: 8px 12px !important;
+            outline: none !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        #messageInput::placeholder {
+            color: rgba(224, 224, 224, 0.5);
+        }
+
+        .input-buttons {
+            display: flex !important;
+            gap: 8px;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .icon-btn {
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            background: rgba(255,255,255,0.1) !important;
+            color: #38ef7d !important;
+            cursor: pointer !important;
+            transition: all 0.3s !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 1.1rem !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .icon-btn:hover {
+            background: rgba(56, 239, 125, 0.2) !important;
+            transform: scale(1.1) !important;
+        }
+
+        #sendBtn {
+            background: linear-gradient(135deg, #11998e, #38ef7d) !important;
+            color: white !important;
+        }
+
+        #sendBtn:hover {
+            background: linear-gradient(135deg, #0e8074, #2ed96a) !important;
+        }
+
+        .typing-indicator {
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 18px;
+            display: inline-flex;
+            gap: 5px;
+            align-items: center;
+            border-bottom-right-radius: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #38ef7d;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(56, 239, 125, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(56, 239, 125, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-header">
+        <h1>
+            <span class="jack-avatar">🤖</span>
+            Jack - مساعدي الذكي
+        </h1>
+        <p>اسألني أي شيء عن د. محمد، خبراته، مشاريعه، ومؤهلاته!</p>
+    </div>
+
+    <div class="welcome-message" id="welcomeMessage">
+        <h2>مرحباً! أنا Jack 👋</h2>
+        <p>أنا مساعد ذكي طوره الدكتور محمد. يمكنني مساعدتك في:</p>
+        <ul>
+            <li>التعرف على خبرات الدكتور محمد في الإدارة التنفيذية</li>
+            <li>فهم منهجياته في تحليل النظم والمشاكل</li>
+            <li>معرفة خبرته في إدارة المخاطر (Risk Management)</li>
+            <li>الاطلاع على أدواته العلمية التحليلية</li>
+            <li>أي استفسار عن مشاريعه وإنجازاته</li>
+        </ul>
+        <p style="margin-top: 15px; font-style: italic; opacity: 0.9;">اكتب سؤالك في الأسفل وسأجيبك فوراً! ✨</p>
+    </div>
+
+    <div class="chat-active-indicator" id="chatIndicator">
+        💬 انت الان تتحدث مع مساعدي الذكي جاك
+    </div>
+
+    <div id="chatMessages"></div>
+
+    <div class="chat-input-area">
+        <form id="chatForm" style="display: block !important;">
+            <div class="input-container">
+                <input 
+                    type="text" 
+                    id="messageInput" 
+                    placeholder="اكتب سؤالك هنا... مثال: ما هي خبرات الدكتور محمد؟"
+                    autocomplete="off"
+                />
+                <div class="input-buttons">
+                    <button type="button" class="icon-btn" id="micBtn" title="تسجيل صوتي">🎤</button>
+                    <button type="button" class="icon-btn" id="imageBtn" title="إرسال صورة">📷</button>
+                    <button type="submit" class="icon-btn" id="sendBtn" title="إرسال">📤</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const chatForm = document.getElementById('chatForm');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const micBtn = document.getElementById('micBtn');
+        const imageBtn = document.getElementById('imageBtn');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const chatIndicator = document.getElementById('chatIndicator');
+
+        // Session ID
+        const sessionId = 'portfolio-jack-' + Date.now();
+        let firstMessageSent = false;
+
+        // Add message to chat
+        function addMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.textContent = content;
+            
+            messageDiv.appendChild(bubble);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message assistant';
+            typingDiv.id = 'typingIndicator';
+            
+            const indicator = document.createElement('div');
+            indicator.className = 'typing-indicator';
+            indicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+            
+            typingDiv.appendChild(indicator);
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Remove typing indicator
+        function removeTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+
+        // Send message
+        async function sendMessage(message) {
+            if (!message.trim()) return;
+
+            // Hide welcome message after first question
+            if (!firstMessageSent) {
+                welcomeMessage.classList.add('hidden');
+                chatIndicator.classList.add('active');
+                firstMessageSent = true;
+            }
+
+            // Add user message
+            addMessage('user', message);
+            messageInput.value = '';
+            sendBtn.disabled = true;
+
+            // Show typing
+            showTyping();
+
+            try {
+                console.log('Sending to Jack AI:', message);
+                
+                const response = await fetch('http://localhost:3030/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        sessionId: sessionId
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Jack AI response:', data);
+
+                removeTyping();
+
+                if (data.ok && data.response) {
+                    addMessage('assistant', data.response);
+                } else {
+                    addMessage('assistant', 'عذراً، حدث خطأ في معالجة طلبك. يرجى المحاولة مرة أخرى.');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                removeTyping();
+                addMessage('assistant', '⚠️ عذراً، لا يمكن الاتصال بـ Jack AI حالياً. تأكد من تشغيل الخادم على المنفذ 3030.');
+            }
+
+            sendBtn.disabled = false;
+            messageInput.focus();
+        }
+
+        // Form submit
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            sendMessage(messageInput.value);
+        });
+
+        // Microphone (placeholder)
+        micBtn.addEventListener('click', () => {
+            alert('🎤 ميزة التسجيل الصوتي قيد التطوير!');
+        });
+
+        // Image upload (placeholder)
+        imageBtn.addEventListener('click', () => {
+            alert('📷 ميزة رفع الصور قيد التطوير!');
+        });
+
+        // Focus input on load
+        messageInput.focus();
+
+        console.log('✅ Jack AI Chat Interface loaded');
+        console.log('Session ID:', sessionId);
+    </script>
+</body>
+</html>

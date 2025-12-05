@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تم الدفع بنجاح - Dr. Mohammad</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --accent: #38ef7d;
+            --dark: #0a0e16;
+            --dark-light: #1a1f2e;
+            --text: #f7fafc;
+            --text-muted: #a0aec0;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-container {
+            max-width: 600px;
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 25px;
+            padding: 50px 40px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: scaleIn 0.5s ease 0.3s backwards;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-icon i {
+            font-size: 4rem;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: right;
+        }
+
+        .info-box h3 {
+            color: var(--success);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-box li {
+            padding: 10px 0;
+            padding-right: 25px;
+            position: relative;
+            line-height: 1.8;
+        }
+
+        .info-box li::before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--success);
+            font-weight: 900;
+        }
+
+        .reference-number {
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .reference-number strong {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .reference-number span {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 800;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 18px;
+            border-radius: 12px;
+            border: none;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: var(--primary);
+        }
+
+        .email-notice {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            border-right: 4px solid var(--primary);
+        }
+
+        .email-notice i {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .success-container {
+                padding: 40px 25px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+
+        <h1>تم الدفع بنجاح!</h1>
+        
+        <p class="message">
+            شكراً لك على ثقتك. تم استلام طلبك وسيتم دراسته بعناية فائقة.
+        </p>
+
+        <div class="reference-number">
+            <strong><i class="fas fa-hashtag"></i> رقم المرجع:</strong>
+            <span id="referenceNumber">-</span>
+        </div>
+
+        <div class="info-box">
+            <h3><i class="fas fa-calendar-check"></i> الخطوات القادمة:</h3>
+            <ul>
+                <li><strong>اليوم:</strong> تأكيد استلام طلبك عبر البريد الإلكتروني</li>
+                <li><strong>خلال 3 أيام عمل:</strong> دراسة تفصيلية لطلبك من قبل فريق الخبراء</li>
+                <li><strong>بعد الدراسة:</strong> تواصل شخصي معك عبر البريد، واتساب، أو الهاتف</li>
+                <li><strong>نهاية الأسبوع:</strong> إرسال عرض سعر مفصل ومخصص لاحتياجاتك</li>
+            </ul>
+        </div>
+
+        <div class="email-notice">
+            <i class="fas fa-envelope"></i>
+            <strong>تحقق من بريدك الإلكتروني</strong>
+            <p style="margin-top: 10px; color: var(--text-muted); font-size: 0.95rem;">
+                تم إرسال تأكيد الدفع والتفاصيل الكاملة إلى <strong id="customerEmail" style="color: var(--accent);">-</strong>
+            </p>
+        </div>
+
+        <div class="action-buttons">
+            <a href="index_complete_jack.html" class="btn btn-primary">
+                <i class="fas fa-home"></i>
+                العودة للرئيسية
+            </a>
+            <button onclick="window.print()" class="btn btn-secondary">
+                <i class="fas fa-print"></i>
+                طباعة التأكيد
+            </button>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            // Get payment data
+            const paymentData = JSON.parse(localStorage.getItem('paymentInProgress') || '{}');
+            
+            if (Object.keys(paymentData).length === 0) {
+                // No payment data, might be direct access
+                const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+                if (bookings.length > 0) {
+                    const lastBooking = bookings[bookings.length - 1];
+                    displaySuccessInfo(lastBooking);
+                } else {
+                    // Redirect to home
+                    setTimeout(() => {
+                        window.location.href = 'index_complete_jack.html';
+                    }, 3000);
+                }
+            } else {
+                displaySuccessInfo(paymentData);
+            }
+        });
+
+        function displaySuccessInfo(data) {
+            // Generate reference number
+            const refNumber = 'DR-' + Date.now().toString().slice(-8);
+            document.getElementById('referenceNumber').textContent = refNumber;
+            document.getElementById('customerEmail').textContent = data.email || '-';
+
+            // Send confirmation email (simulate)
+            console.log('📧 Sending confirmation email to:', data.email);
+            console.log('Payment Data:', data);
+
+            // In production, call email service here
+            // sendConfirmationEmail(data);
+        }
+
+        // Email sending function (to be implemented with backend)
+        function sendConfirmationEmail(data) {
+            // Example using EmailJS or your backend API
+            /*
+            fetch('/api/send-payment-confirmation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            */
+        }
+    </script>
+</body>
+</html>

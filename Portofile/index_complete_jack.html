@@ -1,0 +1,2831 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>د. محمد أديب فواز البرازي - Portfolio Complete</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --secondary: #11998e;
+            --accent: #38ef7d;
+            --dark: #0a0e16;
+            --dark-light: #1a1f2e;
+            --text: #f7fafc;
+            --text-muted: #a0aec0;
+            --border: rgba(255,255,255,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.03;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: 10%;
+            left: 10%;
+        }
+        
+        .bg-circle:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: var(--secondary);
+            top: 60%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+        
+        .bg-circle:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            background: var(--accent);
+            bottom: 10%;
+            left: 50%;
+            animation-delay: 10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, -50px) scale(1.1); }
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 22, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .nav-logo:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+        
+        .nav-logo:hover .logo-img {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            transition: all 0.3s;
+        }
+        
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        /* Dropdown Menu */
+        .nav-item {
+            position: relative;
+        }
+        
+        .dropdown {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .dropdown-toggle {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+        
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(10, 14, 22, 0.98);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 10px 0;
+            min-width: 200px;
+            margin-top: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary);
+            padding-right: 25px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 0 50px;
+            position: relative;
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-text h2 {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .hero-experience {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+        
+        .hero-description {
+            color: var(--text-muted);
+            line-height: 1.9;
+            margin-bottom: 40px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--text);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .btn-jack {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .btn-jack:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(17, 153, 142, 0.5);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3); }
+            50% { box-shadow: 0 10px 40px rgba(17, 153, 142, 0.5); }
+        }
+        
+        .hero-image {
+            position: relative;
+        }
+        
+        .profile-img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 3px solid var(--border);
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            padding: 60px 0;
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+        
+        /* Certificates Section */
+        .certificates-grid {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 10px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(255,255,255,0.1);
+            cursor: grab;
+        }
+
+        .certificates-grid:active {
+            cursor: grabbing;
+        }
+
+        .certificates-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .certificates-grid::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .certificates-grid::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+        }
+        
+        .certificate-card {
+            min-width: 340px;
+            max-width: 340px;
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+            text-align: center;
+            cursor: grab;
+        }
+
+        .certificate-card:active {
+            cursor: grabbing;
+        }
+        
+        .certificate-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        .certificate-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        
+        .certificate-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .certificate-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .certificate-card p {
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        
+        .certificate-year {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+        
+        /* Projects Section - Horizontal Swiper */
+        .projects-grid {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 10px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(255,255,255,0.1);
+        }
+        
+        .projects-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .projects-grid::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        
+        .projects-grid::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+        }
+        
+        .project-card {
+            min-width: 380px;
+            max-width: 380px;
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+            cursor: grab;
+        }
+        
+        .project-card:active {
+            cursor: grabbing;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+        
+        .project-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .project-content {
+            padding: 25px;
+        }
+        
+        .project-category {
+            display: inline-block;
+            background: rgba(56, 239, 125, 0.2);
+            color: var(--accent);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        
+        .project-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        
+        .project-content p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .project-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .project-meta i {
+            color: var(--accent);
+        }
+        
+        /* Timeline - Horizontal Swiper */
+        .experience-timeline {
+            position: relative;
+            overflow: hidden;
+            padding: 20px 0;
+        }
+        
+        .experience-swiper {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 10px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) rgba(255,255,255,0.1);
+        }
+        
+        .experience-swiper::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .experience-swiper::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        
+        .experience-swiper::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+        }
+        
+        .timeline-item {
+            min-width: 400px;
+            max-width: 400px;
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+            cursor: grab;
+        }
+        
+        .timeline-item:active {
+            cursor: grabbing;
+        }
+        
+        .timeline-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(56, 239, 125, 0.2);
+        }
+        
+        .timeline-date {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .timeline-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        
+        .timeline-content h4 {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        
+        .timeline-content ul {
+            list-style: none;
+        }
+        
+        .timeline-content li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        
+        .timeline-content li:last-child {
+            border-bottom: none;
+        }
+        
+        /* Jack Chat Popup */
+        #jackChatPopup {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            width: 500px;
+            max-width: calc(100vw - 40px);
+            height: 700px;
+            max-height: calc(100vh - 40px);
+            background: transparent;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            border: 2px solid var(--secondary);
+            overflow: hidden;
+        }
+        
+        #jackChatPopup.active {
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .jack-chat-header {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+        
+        .jack-chat-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        
+        .close-jack-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+        
+        .close-jack-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        #jackChatFrame {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #0a0e16;
+            display: block;
+        }
+        
+        /* Floating Jack Button */
+        .jack-float-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
+            z-index: 1999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .jack-float-btn.chat-active {
+            animation: bounce 2s infinite, pulseGlow 1.5s infinite;
+            box-shadow: 0 0 0 0 rgba(56, 239, 125, 0.7);
+        }
+        
+        .jack-float-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(17, 153, 142, 0.6);
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(56, 239, 125, 0.7),
+                            0 10px 30px rgba(17, 153, 142, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 15px rgba(56, 239, 125, 0),
+                            0 15px 50px rgba(56, 239, 125, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(56, 239, 125, 0),
+                            0 10px 30px rgba(17, 153, 142, 0.4);
+            }
+        }
+        
+        /* Skills Tags */
+        .skill-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            color: var(--text);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+            cursor: default;
+        }
+        
+        .skill-tag:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.35), rgba(118, 75, 162, 0.35));
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Contact & Booking Section */
+        .contact-section {
+            padding: 100px 0;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid var(--border);
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .contact-method:hover {
+            transform: translateX(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .contact-details p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .booking-form {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.12);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            display: none;
+            padding: 20px;
+            background: rgba(56, 239, 125, 0.1);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            color: var(--accent);
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Consultations Section */
+        .consultations-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .consultations-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .consultations-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .consultations-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .consultations-header h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .consultations-header p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .consultations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto 50px;
+        }
+
+        .consultation-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .consultation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .consultation-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .consultation-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .consultation-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .consultation-card:hover .consultation-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .consultation-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .consultation-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 50px 30px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 25px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '💡';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 6rem;
+            opacity: 0.1;
+        }
+
+        .cta-section h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 15px;
+        }
+
+        .cta-highlight {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Web Design Services Section */
+        .web-services-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #0a0e16 0%, #1a1f2e 50%, #0a0e16 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .web-services-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(118, 75, 162, 0.15) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .web-services-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .web-services-hero {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 25px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .web-services-hero h2 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #38ef7d, #667eea);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 5s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .web-services-hero .question {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .web-services-hero .emoji {
+            font-size: 3rem;
+            margin: 20px 0;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .web-services-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .web-service-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(15px);
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .web-service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .web-service-card:hover::before {
+            opacity: 1;
+            animation: rotate 20s linear infinite;
+        }
+
+        .web-service-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.4);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .web-service-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .web-service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .web-service-card:hover .web-service-icon {
+            transform: rotateY(360deg) scale(1.1);
+        }
+
+        .web-service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text);
+            font-weight: 800;
+        }
+
+        .web-service-card p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .web-service-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .web-service-features li {
+            padding: 10px 0;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .web-service-features li::before {
+            content: '✓';
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        .web-cta-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            border: 3px solid var(--primary);
+            border-radius: 30px;
+            padding: 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .web-cta-box::before {
+            content: '💻';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            font-size: 8rem;
+            opacity: 0.1;
+        }
+
+        .web-cta-box::after {
+            content: '🚀';
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            font-size: 8rem;
+            opacity: 0.1;
+        }
+
+        .web-cta-box h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .web-cta-box p {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 30px;
+        }
+
+        .web-cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .web-cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.6);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                gap: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .nav-link {
+                font-size: 0.85rem;
+            }
+            
+            .dropdown-toggle {
+                font-size: 0.85rem;
+            }
+            
+            .dropdown-menu {
+                position: fixed;
+                top: 70px;
+                right: 10px;
+                left: 10px;
+                width: auto;
+            }
+            
+            .dropdown.active .dropdown-menu {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+            
+            .web-services-hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .web-services-hero .question {
+                font-size: 1.5rem;
+            }
+            
+            .web-services-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .web-service-card {
+                padding: 30px;
+            }
+            
+            .web-cta-box {
+                padding: 30px;
+            }
+            
+            .web-cta-box h3 {
+                font-size: 2rem;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-text h2 {
+                font-size: 0.95rem;
+                white-space: nowrap;
+            }
+            
+            #jackChatPopup {
+                width: calc(100vw - 20px);
+                height: calc(100vh - 100px);
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                max-width: none;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .projects-grid, .certificates-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .contact-method {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .booking-form,
+            .contact-info {
+                padding: 25px;
+            }
+
+            .consultations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .consultations-header h2 {
+                font-size: 2rem;
+            }
+
+            .cta-section h3 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-text h2 {
+                font-size: 0.85rem;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+
+            .consultation-card {
+                padding: 25px 20px;
+            }
+
+            .consultations-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="admin-login.html" class="nav-logo" title="لوحة التحكم - إدارة المواعيد">
+                <img src="assets/images/MyChracter.png" alt="Logo" class="logo-img">
+                <span class="logo-text">Dr.M.A.F.B</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">الرئيسية</a></li>
+                <li><a href="#consultations" class="nav-link">استشرني</a></li>
+                <li><a href="#web-services" class="nav-link">هل أعجبك موقعي؟</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">من أنا؟</span>
+                    <div class="dropdown-menu">
+                        <a href="#projects" class="dropdown-item">أعمالي</a>
+                        <a href="#certificates" class="dropdown-item">شهاداتي</a>
+                        <a href="#experience" class="dropdown-item">خبرتي</a>
+                        <a href="#jack-ai" class="dropdown-item">Jack AI</a>
+                    </div>
+                </li>
+                <li><a href="#contact" class="nav-link">تواصل معي</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text" data-aos="fade-right">
+                    <h1>د. محمد أديب فواز البرازي</h1>
+                    <h2>مدير تنفيذي | محترف ذكاء اصطناعي | محلل نظم ومخاطر | مخطط استراتيجي</h2>
+                    <p class="hero-experience">
+                        خبرة ممتدة لأكثر من <span class="highlight">30 عاماً</span> في تحليل النظم وإدارة المخاطر
+                    </p>
+                    <p class="hero-description">
+                        مدير <strong>تنفيذي</strong> متخصص في <strong>تحليل النظم والمشاكل المعقدة</strong> باستخدام <strong>الأدوات العلمية التحليلية</strong>؛ 
+                        خبير في <strong>إدارة المخاطر (Risk Management)</strong> و<strong>التخطيط الاستراتيجي</strong>، 
+                        يقود الفرق لوضع الحلول وتنفيذ الخطط الفعالة لتحقيق الأهداف المؤسسية.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-download"></i>
+                            <span>تحميل السيرة الذاتية</span>
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-envelope"></i>
+                            <span>تواصل معي</span>
+                        </button>
+                        <button class="btn btn-jack" onclick="openJackChat()">
+                            <i class="fas fa-robot"></i>
+                            <span>اسأل Jack عني</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image" data-aos="fade-left">
+                    <img src="assets/images/MyChracter.png" alt="د. محمد" class="profile-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Tags Section -->
+    <section style="padding: 60px 0; background: rgba(255,255,255,0.02);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 40px;" data-aos="fade-up">
+                <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 15px;">محمد</h2>
+                <p style="font-size: 1.3rem; color: var(--text-muted);">مدير تنفيذي | محترف في الذكاء الاصطناعي | محلل نظم ومخاطر</p>
+            </div>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; max-width: 900px; margin: 0 auto;" data-aos="fade-up" data-aos-delay="100">
+                <span class="skill-tag">الذكاء الاصطناعي AI</span>
+                <span class="skill-tag">تحليل النظم</span>
+                <span class="skill-tag">إدارة المخاطر</span>
+                <span class="skill-tag">التخطيط الاستراتيجي</span>
+                <span class="skill-tag">إدارة المشاريع PMI</span>
+                <span class="skill-tag">تحليل البيانات</span>
+                <span class="skill-tag">الأمن السيبراني</span>
+                <span class="skill-tag">القيادة التنفيذية</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Web Design Services Section -->
+    <section class="web-services-section" id="web-services">
+        <div class="container web-services-container">
+            <!-- Hero Question -->
+            <div class="web-services-hero" data-aos="zoom-in">
+                <span class="emoji">😍</span>
+                <h2>هل أعجبك موقعي؟</h2>
+                <p class="question">أستطيع أن أصمم لك موقعاً مثله أو أفضل!</p>
+                <span class="emoji">✨</span>
+            </div>
+
+            <!-- Service Cards -->
+            <div class="web-services-cards">
+                <!-- Portfolio Website -->
+                <div class="web-service-card" data-aos="fade-up" data-aos-delay="0">
+                    <span class="web-service-badge">الأكثر طلباً</span>
+                    <div class="web-service-icon">
+                        👤
+                    </div>
+                    <h3>موقع بروفايل احترافي</h3>
+                    <p>موقع شخصي متكامل يعرض خبراتك ومهاراتك بطريقة احترافية تجذب العملاء وأصحاب العمل</p>
+                    <ul class="web-service-features">
+                        <li>تصميم عصري وجذاب</li>
+                        <li>متجاوب مع جميع الأجهزة</li>
+                        <li>سهولة التحديث والإدارة</li>
+                        <li>تكامل مع وسائل التواصل</li>
+                        <li>محرك بحث SEO محسّن</li>
+                    </ul>
+                </div>
+
+                <!-- E-commerce Website -->
+                <div class="web-service-card" data-aos="fade-up" data-aos-delay="100">
+                    <span class="web-service-badge">للأعمال التجارية</span>
+                    <div class="web-service-icon">
+                        🛒
+                    </div>
+                    <h3>موقع تجارة إلكترونية</h3>
+                    <p>منصة تجارية متكاملة لبيع منتجاتك وخدماتك عبر الإنترنت بأمان واحترافية</p>
+                    <ul class="web-service-features">
+                        <li>نظام إدارة المنتجات</li>
+                        <li>عربة تسوق متقدمة</li>
+                        <li>بوابات دفع آمنة</li>
+                        <li>لوحة تحكم شاملة</li>
+                        <li>تقارير وإحصائيات</li>
+                    </ul>
+                </div>
+
+                <!-- Custom Website -->
+                <div class="web-service-card" data-aos="fade-up" data-aos-delay="200">
+                    <span class="web-service-badge">حسب الطلب</span>
+                    <div class="web-service-icon">
+                        💻
+                    </div>
+                    <h3>موقع مخصص بالكامل</h3>
+                    <p>تصميم وبرمجة موقع فريد يلبي احتياجاتك الخاصة بالضبط مع كافة المميزات التي تحتاجها</p>
+                    <ul class="web-service-features">
+                        <li>تصميم حسب رؤيتك</li>
+                        <li>ميزات مخصصة</li>
+                        <li>تكامل مع أنظمتك</li>
+                        <li>أداء عالي وسريع</li>
+                        <li>دعم فني مستمر</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- CTA Box -->
+            <div class="web-cta-box" data-aos="fade-up">
+                <h3>جاهز لإطلاق موقعك الاحترافي؟</h3>
+                <p>احجز استشارة مجانية الآن ودعنا نناقش مشروعك</p>
+                <a href="#contact" class="web-cta-button">احجز استشارة مجانية 🚀</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consultations Section -->
+    <section class="consultations-section" id="consultations">
+        <div class="container consultations-container">
+            <div class="consultations-header" data-aos="fade-up">
+                <h2>هل تحتاج استشارة؟</h2>
+                <p>خبرة 30+ عاماً في خدمتك لحل التحديات وتحقيق النجاح</p>
+            </div>
+
+            <div class="consultations-grid">
+                <div class="consultation-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="consultation-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>إدارة المشاريع</h3>
+                    <p>تخطيط وتنفيذ ومتابعة المشاريع باحترافية وفق منهجيات PMI العالمية</p>
+                </div>
+
+                <div class="consultation-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="consultation-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>تحليل وحل المخاطر</h3>
+                    <p>تحديد وتقييم وإدارة المخاطر بأدوات علمية متقدمة</p>
+                </div>
+
+                <div class="consultation-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="consultation-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>دراسة الجدوى الاقتصادية</h3>
+                    <p>تحليل شامل للجدوى المالية والاقتصادية للمشاريع الاستثمارية</p>
+                </div>
+
+                <div class="consultation-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="consultation-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>أدوات الذكاء الاصطناعي</h3>
+                    <p>استشارات متخصصة في تطبيق وتوظيف أدوات AI لمضاعفة الإنتاجية</p>
+                </div>
+
+                <div class="consultation-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="consultation-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>هندسة أوامر الذكاء الاصطناعي</h3>
+                    <p>تصميم Prompts احترافية للحصول على أفضل نتائج من نماذج AI</p>
+                </div>
+
+                <div class="consultation-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="consultation-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>حل مشاكل التنفيذ الإنشائية</h3>
+                    <p>حلول هندسية متخصصة لمشاكل التنفيذ في المشاريع الإنشائية</p>
+                </div>
+
+                <div class="consultation-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="consultation-icon">
+                        <i class="fas fa-drafting-compass"></i>
+                    </div>
+                    <h3>حل مشاكل التنفيذ المعمارية</h3>
+                    <p>استشارات معمارية لحل التحديات التصميمية والتنفيذية</p>
+                </div>
+
+                <div class="consultation-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="consultation-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>حل مشاكل التنفيذ الميكانيكية</h3>
+                    <p>حلول متخصصة للأنظمة الميكانيكية والكهروميكانيكية</p>
+                </div>
+
+                <div class="consultation-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="consultation-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>حل مشاكل التنفيذ الديكورية</h3>
+                    <p>استشارات في التشطيبات والديكور الداخلي والخارجي</p>
+                </div>
+            </div>
+
+            <div class="cta-section" data-aos="fade-up">
+                <h3>
+                    <i class="fas fa-envelope-open-text"></i>
+                    تواصل معي الآن
+                </h3>
+                <p>سأرد عليك خلال</p>
+                <div class="cta-highlight">
+                    ⏰ 12 ساعة عمل
+                </div>
+                <div style="margin-top: 30px;">
+                    <a href="#contact" class="btn btn-primary" style="text-decoration: none; display: inline-block; padding: 18px 40px; font-size: 1.1rem;">
+                        <i class="fas fa-calendar-check"></i>
+                        احجز استشارتك الآن
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jack Intro Card -->
+    <section style="padding: 40px 0;">
+        <div class="container">
+            <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(56, 239, 125, 0.1)); padding: 40px; border-radius: 20px; border: 2px solid var(--border); text-align: center; max-width: 700px; margin: 0 auto;" data-aos="zoom-in">
+                <h3 style="font-size: 2rem; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 15px;">
+                    <span style="font-size: 2.5rem;">🤖</span>
+                    تحدث مع مساعدي الذكي Jack
+                </h3>
+                <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; line-height: 1.8;">
+                    طورت نظام ذكاء صناعي مستقل بالكامل! Jack يمكنه الإجابة على جميع أسئلتك عني، عن مهاراتي، مشاريعي، وخبراتي. جربه الآن!
+                </p>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn" onclick="openJackChat()" style="background: linear-gradient(135deg, var(--secondary), var(--accent)); color: white; padding: 15px 35px; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>ابدأ المحادثة</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('jack-ai').scrollIntoView({behavior: 'smooth'})">
+                        <i class="fas fa-info-circle"></i>
+                        <span>المزيد عن Jack</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section" data-aos="fade-up">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>30+</h3>
+                <p>سنة خبرة</p>
+            </div>
+            <div class="stat-item">
+                <h3>100+</h3>
+                <p>مشروع ناجح</p>
+            </div>
+            <div class="stat-item">
+                <h3>15+</h3>
+                <p>شهادة مهنية</p>
+            </div>
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>عميل راضٍ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jack AI Section - Enhanced -->
+    <section id="jack-ai" style="padding: 100px 0; background: linear-gradient(135deg, rgba(17, 153, 142, 0.08), rgba(56, 239, 125, 0.08)); position: relative; overflow: hidden;">
+        <!-- Decorative Elements -->
+        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(17, 153, 142, 0.15), transparent); border-radius: 50%; animation: float 6s infinite ease-in-out;"></div>
+        <div style="position: absolute; bottom: -70px; left: -70px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56, 239, 125, 0.15), transparent); border-radius: 50%; animation: float 8s infinite ease-in-out reverse;"></div>
+        
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title" style="font-size: 3.2rem;">
+                    <span style="display: inline-block; animation: bounce 2s infinite;">🤖</span>
+                    تعرف على Jack - مساعدي الذكي
+                </h2>
+                <p class="section-subtitle" style="font-size: 1.4rem;">نظام ذكاء صناعي متقدم طورته بنفسي - اسأله أي شيء عني!</p>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px; align-items: start;">
+                
+                <!-- Right Side - Features -->
+                <div data-aos="fade-right">
+                    <div style="background: rgba(255,255,255,0.03); padding: 40px; border-radius: 20px; border: 1px solid var(--border);">
+                        <h3 style="font-size: 2rem; margin-bottom: 30px; color: var(--accent); display: flex; align-items: center; gap: 15px;">
+                            <span style="font-size: 2.5rem;">💡</span>
+                            لماذا Jack مميز؟
+                        </h3>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 25px;">
+                            <!-- Feature 1 -->
+                            <div class="jack-feature" style="display: flex; align-items: start; gap: 15px; padding: 20px; background: rgba(17, 153, 142, 0.1); border-radius: 15px; border-left: 4px solid var(--accent); transition: all 0.3s;">
+                                <div style="font-size: 2rem; min-width: 50px;">🧠</div>
+                                <div>
+                                    <h4 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--accent);">يعرف كل شيء عني</h4>
+                                    <p style="color: var(--text-muted); line-height: 1.7;">خبراتي، مشاريعي، مهاراتي، مؤهلاتي</p>
+                                </div>
+                            </div>
+
+                            <!-- Feature 2 -->
+                            <div class="jack-feature" style="display: flex; align-items: start; gap: 15px; padding: 20px; background: rgba(17, 153, 142, 0.1); border-radius: 15px; border-left: 4px solid var(--accent); transition: all 0.3s;">
+                                <div style="font-size: 2rem; min-width: 50px;">🎤</div>
+                                <div>
+                                    <h4 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--accent);">دعم الصوت</h4>
+                                    <p style="color: var(--text-muted); line-height: 1.7;">يمكنك التحدث معه مباشرةً بالعربية</p>
+                                </div>
+                            </div>
+
+                            <!-- Feature 3 -->
+                            <div class="jack-feature" style="display: flex; align-items: start; gap: 15px; padding: 20px; background: rgba(17, 153, 142, 0.1); border-radius: 15px; border-left: 4px solid var(--accent); transition: all 0.3s;">
+                                <div style="font-size: 2rem; min-width: 50px;">🖼️</div>
+                                <div>
+                                    <h4 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--accent);">تحليل الصور</h4>
+                                    <p style="color: var(--text-muted); line-height: 1.7;">أرسل له صور ويتصل على تحليل ذكي</p>
+                                </div>
+                            </div>
+
+                            <!-- Feature 4 -->
+                            <div class="jack-feature" style="display: flex; align-items: start; gap: 15px; padding: 20px; background: rgba(17, 153, 142, 0.1); border-radius: 15px; border-left: 4px solid var(--accent); transition: all 0.3s;">
+                                <div style="font-size: 2rem; min-width: 50px;">💬</div>
+                                <div>
+                                    <h4 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--accent);">محادثة طبيعية</h4>
+                                    <p style="color: var(--text-muted); line-height: 1.7;">يفهم السياق ويحفظ المصداقية</p>
+                                </div>
+                            </div>
+
+                            <!-- Feature 5 -->
+                            <div class="jack-feature" style="display: flex; align-items: start; gap: 15px; padding: 20px; background: rgba(17, 153, 142, 0.1); border-radius: 15px; border-left: 4px solid var(--accent); transition: all 0.3s;">
+                                <div style="font-size: 2rem; min-width: 50px;">💻</div>
+                                <div>
+                                    <h4 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--accent);">مشروع مفتوح المصدر</h4>
+                                    <p style="color: var(--text-muted); line-height: 1.7;">طورته كاملاً على مؤهلاتي في AI</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left Side - Example Questions -->
+                <div data-aos="fade-left">
+                    <div style="background: rgba(255,255,255,0.03); padding: 40px; border-radius: 20px; border: 2px solid var(--secondary); position: relative; overflow: hidden;">
+                        <!-- Animated Badge -->
+                        <div style="position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--secondary), var(--accent)); padding: 8px 20px; border-radius: 20px; font-size: 0.9rem; font-weight: 700; animation: pulse 2s infinite;">
+                            Jack AI ⚡
+                        </div>
+                        
+                        <h3 style="font-size: 1.8rem; margin-bottom: 30px; margin-top: 40px; text-align: center;">أمثلة على ما يمكن أن تسأل Jack:</h3>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div class="example-question" style="background: rgba(102, 126, 234, 0.15); padding: 15px 20px; border-radius: 12px; border-right: 3px solid var(--primary); cursor: pointer; transition: all 0.3s;" onclick="askJackExample('ما هي خبرات الدكتور محمد؟')">
+                                <i class="fas fa-chevron-left" style="color: var(--accent); margin-left: 10px;"></i>
+                                "ما هي خبرات الدكتور محمد؟"
+                            </div>
+                            
+                            <div class="example-question" style="background: rgba(102, 126, 234, 0.15); padding: 15px 20px; border-radius: 12px; border-right: 3px solid var(--primary); cursor: pointer; transition: all 0.3s;" onclick="askJackExample('كيف يدير الدكتور محمد المخاطر ويحلل النظم؟')">
+                                <i class="fas fa-chevron-left" style="color: var(--accent); margin-left: 10px;"></i>
+                                "كيف يدير الدكتور محمد المخاطر ويحلل النظم؟"
+                            </div>
+                            
+                            <div class="example-question" style="background: rgba(102, 126, 234, 0.15); padding: 15px 20px; border-radius: 12px; border-right: 3px solid var(--primary); cursor: pointer; transition: all 0.3s;" onclick="askJackExample('ما هي المشاريع التي عمل عليها؟')">
+                                <i class="fas fa-chevron-left" style="color: var(--accent); margin-left: 10px;"></i>
+                                "ما هي المشاريع التي عمل عليها؟"
+                            </div>
+                            
+                            <div class="example-question" style="background: rgba(102, 126, 234, 0.15); padding: 15px 20px; border-radius: 12px; border-right: 3px solid var(--primary); cursor: pointer; transition: all 0.3s;" onclick="askJackExample('أخبرني عن شهاداته الأكاديمية')">
+                                <i class="fas fa-chevron-left" style="color: var(--accent); margin-left: 10px;"></i>
+                                "أخبرني عن شهاداته الأكاديمية"
+                            </div>
+                            
+                            <div class="example-question" style="background: rgba(102, 126, 234, 0.15); padding: 15px 20px; border-radius: 12px; border-right: 3px solid var(--primary); cursor: pointer; transition: all 0.3s;" onclick="askJackExample('كيف يمكنني التواصل معه؟')">
+                                <i class="fas fa-chevron-left" style="color: var(--accent); margin-left: 10px;"></i>
+                                "كيف يمكنني التواصل معه؟"
+                            </div>
+                        </div>
+
+                        <!-- CTA Button -->
+                        <div style="margin-top: 40px; text-align: center;">
+                            <button class="btn btn-jack" onclick="openJackChat()" style="font-size: 1.3rem; padding: 18px 45px; width: 100%; justify-content: center;">
+                                <i class="fas fa-comment-dots"></i>
+                                <span>ابدأ المحادثة الآن</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Banner -->
+            <div data-aos="fade-up" data-aos-delay="200" style="margin-top: 60px; text-align: center; background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 40px; border-radius: 20px; box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);">
+                <h3 style="font-size: 2rem; margin-bottom: 15px; color: white;">جرّب المحادثة الآن!</h3>
+                <p style="font-size: 1.2rem; color: rgba(255,255,255,0.9); margin-bottom: 25px;">اكتشف كل شيء عني من خلال حوار تفاعلي ذكي</p>
+                <button class="btn" onclick="openJackChat()" style="background: white; color: var(--primary); font-size: 1.2rem; padding: 15px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                    <i class="fas fa-robot"></i>
+                    <span>تحدث مع Jack الآن</span>
+                </button>
+            </div>
+        </div>
+
+        <style>
+            .jack-feature:hover {
+                transform: translateX(-10px);
+                background: rgba(17, 153, 142, 0.2) !important;
+                box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
+            }
+
+            .example-question:hover {
+                transform: translateX(-5px);
+                background: rgba(102, 126, 234, 0.25) !important;
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            }
+
+            @media (max-width: 968px) {
+                #jack-ai > div > div:nth-child(2) {
+                    grid-template-columns: 1fr !important;
+                }
+            }
+        </style>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">أعمالي ومشاريعي</h2>
+                <p class="section-subtitle">مجموعة من المشاريع التي تم إنجازها بنجاح • اسحب لليسار للمزيد ←</p>
+            </div>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates Section -->
+    <section id="certificates">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">الشهادات والمؤهلات</h2>
+                <p class="section-subtitle">مجموعة متنوعة من الشهادات المهنية والأكاديمية • اسحب لليسار للمزيد ←</p>
+            </div>
+            <div class="certificates-grid" id="certificatesGrid">
+                <!-- Will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Timeline -->
+    <section id="experience">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">الخبرة العملية والإنجازات</h2>
+                <p class="section-subtitle">مسيرة مهنية حافلة بالإنجازات والقيادة التنفيذية • اسحب لليسار للمزيد ←</p>
+            </div>
+            <div class="experience-timeline">
+                <div class="experience-swiper" id="experienceSwiper">
+                    <div class="timeline-item" data-aos="fade-up">
+                        <div class="timeline-date">2023 - حالياً</div>
+                        <div class="timeline-content">
+                            <h3>مدير مشروع</h3>
+                            <h4>ديار الخزامى للمقاولات | الرياض</h4>
+                            <ul>
+                                <li><strong>قيادة مالية:</strong> توجيه الجوانب المالية والتشغيلية</li>
+                                <li><strong>رقابة الأداء:</strong> الإشراف على ميزانية المشروع</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="timeline-date">2021 - 2023</div>
+                        <div class="timeline-content">
+                            <h3>مدير مشروع</h3>
+                            <h4>شركة المشاريع الأولى | الرياض</h4>
+                            <ul>
+                                <li><strong>إدارة استراتيجية:</strong> مشاريع +50 مليون ريال</li>
+                                <li><strong>تحسين الأرباح:</strong> زيادة 25% في هوامش الربح</li>
+                                <li><strong>قيادة الفرق:</strong> 20-30 عضو متعدد التخصصات</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="timeline-date">2004 - 2021</div>
+                        <div class="timeline-content">
+                            <h3>مدير تنفيذي</h3>
+                            <h4>شركة القمر للانشاء | جدة (17 سنة)</h4>
+                            <ul>
+                                <li><strong>قيادة العمليات:</strong> توجيه الأداء المالي للشركة</li>
+                                <li><strong>كفاءة تشغيلية:</strong> تحسين شامل في الأداء</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                        <div class="timeline-date">1997 - 2003</div>
+                        <div class="timeline-content">
+                            <h3>مدير فرع</h3>
+                            <h4>شركة الكمبيوتر الدولية ICC | الرياض</h4>
+                            <ul>
+                                <li><strong>زيادة الربحية:</strong> تحليل مالي معمق للتكاليف</li>
+                                <li><strong>تطوير الأعمال:</strong> قيادة فريق المبيعات</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+                <div class="timeline-item" data-aos="fade-right">
+                    <div class="timeline-date">1994 - 1997</div>
+                    <div class="timeline-content">
+                        <h3>مدير حسابات</h3>
+                        <h4>مؤسسة النظامي للرخام والسيراميك | السعودية</h4>
+                        <ul>
+                            <li><strong>إدارة الحسابات:</strong> الإشراف على جميع العمليات المحاسبية والمالية للمؤسسة</li>
+                            <li><strong>التقارير المالية:</strong> إعداد التقارير المالية الشهرية والسنوية</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Booking Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">تواصل معي واحجز موعد</h2>
+                <p class="section-subtitle">للاستشارات المهنية وفرص التعاون</p>
+            </div>
+
+            <div class="contact-container">
+                <!-- Contact Methods -->
+                <div data-aos="fade-right">
+                    <div class="contact-info">
+                        <h3 style="font-size: 1.8rem; margin-bottom: 30px; color: var(--primary);">
+                            <i class="fas fa-envelope-open-text"></i>
+                            طرق التواصل
+                        </h3>
+
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>البريد الإلكتروني</h3>
+                                <p>الطريقة المفضلة للتواصل الرسمي</p>
+                                <a href="mailto:albarazi@email.com" style="color: var(--primary); text-decoration: none; font-weight: 600; display: inline-block; margin-top: 5px;">
+                                    أرسل رسالة <i class="fas fa-arrow-left" style="margin-right: 5px;"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="contact-icon" style="background: linear-gradient(135deg, #25D366, #128C7E);">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>واتساب للأعمال</h3>
+                                <p>للاستفسارات السريعة (خاص بالأعمال فقط)</p>
+                                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 5px;">
+                                    <i class="fas fa-lock"></i> الرقم متاح بعد حجز الموعد
+                                </p>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 25px; border-radius: 15px; border-right: 4px solid var(--primary); margin-top: 30px;">
+                            <h4 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <i class="fas fa-info-circle"></i>
+                                ملاحظة مهمة
+                            </h4>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
+                                • التواصل المباشر محصور بالبريد الإلكتروني فقط<br>
+                                • رقم الواتساب يُرسل آلياً بعد تأكيد الموعد<br>
+                                • جميع المواعيد تخضع للموافقة المسبقة<br>
+                                • مدة الاستشارة: 30-60 دقيقة
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Form -->
+                <div data-aos="fade-left">
+                    <div class="booking-form">
+                        <h3 style="font-size: 1.8rem; margin-bottom: 30px; color: var(--primary);">
+                            <i class="fas fa-calendar-check"></i>
+                            احجز موعد استشارة
+                        </h3>
+
+                        <form id="bookingForm">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-user"></i>
+                                    الاسم الكامل *
+                                </label>
+                                <input type="text" name="fullName" required placeholder="أدخل اسمك الكامل">
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-envelope"></i>
+                                    البريد الإلكتروني *
+                                </label>
+                                <input type="email" name="email" required placeholder="example@email.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-phone"></i>
+                                    رقم الهاتف *
+                                </label>
+                                <input type="tel" name="phone" required placeholder="+966 5XX XXX XXX">
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-building"></i>
+                                    اسم الشركة / المؤسسة (اختياري)
+                                </label>
+                                <input type="text" name="company" placeholder="اسم شركتك أو مؤسستك">
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    المدينة *
+                                </label>
+                                <input type="text" name="city" required placeholder="مثال: الرياض، جدة، دبي">
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-briefcase"></i>
+                                    نوع الاستشارة *
+                                </label>
+                                <select name="consultationType" required>
+                                    <option value="">اختر نوع الاستشارة</option>
+                                    <option value="web-design-portfolio">تصميم موقع بروفايل احترافي</option>
+                                    <option value="web-design-ecommerce">تصميم موقع تجارة إلكترونية</option>
+                                    <option value="web-design-custom">تصميم موقع مخصص</option>
+                                    <option value="systems-analysis">تحليل النظم</option>
+                                    <option value="risk-management">إدارة المخاطر</option>
+                                    <option value="strategic-planning">التخطيط الاستراتيجي</option>
+                                    <option value="project-management">إدارة المشاريع</option>
+                                    <option value="ai-consulting">استشارات الذكاء الاصطناعي</option>
+                                    <option value="data-analysis">تحليل البيانات</option>
+                                    <option value="other">أخرى</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-calendar-alt"></i>
+                                    التاريخ المفضل *
+                                </label>
+                                <input type="date" name="preferredDate" required min="">
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-clock"></i>
+                                    الوقت المفضل *
+                                </label>
+                                <select name="preferredTime" required>
+                                    <option value="">اختر الوقت</option>
+                                    <option value="09:00">09:00 صباحاً</option>
+                                    <option value="10:00">10:00 صباحاً</option>
+                                    <option value="11:00">11:00 صباحاً</option>
+                                    <option value="13:00">01:00 ظهراً</option>
+                                    <option value="14:00">02:00 ظهراً</option>
+                                    <option value="15:00">03:00 مساءً</option>
+                                    <option value="16:00">04:00 مساءً</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-comment-dots"></i>
+                                    تفاصيل الاستشارة *
+                                </label>
+                                <textarea name="details" required placeholder="اذكر تفاصيل موضوع الاستشارة والنقاط التي تريد مناقشتها..."></textarea>
+                            </div>
+
+                            <!-- Payment Information Box -->
+                            <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); border: 2px solid var(--primary); border-radius: 15px; padding: 25px; margin: 25px 0;">
+                                <h4 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 1.3rem;">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    رسوم دراسة الطلب
+                                </h4>
+                                
+                                <div style="display: grid; gap: 15px;">
+                                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border-right: 3px solid var(--accent);">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                            <span style="color: var(--text); font-weight: 600;">
+                                                <i class="fas fa-comments" style="color: var(--accent);"></i>
+                                                الاستشارات
+                                            </span>
+                                            <span style="color: var(--accent); font-size: 1.5rem; font-weight: 800;">$150</span>
+                                        </div>
+                                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; margin-bottom: 0;">تحليل النظم، إدارة المخاطر، التخطيط، AI</p>
+                                    </div>
+                                    
+                                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border-right: 3px solid #3b82f6;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                            <span style="color: var(--text); font-weight: 600;">
+                                                <i class="fas fa-laptop-code" style="color: #3b82f6;"></i>
+                                                تصميم المواقع
+                                            </span>
+                                            <span style="color: #3b82f6; font-size: 1.5rem; font-weight: 800;">$29</span>
+                                        </div>
+                                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; margin-bottom: 0;">بروفايل، متجر إلكتروني، موقع مخصص</p>
+                                    </div>
+                                </div>
+
+                                <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); border-radius: 10px; padding: 15px; margin-top: 15px;">
+                                    <p style="color: var(--text); font-size: 0.95rem; line-height: 1.8; margin: 0;">
+                                        <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
+                                        <strong>مهم:</strong> الرسوم <strong>غير مستردة</strong> بمجرد الموافقة على الدفع. هذا المبلغ مخصص لدراسة وتحليل طلبك.
+                                    </p>
+                                </div>
+
+                                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); border-radius: 10px; padding: 15px; margin-top: 15px;">
+                                    <h5 style="color: var(--success); margin-bottom: 10px; font-size: 1.1rem;">
+                                        <i class="fas fa-check-circle"></i> ماذا يشمل المبلغ؟
+                                    </h5>
+                                    <ul style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; margin: 0; padding-right: 20px;">
+                                        <li>دراسة تفصيلية لطلبك خلال <strong>3 أيام عمل</strong></li>
+                                        <li>تواصل شخصي عبر البريد، واتساب، أو هاتف</li>
+                                        <li>إعداد عرض سعر مخصص ومفصل</li>
+                                        <li>استشارة مبدئية مجانية (30 دقيقة)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-credit-card"></i>
+                                متابعة للدفع
+                            </button>
+
+                            <div class="success-message" id="successMessage">
+                                <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                                تم إرسال طلبك بنجاح! سنتواصل معك عبر البريد الإلكتروني خلال 24 ساعة لتأكيد الموعد.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jack Chat Popup -->
+    <div id="jackChatPopup">
+        <div class="jack-chat-header">
+            <h3>
+                <i class="fas fa-robot"></i>
+                Jack - مساعدي الذكي
+            </h3>
+            <button class="close-jack-btn" onclick="closeJackChat()">✕</button>
+        </div>
+        <iframe id="jackChatFrame" src=""></iframe>
+    </div>
+
+    <!-- Floating Jack Button -->
+    <button class="jack-float-btn" onclick="openJackChat()" title="اسأل Jack عني">
+        🤖
+    </button>
+
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Jack AI SDK - Load with error handling -->
+    <script>
+        // Load Jack SDK dynamically with fallback
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'http://localhost:3030/integrations/jack-ai-sdk.js';
+            script.async = true;
+            script.onerror = function() {
+                console.warn('⚠️ Jack AI SDK failed to load - some features may be limited');
+                // Create a minimal fallback
+                window.JackAI = class {
+                    constructor() {}
+                    chat() { return Promise.resolve({ response: 'Jack AI is currently offline' }); }
+                };
+                window.jack = new JackAI();
+            };
+            document.head.appendChild(script);
+        })();
+    </script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Dropdown Menu Toggle for Mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            
+            if (dropdownToggle) {
+                dropdownToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('active');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!dropdown.contains(e.target)) {
+                        dropdown.classList.remove('active');
+                    }
+                });
+            }
+        });
+
+        // Jack Chat Functions
+        function openJackChat() {
+            const popup = document.getElementById('jackChatPopup');
+            const frame = document.getElementById('jackChatFrame');
+            const floatBtn = document.querySelector('.jack-float-btn');
+            
+            // Load Jack AI chat interface (embed version - lighter and optimized for iframe)
+            // Always reload to ensure fresh content
+            frame.src = 'http://localhost:3030/embed.html?t=' + Date.now();
+            
+            popup.classList.add('active');
+            floatBtn.classList.add('chat-active');
+            
+            // Debug: log iframe loading
+            frame.onload = function() {
+                console.log('✅ Jack AI iframe loaded successfully');
+            };
+            frame.onerror = function(e) {
+                console.error('❌ Jack AI iframe failed to load:', e);
+            };
+        }
+        
+        function closeJackChat() {
+            const popup = document.getElementById('jackChatPopup');
+            const floatBtn = document.querySelector('.jack-float-btn');
+            
+            popup.classList.remove('active');
+            floatBtn.classList.remove('chat-active');
+        }
+        
+        // Check if Jack AI is running
+        async function checkJackStatus() {
+            try {
+                // Try to load the main page instead of /api/health
+                const response = await fetch('http://localhost:3030/', { 
+                    method: 'HEAD',
+                    mode: 'no-cors' 
+                });
+                console.log('✅ Jack AI is running on http://localhost:3030');
+                return true;
+            } catch (error) {
+                console.warn('⚠️ Jack AI server is not running. Please start it with: cd Jack-AI-Platform && node server.js');
+                // Show user-friendly message
+                setTimeout(() => {
+                    const status = document.querySelector('.jack-float-btn');
+                    if (status) {
+                        status.title = 'Jack AI غير متصل - يرجى تشغيل الخادم';
+                        status.style.opacity = '0.5';
+                    }
+                }, 1000);
+                return false;
+            }
+        }
+        
+        // Check Jack status on page load
+        checkJackStatus();
+
+        // Initialize Jack SDK with delay to ensure it's loaded
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (typeof JackAI !== 'undefined') {
+                    window.jack = new JackAI({
+                        apiBase: 'http://localhost:3030',
+                        sessionId: 'portfolio-visitor-' + Date.now()
+                    });
+                    console.log('✅ Jack AI SDK initialized');
+                } else {
+                    console.warn('⚠️ Jack AI SDK not loaded');
+                }
+            }, 500);
+        });
+
+        // Load Content from JSON
+        async function loadContent() {
+            try {
+                const response = await fetch('content.json');
+                const data = await response.json();
+                
+                // Load Certificates
+                if (data.certificates) {
+                    const certificatesGrid = document.getElementById('certificatesGrid');
+                    data.certificates.forEach((cert, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'certificate-card';
+                        card.setAttribute('data-aos', 'fade-up');
+                        card.setAttribute('data-aos-delay', index * 100);
+                        
+                        card.innerHTML = `
+                            <div class="certificate-icon">
+                                <i class="fas fa-${cert.icon}"></i>
+                            </div>
+                            <h3>${cert.title.ar}</h3>
+                            <p>${cert.subtitle.ar}</p>
+                            <span class="certificate-year">${cert.year}</span>
+                        `;
+                        
+                        certificatesGrid.appendChild(card);
+                    });
+                }
+                
+                // Load Projects (first 6)
+                if (data.projects) {
+                    const projectsGrid = document.getElementById('projectsGrid');
+                    data.projects.slice(0, 6).forEach((project, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'project-card';
+                        card.setAttribute('data-aos', 'fade-up');
+                        card.setAttribute('data-aos-delay', index * 100);
+                        
+                        // Handle different thumbnail formats
+                        let thumbnailUrl = project.thumbnail;
+                        if (thumbnailUrl && thumbnailUrl.startsWith('/uploads/')) {
+                            thumbnailUrl = 'uploads/' + thumbnailUrl.split('/uploads/')[1];
+                        }
+                        
+                        card.innerHTML = `
+                            <img src="${thumbnailUrl || 'https://via.placeholder.com/400x200'}" 
+                                 alt="${project.title.ar}" 
+                                 class="project-thumbnail"
+                                 onerror="this.src='https://via.placeholder.com/400x200?text=Project'">
+                            <div class="project-content">
+                                <span class="project-category">${project.category.ar}</span>
+                                <h3>${project.title.ar}</h3>
+                                <p>${project.description.ar}</p>
+                                <div class="project-meta">
+                                    <span><i class="fas fa-map-marker-alt"></i> ${project.location.ar}</span>
+                                    <span><i class="fas fa-calendar"></i> ${project.year}</span>
+                                </div>
+                            </div>
+                        `;
+                        
+                        projectsGrid.appendChild(card);
+                    });
+                }
+                
+                // Refresh AOS
+                AOS.refresh();
+                
+            } catch (error) {
+                console.error('Error loading content:', error);
+            }
+        }
+
+        // Load content when page loads
+        window.addEventListener('DOMContentLoaded', loadContent);
+
+        // Drag to scroll functionality for experience section
+        const experienceSwiper = document.getElementById('experienceSwiper');
+        if (experienceSwiper) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            experienceSwiper.addEventListener('mousedown', (e) => {
+                isDown = true;
+                experienceSwiper.style.cursor = 'grabbing';
+                startX = e.pageX - experienceSwiper.offsetLeft;
+                scrollLeft = experienceSwiper.scrollLeft;
+            });
+
+            experienceSwiper.addEventListener('mouseleave', () => {
+                isDown = false;
+                experienceSwiper.style.cursor = 'grab';
+            });
+
+            experienceSwiper.addEventListener('mouseup', () => {
+                isDown = false;
+                experienceSwiper.style.cursor = 'grab';
+            });
+
+            experienceSwiper.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - experienceSwiper.offsetLeft;
+                const walk = (x - startX) * 2;
+                experienceSwiper.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        // Drag to scroll functionality for projects section
+        const projectsGrid = document.getElementById('projectsGrid');
+        if (projectsGrid) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            projectsGrid.addEventListener('mousedown', (e) => {
+                isDown = true;
+                projectsGrid.style.cursor = 'grabbing';
+                startX = e.pageX - projectsGrid.offsetLeft;
+                scrollLeft = projectsGrid.scrollLeft;
+            });
+
+            projectsGrid.addEventListener('mouseleave', () => {
+                isDown = false;
+                projectsGrid.style.cursor = 'grab';
+            });
+
+            projectsGrid.addEventListener('mouseup', () => {
+                isDown = false;
+                projectsGrid.style.cursor = 'grab';
+            });
+
+            projectsGrid.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - projectsGrid.offsetLeft;
+                const walk = (x - startX) * 2;
+                projectsGrid.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        // Drag to scroll functionality for certificates section
+        const certificatesGrid = document.getElementById('certificatesGrid');
+        if (certificatesGrid) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            certificatesGrid.addEventListener('mousedown', (e) => {
+                isDown = true;
+                certificatesGrid.style.cursor = 'grabbing';
+                startX = e.pageX - certificatesGrid.offsetLeft;
+                scrollLeft = certificatesGrid.scrollLeft;
+            });
+
+            certificatesGrid.addEventListener('mouseleave', () => {
+                isDown = false;
+                certificatesGrid.style.cursor = 'grab';
+            });
+
+            certificatesGrid.addEventListener('mouseup', () => {
+                isDown = false;
+                certificatesGrid.style.cursor = 'grab';
+            });
+
+            certificatesGrid.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - certificatesGrid.offsetLeft;
+                const walk = (x - startX) * 2;
+                certificatesGrid.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        // Function to ask example questions
+        function askJackExample(question) {
+            openJackChat();
+            // Wait for iframe to load then send message
+            setTimeout(() => {
+                const iframe = document.getElementById('jackChatFrame');
+                if (iframe && iframe.contentWindow) {
+                    // Try to interact with Jack chat
+                    try {
+                        window.jack.chat(question).then(response => {
+                            console.log('Jack response:', response);
+                        });
+                    } catch (error) {
+                        console.log('Opening chat with question:', question);
+                    }
+                }
+            }, 1000);
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                // Don't prevent default for admin.html link
+                if (link.getAttribute('href') === 'admin.html') {
+                    return;
+                }
+                
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // Update active link
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Booking Form Handler
+        const bookingForm = document.getElementById('bookingForm');
+        const successMessage = document.getElementById('successMessage');
+        
+        // Set minimum date to today
+        const dateInput = document.querySelector('input[name="preferredDate"]');
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+        }
+
+        bookingForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = bookingForm.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحضير...';
+            
+            // Get form data
+            const formData = new FormData(bookingForm);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            try {
+                // Collect visitor information
+                const visitorInfo = {
+                    userAgent: navigator.userAgent,
+                    language: navigator.language,
+                    platform: navigator.platform,
+                    screenResolution: `${window.screen.width}x${window.screen.height}`,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    referrer: document.referrer || 'Direct Visit',
+                    currentPage: window.location.href
+                };
+                
+                // Create complete booking data
+                const bookingData = {
+                    ...data,
+                    visitorInfo,
+                    id: Date.now(),
+                    timestamp: new Date().toISOString(),
+                    status: 'pending-payment',
+                    source: 'contact-form'
+                };
+                
+                // Save to pending payment in localStorage
+                localStorage.setItem('pendingPayment', JSON.stringify(bookingData));
+                
+                // Save visitor log
+                const visitorLog = JSON.parse(localStorage.getItem('visitorLog') || '[]');
+                visitorLog.push({
+                    id: Date.now(),
+                    name: data.fullName,
+                    email: data.email,
+                    phone: data.phone || 'Not provided',
+                    company: data.company || 'Not provided',
+                    city: data.city,
+                    consultationType: data.consultationType,
+                    timestamp: new Date().toISOString(),
+                    visitorInfo,
+                    action: 'initiated-payment'
+                });
+                localStorage.setItem('visitorLog', JSON.stringify(visitorLog));
+                
+                console.log('📅 Payment initiated for:', bookingData);
+                
+                // Redirect to payment page
+                window.location.href = 'payment.html';
+                
+            } catch (error) {
+                console.error('Error processing request:', error);
+                alert('حدث خطأ أثناء معالجة الطلب. يرجى المحاولة مرة أخرى.');
+                
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+
+        console.log('🤖 Jack AI Portfolio Complete loaded successfully!');
+        console.log('Try: window.jack.chat("ما هي خبرات الدكتور محمد؟")');
+    </script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة التحكم | حسابي</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body class="admin-page">
+  <!-- Simple Auth Gate -->
+  <div id="admin-auth-gate" style="position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:2000;font-family:inherit;">
+    <div style="background:var(--card-bg,#1e1e1e);border:1px solid var(--border-color,#333);padding:2rem 1.75rem;border-radius:12px;max-width:360px;width:90%;box-shadow:0 10px 30px -5px rgba(0,0,0,.6);">
+      <h2 style="margin:0 0 1rem;font-size:1.3rem;text-align:center;color:var(--text-primary,#fff);">دخول لوحة التحكم</h2>
+      <p style="margin:.25rem 0 1.25rem;font-size:.9rem;color:var(--text-secondary,#bbb);text-align:center;">هذه الواجهة مخصصة للإدارة. أدخل كلمة السر للمتابعة.</p>
+      <form id="admin-login-form" style="display:flex;flex-direction:column;gap:.75rem;">
+        <input type="email" id="admin-email" placeholder="البريد الإلكتروني (API)" autocomplete="email" style="padding:.8rem .9rem;border:1px solid var(--border-color,#444);border-radius:8px;background:var(--secondary-bg,#121212);color:var(--text-primary,#fff);font-size:.95rem;" >
+        <input type="password" id="admin-pass" placeholder="كلمة السر / أو كلمة مرور API" autocomplete="current-password" style="padding:.8rem .9rem;border:1px solid var(--border-color,#444);border-radius:8px;background:var(--secondary-bg,#121212);color:var(--text-primary,#fff);font-size:.95rem;" required>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;display:flex;align-items:center;gap:.5rem;">
+          <i class="fas fa-lock"></i> دخول
+        </button>
+        <div id="admin-auth-msg" style="min-height:20px;font-size:.8rem;text-align:center;color:var(--accent-red,#ff6b6b);"></div>
+      </form>
+      <div style="margin-top:1.25rem;font-size:.7rem;line-height:1.4;color:var(--text-secondary,#aaa);text-align:center;direction:rtl;">
+        <strong>تنبيه أمني:</strong> هذه حماية أساسية في موقع ثابت. يوصى بتهيئة حماية حقيقية من خلال خادم (HTTP Auth / JWT / VPN) عند النشر العام.
+      </div>
+    </div>
+  </div>
+  <!-- Navigation Bar (reused styles) -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <img src="assets/images/MyChracter.png" alt="Logo" class="logo-img" />
+        <span class="logo-text">لوحة التحكم</span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">العودة للموقع</a></li>
+      </ul>
+      <div class="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin-toolbar" role="banner">
+    <div class="admin-toolbar-inner">
+      <div class="admin-toolbar-group">
+        <button id="btn-load" class="btn btn-secondary"><i class="fas fa-download"></i><span> تحميل المحتوى</span></button>
+        <button id="btn-save-download" class="btn btn-primary"><i class="fas fa-save"></i><span> حفظ كملف</span></button>
+        <button id="btn-save-fs" class="btn btn-primary"><i class="fas fa-folder"></i><span> حفظ مباشر</span></button>
+        <button id="btn-save-local" class="btn btn-secondary" title="حفظ سريع في المتصفح"><i class="fas fa-bolt"></i><span> حفظ سريع</span></button>
+        <button id="save-all-btn" class="btn btn-primary" title="حفظ التغييرات (محلي + دفع المشاريع)"><i class="fas fa-check-double"></i><span> حفظ التغييرات</span></button>
+        <button id="btn-logout" class="btn btn-secondary admin-logout" title="تسجيل خروج" style="display:none;"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+      <div id="save-status" class="admin-status" aria-live="polite"></div>
+    </div>
+  </div>
+  <main class="admin-main" style="padding-top: 140px;">
+    <section class="key-strengths">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">لوحة تحكم المحتوى</h2>
+          <p class="section-subtitle">تحرير محتوى الموقع وحفظه في ملف content.json</p>
+        </div>
+
+        <!-- Actions -->
+        <!-- Action toolbar moved to sticky bar above -->
+
+        <!-- Video Config -->
+        <div class="competencies-grid" style="margin-bottom: 2rem;">
+          <div class="competency-card">
+            <div class="card-header financial">
+              <i class="fas fa-video"></i>
+              <h3>إعدادات فيديو الواجهة</h3>
+            </div>
+            <div class="card-content">
+              <div class="form-group">
+                <label>رابط الفيديو (MP4)</label>
+                <input id="video.url" type="text" placeholder="https://.../video.mp4" />
+              </div>
+              <div class="form-group" style="margin-top:.5rem;">
+                <label>صورة الغلاف Poster (اختياري)</label>
+                <input id="video.poster" type="text" placeholder="https://.../poster.jpg" />
+              </div>
+              <div class="form-row" style="display:flex; gap:1rem; margin-top:.5rem;">
+                <label style="display:flex; align-items:center; gap:.5rem;"><input id="video.autoplay" type="checkbox" checked /> تشغيل تلقائي</label>
+                <label style="display:flex; align-items:center; gap:.5rem;"><input id="video.muted" type="checkbox" checked /> كتم الصوت</label>
+                <label style="display:flex; align-items:center; gap:.5rem;"><input id="video.loop" type="checkbox" checked /> تكرار</label>
+                <label style="display:flex; align-items:center; gap:.5rem;"><input id="video.background" type="checkbox" checked /> عرض كخلفية</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Texts -->
+        <div class="competencies-grid" style="margin-bottom: 2rem;">
+          <div class="competency-card">
+            <div class="card-header compliance">
+              <i class="fas fa-heading"></i>
+              <h3>قسم الواجهة (Hero)</h3>
+            </div>
+            <div class="card-content">
+              <div class="form-group">
+                <label>العنوان (ar)</label>
+                <input id="hero.title.ar" type="text" />
+              </div>
+              <div class="form-group">
+                <label>العنوان (en)</label>
+                <input id="hero.title.en" type="text" />
+              </div>
+              <div class="form-group">
+                <label>العبارة الفرعية (ar)</label>
+                <input id="hero.subtitle.ar" type="text" />
+              </div>
+              <div class="form-group">
+                <label>العبارة الفرعية (en)</label>
+                <input id="hero.subtitle.en" type="text" />
+              </div>
+              <div class="form-group">
+                <label>الوصف (ar)</label>
+                <textarea id="hero.description.ar" rows="4"></textarea>
+              </div>
+              <div class="form-group">
+                <label>الوصف (en)</label>
+                <textarea id="hero.description.en" rows="4"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sections Titles/Subtitles -->
+        <div class="competencies-grid">
+          <div class="competency-card">
+            <div class="card-header leadership">
+              <i class="fas fa-list"></i>
+              <h3>عناوين الأقسام</h3>
+            </div>
+            <div class="card-content">
+              <div class="form-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem;">
+                <!-- competencies -->
+                <div>
+                  <h4 style="margin: .25rem 0  .5rem;">الكفاءات</h4>
+                  <input id="sections.competencies.title.ar" type="text" placeholder="العنوان (ar)" />
+                  <input id="sections.competencies.title.en" type="text" placeholder="Title (en)" style="margin-top:.5rem;" />
+                  <input id="sections.competencies.subtitle.ar" type="text" placeholder="الوصف (ar)" style="margin-top:.5rem;" />
+                  <input id="sections.competencies.subtitle.en" type="text" placeholder="Subtitle (en)" style="margin-top:.5rem;" />
+                </div>
+                <!-- experience -->
+                <div>
+                  <h4 style="margin: .25rem 0  .5rem;">الخبرة</h4>
+                  <input id="sections.experience.title.ar" type="text" placeholder="العنوان (ar)" />
+                  <input id="sections.experience.title.en" type="text" placeholder="Title (en)" style="margin-top:.5rem;" />
+                  <input id="sections.experience.subtitle.ar" type="text" placeholder="الوصف (ar)" style="margin-top:.5rem;" />
+                  <input id="sections.experience.subtitle.en" type="text" placeholder="Subtitle (en)" style="margin-top:.5rem;" />
+                </div>
+                <!-- education -->
+                <div>
+                  <h4 style="margin: .25rem 0  .5rem;">التعليم</h4>
+                  <input id="sections.education.title.ar" type="text" placeholder="العنوان (ar)" />
+                  <input id="sections.education.title.en" type="text" placeholder="Title (en)" style="margin-top:.5rem;" />
+                  <input id="sections.education.subtitle.ar" type="text" placeholder="الوصف (ar)" style="margin-top:.5rem;" />
+                  <input id="sections.education.subtitle.en" type="text" placeholder="Subtitle (en)" style="margin-top:.5rem;" />
+                </div>
+                <!-- contact -->
+                <div>
+                  <h4 style="margin: .25rem 0  .5rem;">التواصل</h4>
+                  <input id="sections.contact.title.ar" type="text" placeholder="العنوان (ar)" />
+                  <input id="sections.contact.title.en" type="text" placeholder="Title (en)" style="margin-top:.5rem;" />
+                  <input id="sections.contact.subtitle.ar" type="text" placeholder="الوصف (ar)" style="margin-top:.5rem;" />
+                  <input id="sections.contact.subtitle.en" type="text" placeholder="Subtitle (en)" style="margin-top:.5rem;" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certificates Manager -->
+        <div class="competencies-grid" style="margin-top:2rem;">
+          <div class="competency-card">
+            <div class="card-header financial">
+              <i class="fas fa-certificate"></i>
+              <h3>إدارة الشهادات</h3>
+            </div>
+            <div class="card-content">
+              <div style="display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom: .75rem;">
+                <button id="cert-add" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة شهادة</button>
+                <a href="https://postimages.org/" target="_blank" class="btn btn-secondary"><i class="fas fa-cloud-upload-alt"></i> أداة رفع الصور الخارجية</a>
+                <a href="https://imgbb.com/" target="_blank" class="btn btn-secondary"><i class="fas fa-cloud-upload-alt"></i> imgbb</a>
+              </div>
+              <div id="cert-list" style="display:grid; gap:1rem;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects Manager -->
+        <div class="competencies-grid" style="margin-top:2rem;">
+          <div class="competency-card">
+            <div class="card-header leadership">
+              <i class="fas fa-folder-open"></i>
+              <h3>إدارة المشاريع (أعمالي)</h3>
+            </div>
+            <div class="card-content">
+              <div style="display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:.75rem;">
+                <button id="project-add" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة مشروع</button>
+                <button id="projects-sync-api" class="btn btn-secondary" title="جلب من الخادم"><i class="fas fa-cloud-download-alt"></i> مزامنة من API</button>
+                <button id="projects-push-api" class="btn btn-secondary" title="دفع التعديلات"><i class="fas fa-cloud-upload-alt"></i> دفع إلى API</button>
+                <button id="project-collapse-toggle" class="btn btn-secondary"><i class="fas fa-compress"></i> طي/فتح الكل</button>
+                <a href="PROJECTS_GUIDE.md" target="_blank" class="btn btn-secondary"><i class="fas fa-book"></i> دليل المشاريع</a>
+                  <label class="btn btn-secondary" style="cursor:pointer; position:relative;">
+                    <i class="fas fa-image"></i> اختيار صورة
+                    <input type="file" id="project-image-file" accept="image/jpeg,image/png,image/webp" style="position:absolute;inset:0;opacity:0;cursor:pointer;" />
+                  </label>
+                  <button id="project-image-upload" class="btn btn-secondary" title="رفع الصورة المختارة"><i class="fas fa-upload"></i> رفع الصورة</button>
+              </div>
+              <div id="projects-list" style="display:grid; gap:1rem;"></div>
+              <p style="margin-top:1rem;font-size:.75rem;color:var(--text-secondary);">يتم حفظ قائمة المشاريع ضمن ملف المحتوى. حقل المعرض (Gallery) يقبل عدة روابط كل رابط في سطر منفصل.</p>
+                <div style="margin-top:1.5rem; padding:1rem; border:1px solid var(--border-color); border-radius:10px; background:var(--secondary-bg);">
+                  <h4 style="margin:.25rem 0 1rem;font-size:1rem;display:flex;align-items:center;gap:.5rem;"><i class="fas fa-database"></i> تبديل قاعدة البيانات (Mongo URI)</h4>
+                  <div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;">
+                    <input type="text" id="db-new-uri" placeholder="mongodb+srv://user:pass@host/dbname" style="flex:1;min-width:240px;" />
+                    <button id="db-test-btn" class="btn btn-secondary"><i class="fas fa-vial"></i> Test</button>
+                    <button id="db-apply-btn" class="btn btn-secondary"><i class="fas fa-exchange-alt"></i> Apply</button>
+                  </div>
+                  <div id="db-switch-status" style="margin-top:.5rem;font-size:.7rem;color:var(--text-secondary);"></div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

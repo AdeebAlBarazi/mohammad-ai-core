@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدفع الآمن - Dr. Mohammad</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AaK-XCswt2h7iEHQ8nJ9qs2p623vRdmSbMVIYQVJnqeQemTLRwS8nQ2jsU-w_jjGjIJz5JotpWweOLja&currency=USD"></script>
+    
+    <!-- Stripe SDK -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- Payment Configuration -->
+    <script src="payment-config.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --accent: #38ef7d;
+            --dark: #0a0e16;
+            --dark-light: #1a1f2e;
+            --text: #f7fafc;
+            --text-muted: #a0aec0;
+            --border: rgba(255,255,255,0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+        }
+
+        .payment-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .order-summary {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .order-summary h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+            margin-top: 15px;
+            padding-top: 20px;
+            border-top: 2px solid var(--primary);
+        }
+
+        .summary-label {
+            color: var(--text-muted);
+        }
+
+        .summary-value {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .total-amount {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .payment-methods {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .payment-methods h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .payment-method {
+            background: rgba(255,255,255,0.03);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .payment-method.selected {
+            border-color: var(--accent);
+            background: rgba(56, 239, 125, 0.1);
+        }
+
+        .payment-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .payment-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .payment-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .terms-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--danger);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .terms-box h3 {
+            color: var(--danger);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .terms-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .terms-box li {
+            padding: 10px 0;
+            padding-right: 25px;
+            position: relative;
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        .terms-box li::before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--danger);
+            font-weight: 900;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: start;
+            gap: 15px;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 2px solid var(--border);
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            margin-top: 3px;
+        }
+
+        .checkbox-label {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .pay-button {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .pay-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pay-button:not(:disabled):hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .security-note {
+            text-align: center;
+            padding: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .security-note i {
+            color: var(--success);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-lock"></i> الدفع الآمن</h1>
+            <p>أكمل عملية الدفع لتأكيد طلبك</p>
+        </div>
+
+        <div class="payment-container">
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h2><i class="fas fa-file-invoice-dollar"></i> ملخص الطلب</h2>
+                
+                <div class="summary-item">
+                    <span class="summary-label">نوع الخدمة:</span>
+                    <span class="summary-value" id="serviceType">-</span>
+                </div>
+
+                <div class="summary-item">
+                    <span class="summary-label">الاسم:</span>
+                    <span class="summary-value" id="customerName">-</span>
+                </div>
+
+                <div class="summary-item">
+                    <span class="summary-label">البريد الإلكتروني:</span>
+                    <span class="summary-value" id="customerEmail">-</span>
+                </div>
+
+                <div class="summary-item">
+                    <span class="summary-label">المبلغ المطلوب:</span>
+                    <span class="summary-value total-amount" id="totalAmount">$0</span>
+                </div>
+
+                <div style="margin-top: 25px; padding: 20px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; border-right: 3px solid var(--success);">
+                    <h4 style="color: var(--success); margin-bottom: 10px; font-size: 1.1rem;">
+                        <i class="fas fa-check-circle"></i> ما سيحدث بعد الدفع:
+                    </h4>
+                    <ul style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; margin: 0; padding-right: 20px;">
+                        <li>تأكيد فوري عبر البريد الإلكتروني</li>
+                        <li>دراسة طلبك خلال 3 أيام عمل</li>
+                        <li>تواصل شخصي معك</li>
+                        <li>إرسال عرض سعر مفصل</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="payment-methods">
+                <h2><i class="fas fa-credit-card"></i> طريقة الدفع</h2>
+
+                <div class="payment-method" onclick="selectPayment('paypal')">
+                    <div class="payment-icon" style="background: linear-gradient(135deg, #0070ba, #1546a0);">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h3>PayPal</h3>
+                        <p>الدفع الآمن عبر PayPal</p>
+                    </div>
+                </div>
+
+                <div class="payment-method" onclick="selectPayment('stripe')">
+                    <div class="payment-icon" style="background: linear-gradient(135deg, #635bff, #5851db);">
+                        <i class="fab fa-stripe"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h3>Stripe</h3>
+                        <p>بطاقة ائتمان أو بطاقة مدى</p>
+                    </div>
+                </div>
+
+                <div class="payment-method" onclick="selectPayment('wise')">
+                    <div class="payment-icon" style="background: linear-gradient(135deg, #9FE870, #00b9ff);">
+                        <i class="fas fa-money-bill-transfer"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h3>Wise Transfer</h3>
+                        <p>تحويل بنكي دولي</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms & Conditions -->
+        <div class="terms-box">
+            <h3><i class="fas fa-exclamation-triangle"></i> الشروط والأحكام المهمة</h3>
+            <ul>
+                <li><strong>الرسوم غير مستردة:</strong> بمجرد الموافقة على الدفع، لا يمكن استرداد المبلغ</li>
+                <li><strong>مدة الدراسة:</strong> سيتم دراسة طلبك خلال 3 أيام عمل (الأحد - الخميس)</li>
+                <li><strong>التواصل:</strong> سنتواصل معك شخصياً عبر البريد الإلكتروني، واتساب، أو الهاتف</li>
+                <li><strong>عرض السعر:</strong> سيتم إرسال عرض سعر تفصيلي بعد دراسة الطلب</li>
+                <li><strong>الالتزام:</strong> المبلغ المدفوع هو رسوم دراسة فقط وليس رسوم المشروع الكامل</li>
+            </ul>
+        </div>
+
+        <!-- Agreement Checkbox -->
+        <div class="checkbox-container">
+            <input type="checkbox" id="agreeTerms">
+            <label for="agreeTerms" class="checkbox-label">
+                أوافق على <strong>الشروط والأحكام</strong> وأقر بأن الرسوم غير مستردة بمجرد الموافقة على الدفع، وأن هذا المبلغ مخصص لدراسة وتحليل الطلب فقط.
+            </label>
+        </div>
+
+        <!-- Pay Button -->
+        <button class="pay-button" id="payButton" disabled>
+            <i class="fas fa-lock"></i>
+            متابعة الدفع الآمن
+        </button>
+
+        <!-- Security Note -->
+        <div class="security-note">
+            <i class="fas fa-shield-alt"></i>
+            <p style="color: var(--success); font-weight: 600; margin-top: 10px;">
+                معاملتك محمية بتشفير SSL 256-bit
+            </p>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                نحن لا نحتفظ بمعلومات بطاقتك الائتمانية
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let selectedPaymentMethod = null;
+        let orderData = {};
+
+        // Get order data from URL parameters or localStorage
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingData = JSON.parse(localStorage.getItem('pendingPayment') || '{}');
+
+            if (Object.keys(bookingData).length > 0) {
+                orderData = bookingData;
+                displayOrderSummary();
+            } else {
+                // No order data, redirect back
+                alert('لم يتم العثور على بيانات الطلب');
+                window.location.href = 'index_complete_jack.html#contact';
+            }
+        });
+
+        function displayOrderSummary() {
+            const consultationTypes = {
+                'web-design-portfolio': { name: 'تصميم موقع بروفايل', price: 29 },
+                'web-design-ecommerce': { name: 'تصميم متجر إلكتروني', price: 29 },
+                'web-design-custom': { name: 'تصميم موقع مخصص', price: 29 },
+                'systems-analysis': { name: 'تحليل النظم', price: 150 },
+                'risk-management': { name: 'إدارة المخاطر', price: 150 },
+                'strategic-planning': { name: 'التخطيط الاستراتيجي', price: 150 },
+                'project-management': { name: 'إدارة المشاريع', price: 150 },
+                'ai-consulting': { name: 'استشارات الذكاء الاصطناعي', price: 150 },
+                'data-analysis': { name: 'تحليل البيانات', price: 150 },
+                'other': { name: 'أخرى', price: 150 }
+            };
+
+            const service = consultationTypes[orderData.consultationType] || { name: 'خدمة', price: 79 };
+
+            document.getElementById('serviceType').textContent = service.name;
+            document.getElementById('customerName').textContent = orderData.fullName || '-';
+            document.getElementById('customerEmail').textContent = orderData.email || '-';
+            document.getElementById('totalAmount').textContent = '$' + service.price;
+
+            orderData.amount = service.price;
+        }
+
+        function selectPayment(method) {
+            // Remove selected class from all
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // Add selected class to clicked method
+            event.currentTarget.classList.add('selected');
+            selectedPaymentMethod = method;
+
+            // Enable pay button if terms are agreed
+            checkPayButtonState();
+        }
+
+        document.getElementById('agreeTerms').addEventListener('change', function() {
+            checkPayButtonState();
+        });
+
+        function checkPayButtonState() {
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            const payButton = document.getElementById('payButton');
+
+            if (agreeTerms && selectedPaymentMethod) {
+                payButton.disabled = false;
+            } else {
+                payButton.disabled = true;
+            }
+        }
+
+        document.getElementById('payButton').addEventListener('click', function() {
+            if (!selectedPaymentMethod) {
+                alert('الرجاء اختيار طريقة الدفع');
+                return;
+            }
+
+            // Save payment intent
+            const paymentData = {
+                ...orderData,
+                paymentMethod: selectedPaymentMethod,
+                paymentStatus: 'pending',
+                paymentDate: new Date().toISOString()
+            };
+
+            localStorage.setItem('paymentInProgress', JSON.stringify(paymentData));
+
+            // Redirect based on payment method
+            switch(selectedPaymentMethod) {
+                case 'paypal':
+                    processPayPalPayment();
+                    break;
+                case 'stripe':
+                    processStripePayment();
+                    break;
+                case 'wise':
+                    alert('سيتم توجيهك إلى Wise...\n\nملاحظة: في بيئة التطوير، يجب إعداد حساب Wise');
+                    simulatePayment();
+                    break;
+            }
+        });
+
+        // ============================================
+        // PayPal Payment Processing
+        // ============================================
+        async function processPayPalPayment() {
+            try {
+                // Check if PayPal SDK is loaded
+                if (typeof paypal === 'undefined') {
+                    alert('خطأ: لم يتم تحميل PayPal SDK. تحقق من إعدادات الكونفيج.');
+                    return;
+                }
+
+                const payButton = document.getElementById('payButton');
+                payButton.disabled = true;
+                payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+
+                // Create order on server
+                const response = await fetch('http://localhost:3000/api/paypal/create-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: orderData.amount,
+                        description: CONSULTATION_TYPES[orderData.consultationType]?.name || 'خدمة استشارية',
+                        orderId: orderData.id
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Find approval URL
+                    const approvalUrl = data.links.find(link => link.rel === 'approve')?.href;
+                    
+                    if (approvalUrl) {
+                        // Redirect to PayPal for payment
+                        window.location.href = approvalUrl;
+                    } else {
+                        throw new Error('لم يتم العثور على رابط الدفع');
+                    }
+                } else {
+                    throw new Error(data.error || 'فشل في إنشاء طلب الدفع');
+                }
+
+            } catch (error) {
+                console.error('PayPal Error:', error);
+                alert('حدث خطأ: ' + error.message + '\n\nسيتم استخدام وضع المحاكاة.');
+                simulatePayment();
+            }
+        }
+
+        // ============================================
+        // Stripe Payment Processing
+        // ============================================
+        async function processStripePayment() {
+            try {
+                // Check if Stripe SDK is loaded
+                if (typeof Stripe === 'undefined') {
+                    alert('خطأ: لم يتم تحميل Stripe SDK. تحقق من إعدادات الكونفيج.');
+                    return;
+                }
+
+                const payButton = document.getElementById('payButton');
+                payButton.disabled = true;
+                payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+
+                // Initialize Stripe
+                const stripe = Stripe(STRIPE_CONFIG.publishableKey);
+
+                // Create checkout session on server
+                const response = await fetch('http://localhost:3000/api/stripe/create-checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: orderData.amount,
+                        description: CONSULTATION_TYPES[orderData.consultationType]?.name || 'خدمة استشارية',
+                        orderId: orderData.id,
+                        customerEmail: orderData.email
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Redirect to Stripe Checkout
+                    window.location.href = data.url;
+                } else {
+                    throw new Error(data.error || 'فشل في إنشاء جلسة الدفع');
+                }
+
+            } catch (error) {
+                console.error('Stripe Error:', error);
+                alert('حدث خطأ: ' + error.message + '\n\nسيتم استخدام وضع المحاكاة.');
+                simulatePayment();
+            }
+        }
+
+        // ============================================
+        // Simulation Mode (for development)
+        // ============================================
+        function simulatePayment() {
+            // For development purposes - simulate successful payment
+            setTimeout(() => {
+                const confirmed = confirm('محاكاة الدفع (وضع التطوير)\n\nهل تريد محاكاة دفع ناجح؟');
+                
+                if (confirmed) {
+                    completePayment({
+                        transactionId: 'SIM-' + Date.now(),
+                        method: selectedPaymentMethod,
+                        status: 'completed'
+                    });
+                }
+            }, 1000);
+        }
+
+        // ============================================
+        // Complete Payment
+        // ============================================
+        function completePayment(paymentInfo) {
+            // Save to bookings with payment confirmed
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const paymentData = JSON.parse(localStorage.getItem('paymentInProgress'));
+            
+            bookings.push({
+                ...paymentData,
+                id: Date.now(),
+                status: 'paid',
+                paymentStatus: 'completed',
+                transactionId: paymentInfo.transactionId,
+                timestamp: new Date().toISOString()
+            });
+            
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+            localStorage.removeItem('pendingPayment');
+            localStorage.removeItem('paymentInProgress');
+
+            // Show success page
+            window.location.href = 'payment-success.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+/* ===============================
+   Swiper Custom Styles for Projects & Certificates
+   =============================== */
+
+/* Projects Swiper Customization */
+.projects-carousel-container.swiper-container {
+    padding: 80px 0;
+    overflow: visible;
+}
+
+.projects-grid.swiper-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.project-card.swiper-slide {
+    width: 340px;
+    height: auto;
+    opacity: 1; /* was 0.6: make fully visible */
+    transition: all 0.4s ease;
+}
+
+.project-card.swiper-slide-active {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.project-card.swiper-slide-prev,
+.project-card.swiper-slide-next {
+    opacity: 0.95;
+}
+
+/* Projects Navigation Buttons */
+.projects-nav.swiper-button-prev,
+.projects-nav.swiper-button-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+    border: 2px solid var(--accent-blue);
+    border-radius: 50%;
+    color: var(--accent-blue);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.projects-nav.swiper-button-prev:hover,
+.projects-nav.swiper-button-next:hover {
+    background: var(--accent-blue);
+    color: var(--primary-bg);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+}
+
+.projects-nav.swiper-button-prev {
+    right: 20px;
+}
+
+.projects-nav.swiper-button-next {
+    left: 20px;
+}
+
+/* Certificates Swiper Customization */
+.certificates-slider.swiper-container {
+    padding: 80px 0;
+    overflow: visible;
+}
+
+.certificates-track.swiper-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.certificate-card.swiper-slide {
+    width: 320px;
+    height: auto;
+    opacity: 0.5;
+    transition: all 0.4s ease;
+}
+
+.certificate-card.swiper-slide-active {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.certificate-card.swiper-slide-prev,
+.certificate-card.swiper-slide-next {
+    opacity: 0.7;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .project-card.swiper-slide {
+        width: 280px;
+    }
+
+    .certificate-card.swiper-slide {
+        width: 260px;
+    }
+
+    .projects-nav.swiper-button-prev,
+    .projects-nav.swiper-button-next {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .projects-nav.swiper-button-prev {
+        right: 10px;
+    }
+
+    .projects-nav.swiper-button-next {
+        left: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-card.swiper-slide {
+        width: 240px;
+    }
+
+    .certificate-card.swiper-slide {
+        width: 220px;
+    }
+
+    .projects-carousel-container.swiper-container,
+    .certificates-slider.swiper-container {
+        padding: 60px 0;
+    }
+}
+
+/* Remove any conflicting marquee styles */
+.projects-grid.marquee.swiper-wrapper {
+    transition: none !important;
+}
+
+.projects-grid.marquee.swiper-wrapper.dragging {
+    transition: none !important;
+}

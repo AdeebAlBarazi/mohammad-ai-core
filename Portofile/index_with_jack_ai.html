@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>د. محمد أديب فواز البرازي - Portfolio مع Jack AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --secondary: #11998e;
+            --accent: #38ef7d;
+            --dark: #0a0e16;
+            --dark-light: #1a1f2e;
+            --text: #f7fafc;
+            --text-muted: #a0aec0;
+            --border: rgba(255,255,255,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.03;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .bg-circle:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: var(--secondary);
+            top: 60%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+        
+        .bg-circle:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            background: var(--accent);
+            bottom: 10%;
+            left: 50%;
+            animation-delay: 10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, -50px) scale(1.1); }
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 22, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+        
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 0 50px;
+            position: relative;
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-text h2 {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .hero-experience {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+        
+        .hero-description {
+            color: var(--text-muted);
+            line-height: 1.9;
+            margin-bottom: 40px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--text);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .btn-jack {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .btn-jack:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(17, 153, 142, 0.5);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3); }
+            50% { box-shadow: 0 10px 40px rgba(17, 153, 142, 0.5); }
+        }
+        
+        .hero-image {
+            position: relative;
+        }
+        
+        .profile-img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 3px solid var(--border);
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            padding: 60px 0;
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        
+        /* Jack AI Section */
+        .jack-ai-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(17, 153, 142, 0.05), rgba(56, 239, 125, 0.05));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .jack-ai-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(17, 153, 142, 0.1), transparent);
+            border-radius: 50%;
+        }
+        
+        .jack-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .jack-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .jack-header h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .jack-header p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+        }
+        
+        .jack-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .jack-info {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .jack-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .jack-features li {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .jack-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .jack-features i {
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+        
+        .jack-demo {
+            background: rgba(10, 14, 22, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid var(--secondary);
+            box-shadow: 0 20px 60px rgba(17, 153, 142, 0.2);
+        }
+        
+        .jack-avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+        }
+        
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+        
+        /* Skills Grid */
+        .skills-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .skill-card {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        .skill-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .skill-icon i {
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .skill-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        
+        .skill-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        
+        /* Jack Chat Popup */
+        #jackChatPopup {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 450px;
+            height: 650px;
+            background: rgba(10, 14, 22, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            border: 2px solid var(--secondary);
+            overflow: hidden;
+        }
+        
+        #jackChatPopup.active {
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .jack-chat-header {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .jack-chat-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .close-jack-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+        
+        .close-jack-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        #jackChatFrame {
+            flex: 1;
+            border: none;
+        }
+        
+        /* Floating Jack Button */
+        .jack-float-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
+            z-index: 1999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+        
+        .jack-float-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(17, 153, 142, 0.6);
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-text h2 {
+                font-size: 0.95rem;
+                white-space: nowrap;
+            }
+            
+            .jack-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            #jackChatPopup {
+                width: calc(100% - 20px);
+                height: calc(100% - 100px);
+                bottom: 10px;
+                left: 10px;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-text h2 {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/images/MyChracter.png" alt="Logo" class="logo-img">
+                <span class="logo-text">Dr.M.A.F.B</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">الرئيسية</a></li>
+                <li><a href="#about" class="nav-link">عني</a></li>
+                <li><a href="#skills" class="nav-link">المهارات</a></li>
+                <li><a href="#jack-ai" class="nav-link">Jack AI</a></li>
+                <li><a href="#contact" class="nav-link">تواصل</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text" data-aos="fade-right">
+                    <h1>د. محمد أديب فواز البرازي</h1>
+                    <h2>مدير تنفيذي | محترف ذكاء اصطناعي | محلل نظم ومخاطر | مخطط استراتيجي</h2>
+                    <p class="hero-experience">
+                        خبرة ممتدة لأكثر من <span class="highlight">30 عاماً</span> في تحليل النظم وإدارة المخاطر
+                    </p>
+                    <p class="hero-description">
+                        مدير <strong>تنفيذي</strong> متخصص في <strong>تحليل النظم والمشاكل المعقدة</strong> باستخدام <strong>الأدوات العلمية التحليلية</strong>؛ 
+                        خبير في <strong>إدارة المخاطر (Risk Management)</strong> و<strong>التخطيط الاستراتيجي</strong>.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-download"></i>
+                            <span>تحميل السيرة الذاتية</span>
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-envelope"></i>
+                            <span>تواصل معي</span>
+                        </button>
+                        <button class="btn btn-jack" onclick="openJackChat()">
+                            <i class="fas fa-robot"></i>
+                            <span>اسأل Jack عني</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image" data-aos="fade-left">
+                    <img src="assets/images/MyChracter.png" alt="د. محمد" class="profile-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section" data-aos="fade-up">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>30+</h3>
+                <p>سنة خبرة</p>
+            </div>
+            <div class="stat-item">
+                <h3>100+</h3>
+                <p>مشروع ناجح</p>
+            </div>
+            <div class="stat-item">
+                <h3>15+</h3>
+                <p>شهادة مهنية</p>
+            </div>
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>عميل راضٍ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jack AI Section -->
+    <section id="jack-ai" class="jack-ai-section">
+        <div class="jack-container">
+            <div class="jack-header" data-aos="fade-up">
+                <h2>🤖 تعرف على Jack - مساعدي الذكي</h2>
+                <p>نظام ذكاء صناعي متقدم طورته بنفسي - اسأله أي شيء عني!</p>
+            </div>
+            
+            <div class="jack-grid">
+                <div class="jack-info" data-aos="fade-right">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 20px;">
+                        <i class="fas fa-lightbulb" style="color: var(--accent);"></i>
+                        لماذا Jack مميز؟
+                    </h3>
+                    <ul class="jack-features">
+                        <li>
+                            <i class="fas fa-brain"></i>
+                            <span><strong>يعرف كل شيء عني:</strong> خبراتي، شهاداتي، مشاريعي، مهاراتي</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-microphone"></i>
+                            <span><strong>دعم الصوت:</strong> يمكنك التحدث معه مباشرة بالعربية</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-images"></i>
+                            <span><strong>تحليل الصور:</strong> أرسل له صور واحصل على تحليل ذكي</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-comments"></i>
+                            <span><strong>محادثة طبيعية:</strong> يفهم السياق ويحفظ المحادثة</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-code"></i>
+                            <span><strong>مشروع مفتوح المصدر:</strong> طورته كمثال على مهاراتي في AI</span>
+                        </li>
+                    </ul>
+                    <button class="btn btn-jack" onclick="openJackChat()" style="width: 100%; margin-top: 20px;">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>ابدأ المحادثة الآن</span>
+                    </button>
+                </div>
+                
+                <div class="jack-demo" data-aos="fade-left">
+                    <img src="http://localhost:3030/images/jack-cowboy.jpg" alt="Jack AI" class="jack-avatar" style="width: 150px; height: 150px;">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: var(--accent);">أمثلة على ما يمكن أن تسأل Jack:</h3>
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; border-right: 3px solid var(--accent);">
+                        <p style="margin-bottom: 15px;">💬 "ما هي خبرات الدكتور محمد؟"</p>
+                        <p style="margin-bottom: 15px;">💬 "كيف يدير المخاطر ويحلل النظم؟"</p>
+                        <p style="margin-bottom: 15px;">💬 "ما هي الأدوات التحليلية التي يستخدمها؟"</p>
+                        <p style="margin-bottom: 15px;">💬 "أخبرني عن خبرته في التخطيط الاستراتيجي"</p>
+                        <p>💬 "كيف يمكنني التواصل معه؟"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">المهارات الرئيسية</h2>
+            <p class="section-subtitle">خبرات متنوعة في القيادة المالية والتنفيذية</p>
+        </div>
+        
+        <div class="skills-grid">
+            <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="skill-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>إدارة مالية استراتيجية</h3>
+                <p>التخطيط المالي، الميزنة، الرقابة على التكاليف، وإدارة الخزينة</p>
+            </div>
+            
+            <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="skill-icon">
+                    <i class="fas fa-hard-hat"></i>
+                </div>
+                <h3>إدارة المشاريع الإنشائية</h3>
+                <p>النطاق، الجدولة، الميزانية، الجودة، المخاطر، والتسليم</p>
+            </div>
+            
+            <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="skill-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3>فكر رياضي متقدم</h3>
+                <p>تطبيق المنهجيات الرياضية في التحليل المالي واتخاذ القرارات</p>
+            </div>
+            
+            <div class="skill-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="skill-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <h3>الامتثال والأنظمة</h3>
+                <p>خبرة في IFRS، GAAP، وأنظمة ERP/CRM</p>
+            </div>
+            
+            <div class="skill-card" data-aos="fade-up" data-aos-delay="500">
+                <div class="skill-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>القيادة والتحليل</h3>
+                <p>قيادة الفرق، التحليل التقني، واتخاذ القرارات الاستراتيجية</p>
+            </div>
+            
+            <div class="skill-card" data-aos="fade-up" data-aos-delay="600">
+                <div class="skill-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>تقنية المعلومات والذكاء الصناعي</h3>
+                <p>تطوير أنظمة AI، برمجة، وتحول رقمي</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jack Chat Popup -->
+    <div id="jackChatPopup">
+        <div class="jack-chat-header">
+            <h3>
+                <i class="fas fa-robot"></i>
+                Jack - مساعدي الذكي
+            </h3>
+            <button class="close-jack-btn" onclick="closeJackChat()">✕</button>
+        </div>
+        <iframe id="jackChatFrame" src=""></iframe>
+    </div>
+
+    <!-- Floating Jack Button -->
+    <button class="jack-float-btn" onclick="openJackChat()" title="اسأل Jack عني">
+        🤖
+    </button>
+
+    <!-- Jack AI SDK -->
+    <script src="http://localhost:3030/integrations/jack-ai-sdk.js"></script>
+
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Jack Chat Functions
+        function openJackChat() {
+            const popup = document.getElementById('jackChatPopup');
+            const frame = document.getElementById('jackChatFrame');
+            
+            if (!frame.src) {
+                frame.src = 'http://localhost:3030';
+            }
+            
+            popup.classList.add('active');
+        }
+
+        function closeJackChat() {
+            const popup = document.getElementById('jackChatPopup');
+            popup.classList.remove('active');
+        }
+
+        // Initialize Jack SDK
+        window.jack = new JackAI({
+            apiBase: 'http://localhost:3030',
+            sessionId: 'portfolio-visitor'
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // Update active link
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        console.log('🤖 Jack AI Portfolio loaded successfully!');
+        console.log('Try: window.jack.chat("ما هي خبرات الدكتور محمد؟")');
+    </script>
+</body>
+</html>
